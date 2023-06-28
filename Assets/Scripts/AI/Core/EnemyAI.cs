@@ -2,19 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BT;
-using static BT.NodeHelper;
-using static BT.Unity.NodeHelperForUnity;
 using static CTType;
 using UnityEngine.AI;
 
-public abstract class EnemyAI : MonoBehaviour, IBehaviorTree, IEnemyController
+public abstract class EnemyAI : BehaviorTree
 {
-    protected EnemyBody _body;
-    protected Rigidbody _rigidbody;
-    protected NavMeshAgent _agent;
-    protected Collider _collider;
-
-    RootNode _root;
+    public EnemyBody Body;
+    public Rigidbody Rigidbody;
+    public NavMeshAgent Agent;
+    public Collider Collider;
+    
     public EnemyKind Kind;
     public EnemyData Data;
     public Transform Target { get; set; }
@@ -23,23 +20,15 @@ public abstract class EnemyAI : MonoBehaviour, IBehaviorTree, IEnemyController
 
     protected virtual void Awake()
     {
-        TryGetComponent(out _body);
-        TryGetComponent(out _rigidbody);
-        TryGetComponent(out _agent);
-        TryGetComponent(out _collider);
-        _root = GenerateBT();
+        TryGetComponent(out Body);
+        TryGetComponent(out Rigidbody);
+        TryGetComponent(out Agent);
+        TryGetComponent(out Collider);
     }
 
     protected virtual void Update()
     {
         Operate();
-    }
-
-    public abstract RootNode GenerateBT();
-
-    public void Operate()
-    {
-        _root.Evaluate();
     }
 
     public virtual void InitForInstantiate()
@@ -59,5 +48,4 @@ public abstract class EnemyAI : MonoBehaviour, IBehaviorTree, IEnemyController
     {
         gameObject.SetActive(false);
     }
-
 }
