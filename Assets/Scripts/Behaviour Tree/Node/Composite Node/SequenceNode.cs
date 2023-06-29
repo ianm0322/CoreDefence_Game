@@ -20,13 +20,13 @@ namespace BT
 
         protected override BTState OnUpdate()
         {
-            while (_index > childList.Count)
+            while (_index < childList.Count)
             {
-                _index++;
-
-                switch (childList[_index].Evaluate())
+                var result = childList[_index++].Evaluate();
+                switch (result)
                 {
                     case BTState.Running:
+                        _index--;
                         return BTState.Running;
                     case BTState.Success:
                         continue;

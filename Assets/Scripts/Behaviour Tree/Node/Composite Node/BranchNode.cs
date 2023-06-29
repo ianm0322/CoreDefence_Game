@@ -1,26 +1,21 @@
 ﻿using System;
 namespace BT
 {
-    public class BranchNode : BTNode, IDecoratorNode
+    public class BranchNode : CompositeNode
     {
         protected BTNode _successNode;
         protected BTNode _failureNode;
         protected Func<bool> _condition;
         protected bool _cond;
 
-        public BranchNode(Func<bool> condition)
+        public BranchNode(Func<bool> condition, BTNode successNode, BTNode failureNode) : base(successNode, failureNode)
         {
-            this._condition = condition;
-        }
-
-        public BranchNode(Func<bool> condition, BTNode content) : this(condition)
-        {
-            _successNode = content;
-        }
-
-        public BranchNode(Func<bool> condition, BTNode successNode, BTNode failureNode) : this(condition, successNode)
-        {
+            _condition = condition;
+            _successNode = successNode;
             _failureNode = failureNode;
+        }
+        public BranchNode(Func<bool> condition, BTNode successNode) : this(condition, successNode, null)
+        {
         }
 
         protected override void OnEnter()

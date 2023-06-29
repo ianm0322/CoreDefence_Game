@@ -10,9 +10,8 @@ namespace BT.DebugNodes
 
         protected override BTState OnUpdate()
         {
-            content.Evaluate();
-            Debug.Log(State);
-            return State;
+            var result = content.Evaluate();
+            return result;
         }
     }
 }

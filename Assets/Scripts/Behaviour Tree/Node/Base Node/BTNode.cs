@@ -8,7 +8,7 @@ namespace BT
 {
     public abstract class BTNode : INode
     {
-        public BTNode Parent { get; internal set; }
+        public BTNode Parent { get; set; }
         public BTState State { get; protected set; } = BTState.Success;
 
         public BTNode()
@@ -28,6 +28,16 @@ namespace BT
                 OnExit();
             }
             return State;
+        }
+
+        protected RootNode GetRootNode()
+        {
+            BTNode node = this;
+            while(node.Parent != null)
+            {
+                node = node.Parent;
+            }
+            return node as RootNode;
         }
 
         protected virtual void OnEnter() { }

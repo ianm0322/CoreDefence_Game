@@ -3,13 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IsTargetMissingNode : EnemyAINode
+public class CheckTargetOutOfRangeNode : EnemyAINode
 {
     private Transform _me;
     private Transform _target;
     private EnemyData _data;
 
-    public IsTargetMissingNode(EnemyAI controller) : base(controller)
+    public CheckTargetOutOfRangeNode(EnemyAI controller) : base(controller)
     {
         _me = controller.transform;
         _data = controller.Data;
@@ -23,18 +23,18 @@ public class IsTargetMissingNode : EnemyAINode
 
     protected override BTState OnUpdate()
     {
-        if (IsTargetTooFar()) return BTState.Failure;
-        if (CantDetect()) return BTState.Failure;
-        else return BTState.Success;
+        if (IsTargetTooFar()) return BTState.Success;
+        if (CantDetect()) return BTState.Success;
+        else return BTState.Failure;
     }
 
     private bool IsTargetTooFar()
     {
         if (MathUtility.CompareDist(_me.position - _target.position, _data.TargetMissingRange) > 0)
         {
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     private bool CantDetect()

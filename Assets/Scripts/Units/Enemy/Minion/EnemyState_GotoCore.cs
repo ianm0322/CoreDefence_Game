@@ -45,7 +45,6 @@ public class EnemyState_GotoCore : EnemyState
             return;
         }
         Transform target = CheckNearObject();
-        Debug.Log(target);
         if (target != null) // 범위 내 공격대상 있으면 공격
         {
             Self.FocusTarget = (target.transform);

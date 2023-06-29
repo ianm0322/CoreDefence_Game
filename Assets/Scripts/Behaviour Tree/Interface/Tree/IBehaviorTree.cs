@@ -6,7 +6,7 @@ namespace BT
 {
     public interface IBehaviorTree
     {
-        RootNode GenerateBT();
+        RootNode MakeBT();
         void Operate();
     }
 }

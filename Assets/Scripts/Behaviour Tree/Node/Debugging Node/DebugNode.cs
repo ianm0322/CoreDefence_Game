@@ -14,9 +14,17 @@ namespace BT.DebugNodes
     {
         public BTNode content { get; protected set; }
 
+        public DebugDecoratorNode() { }
+
         public DebugDecoratorNode(BTNode content) : base()
         {
             this.content = content;
+            content.Parent = this;
+        }
+
+        public void SetContent(BTNode node)
+        {
+            content = node;
             content.Parent = this;
         }
     }

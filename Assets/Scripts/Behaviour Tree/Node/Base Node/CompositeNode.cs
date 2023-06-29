@@ -6,23 +6,46 @@ namespace BT
     {
         public List<BTNode> childList { get; protected set; }
 
+
+        public CompositeNode() : base()
+        {
+            childList = new List<BTNode>();
+        }
+
         public CompositeNode(IEnumerable<BTNode> nodes) : base()
         {
-            using (IEnumerator<BTNode> nodeIter = nodes.GetEnumerator())
+            childList = new List<BTNode>();
+            if (nodes != null)
             {
-                childList = new List<BTNode>();
-                foreach (BTNode node in childList)
+                using (IEnumerator<BTNode> nodeIter = nodes.GetEnumerator())
+                {
+                    foreach (BTNode node in nodes)
+                    {
+                        Attach(node);
+                    }
+                }
+            }
+        }
+
+        public CompositeNode(params BTNode[] nodes) : base()
+        {
+            childList = new List<BTNode>();
+            if (nodes != null)
+            {
+                foreach (BTNode node in nodes)
                 {
                     Attach(node);
                 }
             }
         }
 
-        public CompositeNode Attach(BTNode node)
+        public void Attach(BTNode node)
         {
-            childList.Add(node);
-            node.Parent = this;
-            return this;
+            if (node != null)
+            {
+                childList.Add(node);
+                node.Parent = this;
+            }
         }
     }
 }

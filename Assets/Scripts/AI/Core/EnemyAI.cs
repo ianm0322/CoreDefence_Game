@@ -7,13 +7,20 @@ using UnityEngine.AI;
 
 public abstract class EnemyAI : BehaviorTree
 {
+    [HideInInspector]
     public EnemyBody Body;
+    [HideInInspector]
     public Rigidbody Rigidbody;
+    [HideInInspector]
     public NavMeshAgent Agent;
+    [HideInInspector]
     public Collider Collider;
+    [HideInInspector]
+    public Animator Anim;
     
     public EnemyKind Kind;
     public EnemyData Data;
+    [field: SerializeField]
     public Transform Target { get; set; }
 
     public EntitySelector Scanner;
@@ -24,6 +31,7 @@ public abstract class EnemyAI : BehaviorTree
         TryGetComponent(out Rigidbody);
         TryGetComponent(out Agent);
         TryGetComponent(out Collider);
+        TryGetComponent(out Anim);
     }
 
     protected virtual void Update()

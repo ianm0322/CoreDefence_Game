@@ -20,10 +20,8 @@ public class EntityClassifier_MeleeAgent : EntityClassifier_NearSort
         NavMeshPath path = new NavMeshPath();
         _agent.CalculatePath(obj.transform.position, path);
         Vector3[] corner = path.corners;
-        Debug.Log("A");
         if (corner.Length == 0)
             return false;
-        Debug.Log("B");
         Vector3 last = corner[corner.Length - 1];
 
         // 패스의 마지막 점과 타겟 위치가 유사하면 이동 가능.

@@ -5,12 +5,19 @@ using UnityEngine;
 
 public abstract class BehaviorTree : MonoBehaviour, IBehaviorTree
 {
-    INode _root;
+    public RootNode Root { get; protected set; }
 
-    public abstract RootNode GenerateBT();
+    public void StartBT()
+    {
+        Root = MakeBT();
+    }
+
+    public abstract RootNode MakeBT();
 
     public void Operate()
     {
-        _root.Evaluate();
+        if (Root == null)
+            Root = MakeBT();
+        Root.Evaluate();
     }
 }

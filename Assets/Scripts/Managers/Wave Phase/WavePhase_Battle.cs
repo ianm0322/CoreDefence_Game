@@ -12,7 +12,7 @@ public class WavePhase_Battle : WavePhase
         base.OnUpdate();
         if (waveManager.EventQueueIsEmpty && EntityManager.Instance.GetLiveEnemyCount() == 0)
         {
-            waveManager.SetPhase(WavePhaseKind.MaintenancePhase);
+            //waveManager.SetPhase(WavePhaseKind.MaintenancePhase);
         }
     }
 
