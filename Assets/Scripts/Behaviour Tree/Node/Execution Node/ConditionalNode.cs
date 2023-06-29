@@ -9,7 +9,7 @@ namespace BT
 
         public ConditionalNode(Func<bool> condition)
         {
-            _condition = condition;
+            _condition += condition;
         }
 
         public ConditionalNode(bool boolean)

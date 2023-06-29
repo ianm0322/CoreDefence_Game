@@ -23,8 +23,9 @@ public class CheckTargetOutOfRangeNode : EnemyAINode
 
     protected override BTState OnUpdate()
     {
-        if (IsTargetTooFar()) return BTState.Success;
-        if (CantDetect()) return BTState.Success;
+        if (_target == null) return BTState.Failure;    // 타겟이 없으면 실패(계속)
+        if (IsTargetTooFar()) return BTState.Success;   // 타겟이 너무 멀면 성공(탈출)
+        if (CantDetect()) return BTState.Success;       // 타겟을 찾을 수 없으면 성공(탈출)
         else return BTState.Failure;
     }
 

@@ -72,7 +72,6 @@ public class BulletScript : MonoBehaviour, IPoolingObject, IFixedUpdateListener
         CD_GameObject obj;
         if (collider.TryGetComponent(out obj))
         {
-            Debug.Log($"{collider.name}가 {data.damage} 피해 입음!");
             obj.GiveDamage(data.damage);
             return true;
         }

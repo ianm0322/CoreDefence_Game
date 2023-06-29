@@ -57,7 +57,7 @@ public class EnemyAIController : StateMachine, IEnemyController
         TryGetComponent(out Collider);
         TryGetComponent(out Anim);  // ######ANIMATION#######
 
-        Body.OnDied += OnDied;
+        Body.OnDiedEvent += OnDied;
 
         stateDict = new Dictionary<string, BaseState>();
         InitState();

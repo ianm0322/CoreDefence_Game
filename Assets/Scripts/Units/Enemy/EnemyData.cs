@@ -5,6 +5,10 @@ using UnityEngine;
 [System.Serializable]
 public class EnemyData
 {
+    [Header("Body")]
+    public int MaxHp;
+    public int Hp;
+
     [Header("AI")]
     public LayerMask DetectTargetLayer;
     /// <summary>

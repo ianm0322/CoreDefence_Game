@@ -2,7 +2,7 @@
 
 public class WavePhase_Maintenance : WavePhase
 {
-    public override WavePhaseKind Phase => WavePhaseKind.MaintenancePhase;
+    public override WavePhaseKind Phase { get; protected set; } = WavePhaseKind.MaintenancePhase;
 
     public override void OnUpdate()
     {

@@ -23,7 +23,6 @@ public class Minion_AttackNode : EnemyAINode
         _isAttackDone = false;
         _firstFrame = true;
         _controller.Anim.SetTrigger("OnAttack");
-        Debug.Log("A");
     }
 
     protected override BTState OnUpdate()
@@ -45,8 +44,7 @@ public class Minion_AttackNode : EnemyAINode
             }
         }
         var animInfo = _controller.Anim.GetCurrentAnimatorStateInfo(0);
-        var clipInfo = _controller.Anim.GetCurrentAnimatorClipInfo(0)[0];
-
+        
         if (animInfo.IsName("Attack") && 
             animInfo.normalizedTime >= 0.9f)
         {

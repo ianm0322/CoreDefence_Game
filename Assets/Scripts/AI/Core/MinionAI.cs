@@ -5,7 +5,7 @@ using UnityEngine;
 using static BT.NodeHelper;
 using static BT.Unity.NodeHelperForUnity;
 
-public class MinionAI : EnemyAI
+public class MinionAI : EnemyAI, ILateUpdateListener
 {
     public string DebugState;
 
@@ -20,13 +20,12 @@ public class MinionAI : EnemyAI
                     new SetTargetNode(this),
                     UntilSuccess(
                         new SimpleParallel(
-                            LogResult(new CheckTargetOutOfRangeNode(this)),   // 타겟에서 벗어나면 탈출
+                            new TimerOver(Data.DetectDelay, new CheckTargetOutOfRangeNode(this)),   // 타겟에서 벗어나면 탈출
                             Select( // 공격하거나, 이동하거나
                                 Sequence(
                                     new CheckAttackableReachNode(this),     // 공격 가능 위치면
                                     new AgentStopNode(Agent),               // 에이전트 멈추고
-                                    new Minion_AttackNode(this),             // 공격
-                                    Wait(1f)
+                                    new Minion_AttackNode(this)             // 공격
                                     ),
                                 new ChaseTargetNode(this)
                                 )
@@ -39,6 +38,15 @@ public class MinionAI : EnemyAI
                     )
                 )
             );
+    }
+
+    public void OnLateUpdate()
+    {
+        if (!Body.IsDied)
+        {
+            LookTarget();
+            Anim.SetFloat("MoveVelocity", Agent.desiredVelocity.magnitude * 0.25f);
+        }
     }
 
     public void SetDebugState(string str)
@@ -59,19 +67,15 @@ public class MinionAI : EnemyAI
             );
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         StartBT();
-    }
-
-    private void LateUpdate()
-    {
-        LookTarget();
     }
 
     private void LookTarget()
     {
-        if(Target != null)
+        if (Target != null)
         {
             Vector3 look = (Target.position - transform.position).normalized;
             look.y = 0;

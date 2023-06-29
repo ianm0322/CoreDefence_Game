@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,11 +7,19 @@ using static CTType;
 public class EntityManager : MonoSingleton<EntityManager>
 {
     [System.Serializable]
-    private class EnemyPrefabNode
+    [Obsolete]
+    private class OldEnemyPrefabNode
     {
         public EnemyKind kind;
         public EnemyAIController prefab;
         //public EnemyAI prefab; for BT
+    }
+
+    [System.Serializable]
+    private class EnemyPrefabNode
+    {
+        public EnemyKind kind;
+        public EnemyAI prefab;
     }
 
     // Bullet Object Pool
@@ -19,12 +28,9 @@ public class EntityManager : MonoSingleton<EntityManager>
     [SerializeField]
     private GameObject bulletPrefab;
 
-    //[SerializeField]
-    //private List<EnemyPrefabNode> enemyPrefabList;
-    //private Dictionary<EnemyKind, ManagedObjectPool<EnemyAI>> _enemyPoolDict;
     [SerializeField]
-    private List<EnemyPrefabNode> enemyPrefabList;
-    private Dictionary<EnemyKind, ManagedObjectPool<EnemyAIController>> _enemyPoolDict;
+    private List<EnemyPrefabNode> _enemyPrefabList;
+    private Dictionary<EnemyKind, ManagedObjectPool<EnemyAI>> _enemyPoolDict;
 
     // ################TEST
     protected override void Awake()
@@ -41,6 +47,26 @@ public class EntityManager : MonoSingleton<EntityManager>
     private void FixedUpdate()
     {
         bulletPool.OnFixedUpdate();
+        foreach (var pool in _enemyPoolDict.Values)
+        {
+            pool.OnFixedUpdate();
+        }
+    }
+
+    private void Update()
+    {
+        foreach (var pool in _enemyPoolDict.Values)
+        {
+            pool.OnUpdate();
+        }
+    }
+
+    private void LateUpdate()
+    {
+        foreach (var pool in _enemyPoolDict.Values)
+        {
+            pool.OnLateUpdate();
+        }
     }
 
     #region Bullet object pool methods
@@ -78,23 +104,22 @@ public class EntityManager : MonoSingleton<EntityManager>
     /// <summary>
     /// _enemyPoolDict 딕셔너리를 enemyPrefabList의 입력값으로 초기화하는 메서드.
     /// </summary>
-    /// 
     private void InitEnemyPool()
     {
-        _enemyPoolDict = new Dictionary<EnemyKind, ManagedObjectPool<EnemyAIController>>();
-        foreach (var enemy in enemyPrefabList)
+        _enemyPoolDict = new Dictionary<EnemyKind, ManagedObjectPool<EnemyAI>>();
+        foreach (var enemy in _enemyPrefabList)
         {
-            _enemyPoolDict.Add(enemy.kind, new ManagedObjectPool<EnemyAIController>(enemy.prefab, this.transform));
+            _enemyPoolDict.Add(enemy.kind, new ManagedObjectPool<EnemyAI>(enemy.prefab, this.transform));
         }
     }
 
-    public EnemyAIController CreateEnemy(EnemyKind kind, EnemyData data)
+    public EnemyAI CreateEnemy(EnemyKind kind, EnemyData data)
     {
-        EnemyAIController enemy = _enemyPoolDict[kind].CreateObject(data);
+        EnemyAI enemy = _enemyPoolDict[kind].CreateObject(data);
         return enemy;
     }
 
-    public void DestroyEnemy(EnemyAIController returnInstance)
+    public void DestroyEnemy(EnemyAI returnInstance)
     {
         EnemyKind kind = returnInstance.Kind;
         _enemyPoolDict[kind].PushObject(returnInstance);

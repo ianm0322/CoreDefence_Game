@@ -7,7 +7,7 @@ public class EnemySpawnEvent : PhaseEvent
     public EnemyKind kind;
     public EnemyData data;
 
-    public EnemySpawnEvent(float startTime, int spawnerId, EnemyKind enemy, EnemyData data = null) : base(startTime)
+    public EnemySpawnEvent(float startTime, int spawnerId, EnemyKind enemy, EnemyData data) : base(startTime)
     {
         this.spawnerId = spawnerId;
         this.kind = enemy;
@@ -17,7 +17,8 @@ public class EnemySpawnEvent : PhaseEvent
     public override void Execute()
     {
         // 에네미 스폰 코드
-        //EntityManager.Instance.CreateEnemy(EnemyKind.Minion, data);
-        GameManager.Instance.Spawn(0);
+        var enemy = EntityManager.Instance.CreateEnemy(EnemyKind.Minion, data);
+        enemy.Agent.Warp(GameManager.Instance.Spawners[0].transform.position);
+        //GameManager.Instance.Spawn(0);
     }
 }

@@ -43,7 +43,7 @@ public class ManagedObjectPool<T> : IObjectPool<T>, IUpdateListener, IFixedUpdat
         for (int i = 0, end = ActiveList.Count; i < end; i++)
         {
             target = ActiveList[i];
-            (target as IFixedUpdateListener).OnFixedUpdate();
+            (target as IFixedUpdateListener)?.OnFixedUpdate();
         }
     }
 
@@ -53,7 +53,7 @@ public class ManagedObjectPool<T> : IObjectPool<T>, IUpdateListener, IFixedUpdat
         for (int i = 0, end = ActiveList.Count; i < end; i++)
         {
             target = ActiveList[i];
-            (target as ILateUpdateListener).OnLateUpdate();
+            (target as ILateUpdateListener)?.OnLateUpdate();
         }
     }
 
@@ -63,7 +63,7 @@ public class ManagedObjectPool<T> : IObjectPool<T>, IUpdateListener, IFixedUpdat
         for (int i = 0, end = ActiveList.Count; i < end; i++)
         {
             target = ActiveList[i];
-            (target as IUpdateListener).OnUpdate();
+            (target as IUpdateListener)?.OnUpdate();
         }
     }
 }
