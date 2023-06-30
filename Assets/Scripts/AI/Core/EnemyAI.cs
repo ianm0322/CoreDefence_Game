@@ -71,11 +71,19 @@ public abstract class EnemyAI : BehaviorTree, IEnemyController, IUpdateListener
         Agent.isStopped = false;
         Collider.enabled = true;
         gameObject.SetActive(true);
+
+        ApplyDataUpdate();
     }
 
     public virtual void OnPushToPool()
     {
         gameObject.SetActive(false);
+
+        if (_dieCoroutine != null)
+        {
+            StopCoroutine(_dieCoroutine);
+            _dieCoroutine = null;
+        }
     }
 
     protected virtual void OnDied()

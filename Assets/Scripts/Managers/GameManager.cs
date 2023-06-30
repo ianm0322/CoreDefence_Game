@@ -5,11 +5,12 @@ using UnityEngine;
 public class GameManager : MonoSingleton<GameManager>
 {
     public PlayerController player;
-
     public CoreScript Core;
+
     public Vector3 CorePosition { get { return Core.transform.position; } }
     public Vector3[] PathPoint;
 
+    public Transform PlayerSpawnPoint;
     public EnemySpawner[] Spawners;
 
     protected override void Awake()
@@ -26,11 +27,13 @@ public class GameManager : MonoSingleton<GameManager>
         Cursor.lockState = CursorLockMode.Locked;
 
         player.Init();
+        player.Die();   // ##########################TEST
     }
 
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Escape))
+            Application.Quit();
     }
 
     public void Spawn(int spawnerIndex)

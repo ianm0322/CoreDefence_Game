@@ -18,7 +18,9 @@ public sealed class WaveManager : MonoSingleton<WaveManager>
     public WavePhaseKind DefaultPhase;
     public WavePhaseKind NowPhase => CurrentPhase.Phase;    // 웨이브 상태
     public WavePhase CurrentPhase;
-    public int WaveLevel { get; private set; }              // 웨이브 레벨
+
+    [field: SerializeField]
+    public int WaveLevel { get; set; } = 1;         // 웨이브 레벨
 
     [SerializeField]
     private float _maintenanceTimeLimit = 180f;             // 정비 페이즈 제한시간
@@ -26,6 +28,9 @@ public sealed class WaveManager : MonoSingleton<WaveManager>
 
     private List<PhaseEvent> _eventQueue = new List<PhaseEvent>();
     public bool EventQueueIsEmpty => _eventQueue.Count == 0;
+
+    public EnemyData TEMP_MINION_DATA;
+    public EnemyData TEMP_ROBOT_DATA;
 
     private void Start()
     {
@@ -81,9 +86,9 @@ public sealed class WaveManager : MonoSingleton<WaveManager>
         CurrentPhase = newPhase;
     }
 #if UNITY_EDITOR
-    private void OnGUI()
-    {
-        GUI.TextArea(new Rect(0, 0, 200, 40), $"{NowPhase.ToString()}\n{CurrentPhase.ElapsedTime:0.00}");
-    }
+    //private void OnGUI()
+    //{
+    //    GUI.TextArea(new Rect(0, 0, 200, 40), $"{NowPhase.ToString()}\n{CurrentPhase.ElapsedTime:0.00}");
+    //}
 #endif
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerController : CD_GameObject
+public class PlayerController : MonoBehaviour
 {
     public bool IsActive { get; private set; } = false; // 코드를 작동시키는지에 대한 변수
 
@@ -13,9 +13,10 @@ public class PlayerController : CD_GameObject
     public float jumpPower;
 
     // Component
-    public PlayerBody _playerBody;
+    public PlayerBody _playerMovement;
     public Rigidbody _rigid;
     public CapsuleCollider _collider;
+    public CD_GameObject Body;
     [SerializeField]
     public WeaponBase _weapon;
 
@@ -36,12 +37,18 @@ public class PlayerController : CD_GameObject
 
     private void Awake()
     {
-        TryGetComponent(out _playerBody);
+        TryGetComponent(out _playerMovement);
         TryGetComponent(out _collider);
+        TryGetComponent(out Body);
 
         // ######### Test
         TryGetComponent(out _rigid);
         fireDelayYield = new WaitForSeconds(fireDelay);
+    }
+
+    private void Start()
+    {
+        Body.OnDiedEvent += Die;
     }
 
     public void Init()
@@ -73,7 +80,7 @@ public class PlayerController : CD_GameObject
         float mx = Input.GetAxisRaw("Mouse X") * StaticDataManager.Instance.MouseSensitive;
         float my = Input.GetAxisRaw("Mouse Y") * StaticDataManager.Instance.MouseSensitive;
         lookDir.Set(-my, mx, 0f);
-        _playerBody.LookDirection += lookDir;
+        _playerMovement.LookDirection += lookDir;
 
         float h, v;
         h = Input.GetAxisRaw("Horizontal");     // 인풋
@@ -83,17 +90,17 @@ public class PlayerController : CD_GameObject
         if (h != 0f && v != 0f)
             dir /= 1.4f;
 
-        _playerBody.Move(dir * moveSpeed);
+        _playerMovement.Move(dir * moveSpeed);
     }
 
     protected void JumpUpdate()
     {
-        if (Input.GetButtonDown("Jump") && _playerBody.IsGround)
+        if (Input.GetButtonDown("Jump") && _playerMovement.IsGround)
         {
             // Jump script
-            _playerBody.Jump(jumpPower);
+            _playerMovement.Jump(jumpPower);
         }
-        else if (!_playerBody.IsGround)
+        else if (!_playerMovement.IsGround)
         {
             // Fall script
         }
@@ -108,7 +115,7 @@ public class PlayerController : CD_GameObject
         }
         else
         {
-            gunTr.rotation = Quaternion.Euler(_playerBody.LookDirection);
+            gunTr.rotation = Quaternion.Euler(_playerMovement.LookDirection);
         }
 
         if (Input.GetButtonDown("Fire1"))
@@ -151,8 +158,10 @@ public class PlayerController : CD_GameObject
         }
     }
 
-    public override void Die()
+    public void Die()
     {
-        Debug.Log("플레이어 이즈 다이!");
+        this.transform.position = GameManager.Instance.PlayerSpawnPoint.position;
+        _playerMovement.LookDirection = GameManager.Instance.PlayerSpawnPoint.eulerAngles;
+        Body.SetHp(Body.MaxHp);
     }
 }

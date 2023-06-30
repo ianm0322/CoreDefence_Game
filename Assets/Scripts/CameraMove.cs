@@ -21,7 +21,7 @@ public class CameraMove : MonoBehaviour
 
     void Update()
     {
-        this.transform.eulerAngles = GameManager.Instance.player._playerBody.LookDirection;
+        this.transform.eulerAngles = GameManager.Instance.player._playerMovement.LookDirection;
         this.transform.position = _follow.position + _offset;
     }
 

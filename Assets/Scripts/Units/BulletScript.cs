@@ -7,6 +7,7 @@ public class BulletScript : MonoBehaviour, IPoolingObject, IFixedUpdateListener
 {
     Rigidbody rb;
     Renderer render;
+    TrailRenderer trail;
 
     public BulletData data;
     public Ray ray;
@@ -21,6 +22,7 @@ public class BulletScript : MonoBehaviour, IPoolingObject, IFixedUpdateListener
     {
         TryGetComponent(out rb);
         TryGetComponent(out render);
+        TryGetComponent(out trail);
     }
 
     public void OnFixedUpdate()
@@ -175,6 +177,7 @@ public class BulletScript : MonoBehaviour, IPoolingObject, IFixedUpdateListener
 
             lifeTime = Time.time;
             lifeDist = _data.lifeDistance;
+            trail.emitting = true;
         }
         else
             throw new System.Exception($"{name} catch wrong type data for object pooling");
@@ -182,5 +185,6 @@ public class BulletScript : MonoBehaviour, IPoolingObject, IFixedUpdateListener
 
     public void OnPushToPool()
     {
+        trail.emitting = false;
     }
 }

@@ -48,7 +48,6 @@ public class Minion_AttackNode : EnemyAINode
         if (animInfo.IsName("Attack") && 
             animInfo.normalizedTime >= 0.9f)
         {
-            Debug.Log("Attack end");
             return BTState.Success;
         }
 

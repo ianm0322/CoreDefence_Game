@@ -14,6 +14,7 @@ public class WavePhase_Maintenance : WavePhase
     public override void OnPhaseStart(WavePhase prePhase)
     {
         base.OnPhaseStart(prePhase);
+        waveManager.WaveLevel++;
     }
 
     public override void OnPhaseEnd(WavePhase nextPhase)

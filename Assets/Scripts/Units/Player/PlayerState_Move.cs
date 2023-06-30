@@ -50,7 +50,7 @@ public class PlayerState_Move : PlayerState
         {
             machine.MoveState(CTType.PlayerControllerStateType.Jump);
         }
-        else if (!player._playerBody.IsGround)
+        else if (!player._playerMovement.IsGround)
         {
             machine.MoveState(CTType.PlayerControllerStateType.InAir);
         }
@@ -77,7 +77,7 @@ public class PlayerState_InAir : PlayerState_Move
 
     protected void CheckLandingUpdate()
     {
-        if (player._playerBody.IsGround)
+        if (player._playerMovement.IsGround)
         {
             machine.MoveState(CTType.PlayerControllerStateType.OnGround);
         }
@@ -90,15 +90,15 @@ public class PlayerState_Jump : PlayerState_Move
 
     public override void OnStateEnter(IStateA preState)
     {
-        player._playerBody.UseGravity = false;
-        player._playerBody.DontUpdateVelocity = true;
+        player._playerMovement.UseGravity = false;
+        player._playerMovement.DontUpdateVelocity = true;
         jump_time = 0f;
     }
 
     public override void OnStateExit(IStateA nextState)
     {
-        player._playerBody.UseGravity = true;
-        player._playerBody.DontUpdateVelocity = false;
+        player._playerMovement.UseGravity = true;
+        player._playerMovement.DontUpdateVelocity = false;
     }
 
     public override void OnUpdate()
@@ -119,7 +119,7 @@ public class PlayerState_Jump : PlayerState_Move
 
     protected void CheckFallingUpdate()
     {
-        if (player._playerBody.IsFalling)   // ############# Last(6.4) state.ground -> jump -> fall로 변환하는 루틴 만들기
+        if (player._playerMovement.IsFalling)   // ############# Last(6.4) state.ground -> jump -> fall로 변환하는 루틴 만들기
         {
             machine.MoveState(CTType.PlayerControllerStateType.InAir);
         }

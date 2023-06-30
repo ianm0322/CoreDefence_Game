@@ -975,8 +975,8 @@ MonoBehaviour:
   Anim: {fileID: 0}
   Kind: 0
   Data:
-    MaxHp: 0
-    Hp: 0
+    MaxHp: 15
+    Hp: 15
     DetectTargetLayer:
       serializedVersion: 2
       m_Bits: 384
@@ -985,7 +985,7 @@ MonoBehaviour:
     TargetMissingDelay: 15
     DetectRange: 10
     DetectDelay: 3
-    MoveSpeed: 10
+    MoveSpeed: 4
     AttackSpeedMultiple: 0.8
     AttackDelay: 0
     AttackSpeed: 1

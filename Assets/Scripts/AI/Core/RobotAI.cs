@@ -25,8 +25,11 @@ public class RobotAI : EnemyAI, ILateUpdateListener, IShooting
                         new ChaseTargetNode(this, GameManager.Instance.Core.transform),
                     subNode: 
                         Select(
-                            new CheckTargetOutOfRangeNode(this),
-                            new TimerOver(1, new RobotShootingNode(this)),
+                            Sequence(
+                                new TimerOver(Data.TargetMissingDelay ,new CheckTargetOutOfRangeNode(this)),
+                                new SetTargetNode(this)
+                                ),
+                            new RobotShootingNode(this),
                             new SetTargetNode(this)
                             )
                         )
@@ -82,7 +85,9 @@ public class RobotAI : EnemyAI, ILateUpdateListener, IShooting
 
     public void Shot()
     {
-
+        Debug.Log("Shto");
+        EntityManager.Instance.CreateBullet(Data.Bullet, FirePointTr[0].position, Quaternion.LookRotation(Target.position - FirePointTr[0].position));
+        EntityManager.Instance.CreateBullet(Data.Bullet, FirePointTr[1].position, Quaternion.LookRotation(Target.position - FirePointTr[1].position));
     }
 
     private void LookTarget()

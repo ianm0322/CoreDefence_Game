@@ -17,7 +17,7 @@ public class EnemySpawnEvent : PhaseEvent
     public override void Execute()
     {
         // 에네미 스폰 코드
-        var enemy = EntityManager.Instance.CreateEnemy(EnemyKind.Minion, data);
+        var enemy = EntityManager.Instance.CreateEnemy(kind, data);
         enemy.Agent.Warp(GameManager.Instance.Spawners[0].transform.position);
         //GameManager.Instance.Spawn(0);
     }

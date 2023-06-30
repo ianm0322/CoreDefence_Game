@@ -39,6 +39,9 @@ public class EnemyData
     public EnemyData() { }
     public EnemyData(EnemyData data)
     {
+        MaxHp = data.MaxHp;
+        Hp = data.Hp;
+
         AttackTargetRange = data.AttackTargetRange;
         TargetMissingRange = data.TargetMissingRange;
         DetectRange = data.DetectRange;
