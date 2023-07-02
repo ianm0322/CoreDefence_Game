@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class EntityObjectPool<T> : IObjectPool<T> where T : MonoBehaviour, IPoolingObject
@@ -67,10 +68,22 @@ public class EntityObjectPool<T> : IObjectPool<T> where T : MonoBehaviour, IPool
             {
                 Instantiate();
             }
+            Capacity = capacity;
         }
         else if(capacity < Capacity)
         {
-            throw new System.NotImplementedException();
+            T obj;
+            for (int i = capacity; i < Capacity; i++)
+            {
+                if(pool.TryDequeue(out obj))
+                {
+                    Object.Destroy(obj);
+                }
+                else
+                {
+                    break;
+                }
+            }
         }
     }
 

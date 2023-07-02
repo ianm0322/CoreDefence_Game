@@ -20,7 +20,7 @@ public class MinionAI : EnemyAI, ILateUpdateListener
                     new SetTargetNode(this),
                     UntilSuccess(
                         new SimpleParallel(
-                            new TimerOver(Data.DetectDelay, new CheckTargetOutOfRangeNode(this)),   // 타겟에서 벗어나면 탈출
+                            new TimeOverNode(Data.DetectDelay, new CheckTargetOutOfRangeNode(this)),   // 타겟에서 벗어나면 탈출
                             Select( // 공격하거나, 이동하거나
                                 Sequence(
                                     new CheckAttackableReachNode(this),     // 공격 가능 위치면

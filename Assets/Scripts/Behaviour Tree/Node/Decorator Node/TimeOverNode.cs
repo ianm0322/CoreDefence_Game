@@ -7,7 +7,7 @@ namespace BT
     /// <summary>
     /// 하위 노드가 일정 기간 계속 성공해야 Success를 반환하는 메서드.
     /// </summary>
-    public class TimerOver : DecoratorNode
+    public class TimeOverNode : DecoratorNode
     {
         float _successTime;
         float _timer = 0;
@@ -15,7 +15,7 @@ namespace BT
         bool _successOnce = true;
         bool _abortOnTimeOver = false;
 
-        public TimerOver(float successTime, BTNode content) : base(content)
+        public TimeOverNode(float successTime, BTNode content) : base(content)
         {
             _successTime = successTime;
         }
@@ -26,7 +26,7 @@ namespace BT
         /// <param name="successOnce">이 옵션이 true면 success를 반환한 뒤 타이머를 초기화한다.</param>
         /// <param name="abortOnTimeOver">이 옵션이 true면 하위 노드가 running중이라도 시간이 초과되면 running을 중단하고 결과를 반환한다.</param>
         /// <returns></returns>
-        public TimerOver SetOption(bool successOnce = true, bool abortOnTimeOver = false)
+        public TimeOverNode SetOption(bool successOnce = true, bool abortOnTimeOver = false)
         {
             _successOnce = successOnce;
             _abortOnTimeOver = abortOnTimeOver;

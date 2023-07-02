@@ -32,7 +32,7 @@ public class RobotShootingNode : ExecutionNode
     }
 }
 
-public interface IShooting
+public interface IShooter
 {
     public void Shot();
 }

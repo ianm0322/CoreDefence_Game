@@ -5,7 +5,7 @@ using UnityEngine;
 using static BT.NodeHelper;
 using static BT.Unity.NodeHelperForUnity;
 
-public class RobotAI : EnemyAI, ILateUpdateListener, IShooting
+public class RobotAI : EnemyAI, ILateUpdateListener, IShooter
 {
     public string DebugState;
 
@@ -26,7 +26,7 @@ public class RobotAI : EnemyAI, ILateUpdateListener, IShooting
                     subNode: 
                         Select(
                             Sequence(
-                                new TimerOver(Data.TargetMissingDelay ,new CheckTargetOutOfRangeNode(this)),
+                                new TimeOverNode(Data.TargetMissingDelay ,new CheckTargetOutOfRangeNode(this)),
                                 new SetTargetNode(this)
                                 ),
                             new RobotShootingNode(this),
