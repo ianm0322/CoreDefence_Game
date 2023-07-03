@@ -28,29 +28,29 @@ namespace BT
         protected override BTState OnUpdate()
         {
             throw new NotImplementedException();
-            if (_result)
-            {
-                if (_abortLowerPeriority)
-                {
+            //if (_result)
+            //{
+            //    if (_abortLowerPeriority)
+            //    {
 
-                }
-                else
-                {
-                    var result = content.Evaluate();
-                    switch (result)
-                    {
-                        case BTState.Success:
-                            break;
-                        case BTState.Failure:
-                            break;
-                        case BTState.Running:
-                            break;
-                        default:
-                            break;
-                    }
-                }
+            //    }
+            //    else
+            //    {
+            //        var result = content.Evaluate();
+            //        switch (result)
+            //        {
+            //            case BTState.Success:
+            //                break;
+            //            case BTState.Failure:
+            //                break;
+            //            case BTState.Running:
+            //                break;
+            //            default:
+            //                break;
+            //        }
+            //    }
 
-            }
+            //}
         }
     }
 }

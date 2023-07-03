@@ -3,15 +3,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SetTargetNode : EnemyAINode
+public class SetTargetNode : ExecutionNode
 {
-    public SetTargetNode(EnemyAI controller) : base(controller)
+    ITargetter _controller;
+
+    bool _isTargetSetNull;
+
+    public SetTargetNode(ITargetter controller) : base()
     {
+        this._controller = controller;
+        SetOption(isTargetSetNull: false);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="isTargetSetNull">true: 타겟을 감지하지 못하면 null 대입. false: 기존 상태 유지</param>
+    /// <returns></returns>
+    public SetTargetNode SetOption(bool isTargetSetNull = false)
+    {
+        this._isTargetSetNull = isTargetSetNull;
+        return this;
     }
 
     protected override BTState OnUpdate()
     {
-        _controller.Target = _controller.Scanner.ScanEntity();
+        var tr = _controller.Scanner.ScanEntity();
+        if(tr != null || _isTargetSetNull == true)
+        {
+            _controller.Target = tr;
+        }
+
         if(_controller.Target == null)
         {
             return BTState.Failure;
@@ -21,4 +43,6 @@ public class SetTargetNode : EnemyAINode
             return BTState.Success;
         }
     }
+
+
 }

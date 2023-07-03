@@ -40,16 +40,20 @@ namespace BT
             switch (result)
             {
                 case BTState.Success:
-                    if (IsTimeOver()) return BTState.Success;
-                    else return BTState.Failure;
+                    if (IsTimeOver()) 
+                        return BTState.Success;
+                    else 
+                        return BTState.Failure;
                 case BTState.Failure:   // 실패시 타임 초기화
                     _timer = 0;
                     return BTState.Failure;
                 case BTState.Running:
                     if (_abortOnTimeOver)  // 시간 초과시 탈출 옵션이 on이라면 타이머 종료 시 running을 끝내고 바로 success 반환
                     {
-                        if (IsTimeOver()) return BTState.Success;
-                        else return BTState.Running;
+                        if (IsTimeOver()) 
+                            return BTState.Success;
+                        else 
+                            return BTState.Running;
                     }
                     else return BTState.Running;
                 default:

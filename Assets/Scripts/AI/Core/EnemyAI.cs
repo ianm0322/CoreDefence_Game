@@ -5,36 +5,16 @@ using BT;
 using static CTType;
 using UnityEngine.AI;
 
-public abstract class EnemyAI : BehaviorTree, IEnemyController, IUpdateListener
+public abstract class EnemyAI : AIController, IEnemyController, IUpdateListener, ITargetter
 {
-    [HideInInspector]
-    public CD_GameObject Body;
-    [HideInInspector]
-    public Rigidbody Rigidbody;
-    [HideInInspector]
-    public NavMeshAgent Agent;
-    [HideInInspector]
-    public Collider Collider;
-    [HideInInspector]
-    public Animator Anim;
-    
     public EnemyKind Kind;
     public EnemyData Data;
     [field: SerializeField]
     public Transform Target { get; set; }
 
-    public EntitySelector Scanner;
+    public EntitySelector Scanner { get; set; }
 
     private Coroutine _dieCoroutine;
-
-    protected virtual void Awake()
-    {
-        TryGetComponent(out Body);
-        TryGetComponent(out Rigidbody);
-        TryGetComponent(out Agent);
-        TryGetComponent(out Collider);
-        TryGetComponent(out Anim);
-    }
 
     protected virtual void Start()
     {

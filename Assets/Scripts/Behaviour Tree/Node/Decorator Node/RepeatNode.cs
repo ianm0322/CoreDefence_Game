@@ -11,13 +11,18 @@ namespace BT
         private bool _repeatOnSuccess;
         private bool _repeatOnFailure;
 
-        public RepeatNode(int count, BTNode content, bool repeatOnSuccess = false, bool repeatOnFailure = false) : base(content)
+        public RepeatNode(int count, BTNode content) : base(content)
         {
             this._end = count;
-            _repeatOnFailure = repeatOnFailure;
-            _repeatOnSuccess = repeatOnSuccess;
+            SetOption();
         }
 
+        public RepeatNode SetOption(bool repeatOnSuccess = false, bool repeatOnFailure = false)
+        {
+            _repeatOnFailure = repeatOnFailure;
+            _repeatOnSuccess = repeatOnSuccess;
+            return this;
+        }
         protected override BTState OnUpdate()
         {
             if (State != BTState.Running)

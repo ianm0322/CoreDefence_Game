@@ -1993,10 +1993,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DefaultPhase: 0
   <WaveLevel>k__BackingField: 0
-  _maintenanceTimeLimit: 10
+  _maintenanceTimeLimit: 0
   TEMP_MINION_DATA:
     MaxHp: 12
     Hp: 12
+    MoveSpeed: 4
+    AttackSpeedMultiple: 0.8
+    AttackDelay: 0
+    AttackSpeed: 1
+    AttackDamage: 1
+    AttackRange: 4
+    BulletSpeed: 0
     DetectTargetLayer:
       serializedVersion: 2
       m_Bits: 384
@@ -2005,13 +2012,6 @@ MonoBehaviour:
     TargetMissingDelay: 15
     DetectRange: 10
     DetectDelay: 3
-    MoveSpeed: 4
-    AttackSpeedMultiple: 0.8
-    AttackDelay: 0
-    AttackSpeed: 1
-    AttackDamage: 1
-    AttackRange: 4
-    BulletSpeed: 0
     Bullet:
       tag: 
       speed: 0
@@ -2021,6 +2021,13 @@ MonoBehaviour:
   TEMP_ROBOT_DATA:
     MaxHp: 6
     Hp: 6
+    MoveSpeed: 4
+    AttackSpeedMultiple: 0.8
+    AttackDelay: 1
+    AttackSpeed: 1.5
+    AttackDamage: 1
+    AttackRange: 1
+    BulletSpeed: 1
     DetectTargetLayer:
       serializedVersion: 2
       m_Bits: 384
@@ -2029,13 +2036,6 @@ MonoBehaviour:
     TargetMissingDelay: 3
     DetectRange: 20
     DetectDelay: 0
-    MoveSpeed: 4
-    AttackSpeedMultiple: 0.8
-    AttackDelay: 1
-    AttackSpeed: 1.5
-    AttackDamage: 1
-    AttackRange: 1
-    BulletSpeed: 1
     Bullet:
       tag: EnemyBullet
       speed: 25
@@ -93382,6 +93382,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Turret 1a
       objectReference: {fileID: 0}
+    - target: {fileID: 1000012174300454, guid: 8a4fca54c9faa3449bcff12193992420, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4000010737274380, guid: 8a4fca54c9faa3449bcff12193992420, type: 3}
       propertyPath: m_RootOrder
       value: 15
@@ -124281,10 +124285,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 337cbd05aaf96f345854fb4f5545db73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Body: {fileID: 0}
+  Rigid: {fileID: 0}
+  Agent: {fileID: 0}
+  Collider: {fileID: 0}
+  Anim: {fileID: 0}
+  GroundRayTr: {fileID: 0}
+  IsParalysis: 0
   id: 0
   Data:
     MaxHp: 0
     Hp: 0
+    MoveSpeed: 0
+    AttackSpeedMultiple: 0.8
+    AttackDelay: 1
+    AttackSpeed: 10
+    AttackDamage: 1
+    AttackRange: 1
+    BulletSpeed: 1
     DetectTargetLayer:
       serializedVersion: 2
       m_Bits: 0
@@ -124293,12 +124311,6 @@ MonoBehaviour:
     TargetMissingDelay: 1
     DetectRange: 10
     DetectDelay: 1
-    AttackDamage: 1
-    AttackDelay: 1
-    AttackSpeed: 1
-    AttackRange: 1
-    BulletSpeed: 1
-    MoveSpeed: 0
     Bullet:
       tag: PlayerBullet
       speed: 10

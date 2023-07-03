@@ -18,6 +18,7 @@ namespace BT
 
         protected override BTState OnUpdate()
         {
+            _timer += UnityEngine.Time.deltaTime;
             if(_timer >= _duration)
             {
                 return BTState.Success;

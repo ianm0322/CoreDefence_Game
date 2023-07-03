@@ -2,7 +2,7 @@ using BT;
 using System.Collections;
 using System.Collections.Generic;
 
-public abstract class FacilityAI : BehaviorTree, IFacilityController, IUpdateListener
+public abstract class FacilityAI : AIController, IFacilityController, IUpdateListener
 {
     public int id = SimpleID<FacilityAI>.Get();
 

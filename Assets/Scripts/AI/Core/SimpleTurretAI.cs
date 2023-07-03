@@ -1,7 +1,5 @@
 using BT;
 using static BT.NodeHelper;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SimpleTurretAI : FacilityAI, IShooter
@@ -11,7 +9,15 @@ public class SimpleTurretAI : FacilityAI, IShooter
     public override RootNode MakeBT()
     {
         return Root(
-                new SimpleShootingNode(this)
+            Select(
+                new IsParalysisNode(this),
+                Sequence(
+                        new CountdownNode(3).SetOption(false),
+                        new SimpleShootingNode(this),
+                        new WaitForAttackSpeedNode(this.Data)
+                    ),
+                    new WaitForAttackDelayNode(this.Data)
+                )
             );
     }
 

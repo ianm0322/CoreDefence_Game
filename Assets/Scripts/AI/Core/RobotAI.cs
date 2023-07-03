@@ -20,28 +20,38 @@ public class RobotAI : EnemyAI, ILateUpdateListener, IShooter
     {
         return Root(
             Select(
-                new SimpleParallel(
-                    mainNode:
-                        new ChaseTargetNode(this, GameManager.Instance.Core.transform),
-                    subNode: 
-                        Select(
-                            Sequence(
-                                new TimeOverNode(Data.TargetMissingDelay ,new CheckTargetOutOfRangeNode(this)),
-                                new SetTargetNode(this)
-                                ),
+                new IsParalysisNode(this),
+
+                Sequence(   
+                    // Default: move to core
+                    new ChaseTargetNode(this, GameManager.Instance.Core.transform), 
+
+                    Select(
+                        // Target is exist sequence:
+                        Sequence(   
+                            new IsTargetExistNode(this),
+
                             new RobotShootingNode(this),
-                            new SetTargetNode(this)
-                            )
+
+                            Success(Sequence(
+                                // Escape
+                                new TimeOverNode(Data.TargetMissingDelay, new CheckTargetOutOfRangeNode(this)),
+                                new SetTargetNullNode(this)
+                                )) 
+                            ),
+
+                        new SetTargetNode(this).SetOption(true)
                         )
                     )
-                );
+                )
+            );
     }
 
     protected override void Awake()
     {
         base.Awake();
         Scanner = new EntitySelector(
-             new SphereScanner(transform, Data.DetectRange, Data.DetectTargetLayer),
+             new SphereScanner(FirePointTr[0], Data.DetectRange, Data.DetectTargetLayer),
              new EntityClassifier_Robot(transform, new string[2] { "Player", "Facility" })
             );
     }
@@ -85,7 +95,6 @@ public class RobotAI : EnemyAI, ILateUpdateListener, IShooter
 
     public void Shot()
     {
-        Debug.Log("Shto");
         EntityManager.Instance.CreateBullet(Data.Bullet, FirePointTr[0].position, Quaternion.LookRotation(Target.position - FirePointTr[0].position));
         EntityManager.Instance.CreateBullet(Data.Bullet, FirePointTr[1].position, Quaternion.LookRotation(Target.position - FirePointTr[1].position));
     }

@@ -16,26 +16,34 @@ public class MinionAI : EnemyAI, ILateUpdateListener
     {
         return Root(
             Select(
-                Sequence(   // 타게팅 시퀀스
-                    new SetTargetNode(this),
-                    UntilSuccess(
-                        new SimpleParallel(
-                            new TimeOverNode(Data.DetectDelay, new CheckTargetOutOfRangeNode(this)),   // 타겟에서 벗어나면 탈출
-                            Select( // 공격하거나, 이동하거나
-                                Sequence(
-                                    new CheckAttackableReachNode(this),     // 공격 가능 위치면
-                                    new AgentStopNode(Agent),               // 에이전트 멈추고
-                                    new Minion_AttackNode(this)             // 공격
-                                    ),
-                                new ChaseTargetNode(this)
-                                )
-                            ).SetOption(runSubOnFail: true)
+                new IsParalysisNode(this),
+
+                // Target is exist pattern:
+                Sequence(
+                    // Check target is exist
+                    new IsTargetExistNode(this),    
+                    Select(
+                        // Sequence: Escape if target is out of range
+                        Sequence(   
+                            new TimeOverNode(Data.DetectDelay, new CheckTargetOutOfRangeNode(this)),
+                            new SetTargetNullNode(this)
+                            ),
+                        // Sequence: Attack
+                        Sequence(   
+                            new CheckAttackableReachNode(this),     // 공격 가능 위치면
+                            new AgentStopNode(Agent),               // 에이전트 멈추고
+                            new Minion_AttackNode(this)             // 공격
+                            ),
+                        // Move to target
+                        new ChaseTargetNode(this)   
                         )
                     ),
-                Sequence(   // 코어로 이동 시퀀스
-                    Call(() => Target = null),
-                    new ChaseTargetNode(this, GameManager.Instance.Core.transform)
-                    )
+
+                // Target is non-exist pattern
+                new SetTargetNode(this),
+
+                // Move to core
+                new ChaseTargetNode(this, GameManager.Instance.Core.transform)
                 )
             );
     }
