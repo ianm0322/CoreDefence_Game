@@ -22,29 +22,27 @@ public class RobotAI : EnemyAI, ILateUpdateListener, IShooter
             Select(
                 new IsParalysisNode(this),
 
-                Sequence(   
+                Sequence(
                     // Default: move to core
-                    new ChaseTargetNode(this, GameManager.Instance.Core.transform), 
+                    new ChaseTargetNode(this, GameManager.Instance.Core.transform),
 
                     Select(
                         // Target is exist sequence:
-                        Sequence(   
+                        Sequence(
                             new IsTargetExistNode(this),
-
                             new RobotShootingNode(this),
-
                             Success(Sequence(
                                 // Escape
                                 new TimeOverNode(Data.TargetMissingDelay, new CheckTargetOutOfRangeNode(this)),
                                 new SetTargetNullNode(this)
-                                )) 
+                                ))
                             ),
 
                         new SetTargetNode(this).SetOption(true)
                         )
                     )
                 )
-            );
+            ) ;
     }
 
     protected override void Awake()
