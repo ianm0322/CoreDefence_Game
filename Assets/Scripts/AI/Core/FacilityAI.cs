@@ -6,7 +6,7 @@ public abstract class FacilityAI : AIController, IFacilityController, IUpdateLis
 {
     public int id = SimpleID<FacilityAI>.Get();
 
-    public FacilityData FacilityInfo;
+    public FacilityData Data;
     public AIData AIInfo;
 
     public void InitForInstantiate()

@@ -45,7 +45,7 @@ public abstract class EnemyAI : AIController, IEnemyController, IUpdateListener,
         }
 
         if (Root == null)
-            ResetBT();
+            StartBT();
 
         // SetData
         Anim.SetBool("IsDied", false);

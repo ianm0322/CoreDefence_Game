@@ -16,7 +16,7 @@ public class RobotAI : EnemyAI, ILateUpdateListener, IShooter
     public override RootNode MakeBT()
     {
         return Root(
-            this, Select(
+            Select(
                 new IsParalysisNode(this),
 
                 Sequence(
@@ -54,7 +54,7 @@ public class RobotAI : EnemyAI, ILateUpdateListener, IShooter
     protected override void Start()
     {
         base.Start();
-        ResetBT();
+        StartBT();
     }
 
     // TEST

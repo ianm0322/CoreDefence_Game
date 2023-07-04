@@ -12,7 +12,7 @@ public class MinionAI : EnemyAI, ILateUpdateListener
     public override RootNode MakeBT()
     {
         return Root(
-            this, Select(
+            Select(
                 new IsParalysisNode(this),
 
                 // Target is exist pattern:
@@ -75,7 +75,7 @@ public class MinionAI : EnemyAI, ILateUpdateListener
     protected override void Start()
     {
         base.Start();
-        ResetBT();
+        StartBT();
     }
 
     private void LookTarget()
