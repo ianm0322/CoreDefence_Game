@@ -39,12 +39,12 @@ namespace BT
             }
         }
 
-        public void Attach(BTNode node)
+        protected override void Attach(BTNode node)
         {
             if (node != null)
             {
                 childList.Add(node);
-                node.Parent = this;
+                base.Attach(node);
             }
         }
     }

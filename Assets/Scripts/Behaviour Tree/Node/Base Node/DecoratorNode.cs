@@ -7,8 +7,8 @@
         public DecoratorNode(BTNode content) : base()
         {
             this.content = content;
-            if(content != null)
-                content.Parent = this;
+            if (content != null)
+                Attach(content);
         }
     }
 }

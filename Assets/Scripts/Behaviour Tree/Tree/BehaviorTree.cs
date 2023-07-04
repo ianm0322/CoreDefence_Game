@@ -5,10 +5,19 @@ using UnityEngine;
 
 public abstract class BehaviorTree : MonoBehaviour, IBehaviorTree
 {
-    public RootNode Root { get; protected set; }
+    public int instanceId;
 
-    public void StartBT()
+    public RootNode Root { get; protected set; }
+    public BTBlackboard Blackboard { get; protected set; }
+
+    protected virtual void Awake()
     {
+        Blackboard = new BTBlackboard(this);
+    }
+
+    public void ResetBT()
+    {
+        Blackboard.DestroyBlackboard();
         Root = MakeBT();
     }
 

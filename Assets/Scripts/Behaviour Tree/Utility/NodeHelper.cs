@@ -36,7 +36,7 @@ namespace BT
         #endregion Decorator Task
 
         #region Others
-        public static RootNode Root(BTNode node) => new RootNode(node);
+        public static RootNode Root(BehaviorTree bt, BTNode node) => new RootNode(bt, node);
 
         public static BTState TRUE => BTState.Success;
         public static BTState FALSE => BTState.Failure;
