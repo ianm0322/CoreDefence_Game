@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestUpdateManager : MonoBehaviour
+public class TestUpdateManager : MonoSingleton<TestUpdateManager>
 {
     public List<GameObject> update;
 
