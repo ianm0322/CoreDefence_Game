@@ -968,7 +968,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bb86233bbe64bb4a8cd858cb59fd68f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  a: 0
   Body: {fileID: 0}
   Rigid: {fileID: 0}
   Agent: {fileID: 0}
@@ -980,6 +979,14 @@ MonoBehaviour:
   Data:
     MaxHp: 15
     Hp: 15
+    MoveSpeed: 4
+    AttackSpeedMultiple: 0.8
+    AttackDelay: 0
+    AttackSpeed: 1
+    AttackCount: 0
+    AttackDamage: 1
+    AttackRange: 4
+    BulletSpeed: 0
     DetectTargetLayer:
       serializedVersion: 2
       m_Bits: 384
@@ -988,28 +995,27 @@ MonoBehaviour:
     TargetMissingDelay: 15
     DetectRange: 10
     DetectDelay: 3
-    MoveSpeed: 4
-    AttackSpeedMultiple: 0.8
-    AttackDelay: 0
-    AttackSpeed: 1
-    AttackDamage: 1
-    AttackRange: 4
-    BulletSpeed: 0
     Bullet:
       tag: 
       speed: 0
       damage: 0
       lifeTime: 0
       lifeDistance: 0
+  AIInfo:
+    DetectTargetLayer:
+      serializedVersion: 2
+      m_Bits: 384
+    DetectTargetTags:
+    - Player
+    - Facility
+    - Core
+    AttackTargetRange: 4
+    TargetMissingRange: 15
+    TargetMissingDelay: 3
+    DetectRange: 10
+    DetectDelay: 0
   <Target>k__BackingField: {fileID: 0}
   DebugState: 
-  TargetLayer:
-    serializedVersion: 2
-    m_Bits: 384
-  TargetTags:
-  - Player
-  - Facility
-  - Core
 --- !u!95 &925932064798653036
 Animator:
   serializedVersion: 5

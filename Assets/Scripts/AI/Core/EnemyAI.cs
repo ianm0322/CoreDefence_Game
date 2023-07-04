@@ -9,6 +9,7 @@ public abstract class EnemyAI : AIController, IEnemyController, IUpdateListener,
 {
     public EnemyKind Kind;
     public EnemyData Data;
+    public AIData AIInfo;
     [field: SerializeField]
     public Transform Target { get; set; }
 
@@ -44,7 +45,7 @@ public abstract class EnemyAI : AIController, IEnemyController, IUpdateListener,
         }
 
         if (Root == null)
-            StartBT();
+            ResetBT();
 
         // SetData
         Anim.SetBool("IsDied", false);

@@ -9,33 +9,30 @@ public class MinionAI : EnemyAI, ILateUpdateListener
 {
     public string DebugState;
 
-    public LayerMask TargetLayer;
-    public string[] TargetTags;
-
     public override RootNode MakeBT()
     {
         return Root(
-            Select(
+            this, Select(
                 new IsParalysisNode(this),
 
                 // Target is exist pattern:
                 Sequence(
                     // Check target is exist
-                    new IsTargetExistNode(this),    
+                    new IsTargetExistNode(this),
                     Select(
                         // Sequence: Escape if target is out of range
-                        Sequence(   
-                            new TimeOverNode(Data.DetectDelay, new CheckTargetOutOfRangeNode(this)),
+                        Sequence(
+                            new TimeOverNode(Data.DetectDelay, new CheckTargetOutOfRangeNode(this.transform, this, AIInfo)),
                             new SetTargetNullNode(this)
                             ),
                         // Sequence: Attack
-                        Sequence(   
+                        Sequence(
                             new CheckAttackableReachNode(this),     // 공격 가능 위치면
                             new AgentStopNode(Agent),               // 에이전트 멈추고
                             new Minion_AttackNode(this)             // 공격
                             ),
                         // Move to target
-                        new ChaseTargetNode(this)   
+                        new ChaseTargetNode(this)
                         )
                     ),
 
@@ -70,15 +67,15 @@ public class MinionAI : EnemyAI, ILateUpdateListener
     {
         base.Awake();
         Scanner = new EntitySelector(
-            new SphereScanner(transform, Data.DetectRange, TargetLayer),
-            new EntityClassifier_MeleeAgent(transform, Agent, TargetTags)
+            new SphereScanner(transform, Data.DetectRange, AIInfo.DetectTargetLayer),
+            new EntityClassifier_MeleeAgent(transform, Agent, AIInfo.DetectTargetTags)
             );
     }
 
     protected override void Start()
     {
         base.Start();
-        StartBT();
+        ResetBT();
     }
 
     private void LookTarget()

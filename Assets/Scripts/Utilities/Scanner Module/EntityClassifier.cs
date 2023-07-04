@@ -13,7 +13,7 @@ public abstract class EntityClassifier : ClassifierModule<Transform>
 
     private bool CompareTags(Transform col)
     {
-        if(tags == null)    // 분류 지정 테그가 없으면 모든 테그에 대해서 허용.
+        if(tags == null || tags.Length == 0)    // 분류 지정 테그가 없으면 모든 테그에 대해서 허용.
         {
             return true;
         }

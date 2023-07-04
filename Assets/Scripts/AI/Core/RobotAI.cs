@@ -9,9 +9,6 @@ public class RobotAI : EnemyAI, ILateUpdateListener, IShooter
 {
     public string DebugState;
 
-    public LayerMask TargetLayer;
-    public string[] TargetTags;
-
     public Transform[] FirePointTr;
     public Transform BodyTr;
     public Transform GunTr;
@@ -19,7 +16,7 @@ public class RobotAI : EnemyAI, ILateUpdateListener, IShooter
     public override RootNode MakeBT()
     {
         return Root(
-            Select(
+            this, Select(
                 new IsParalysisNode(this),
 
                 Sequence(
@@ -33,7 +30,7 @@ public class RobotAI : EnemyAI, ILateUpdateListener, IShooter
                             new RobotShootingNode(this),
                             Success(Sequence(
                                 // Escape
-                                new TimeOverNode(Data.TargetMissingDelay, new CheckTargetOutOfRangeNode(this)),
+                                new TimeOverNode(Data.TargetMissingDelay, new CheckTargetOutOfRangeNode(this.transform, this, AIInfo)),
                                 new SetTargetNullNode(this)
                                 ))
                             ),
@@ -42,7 +39,7 @@ public class RobotAI : EnemyAI, ILateUpdateListener, IShooter
                         )
                     )
                 )
-            ) ;
+            );
     }
 
     protected override void Awake()
@@ -57,7 +54,7 @@ public class RobotAI : EnemyAI, ILateUpdateListener, IShooter
     protected override void Start()
     {
         base.Start();
-        StartBT();
+        ResetBT();
     }
 
     // TEST
