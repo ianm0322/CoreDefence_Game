@@ -89,6 +89,12 @@ public class WavePhase_Battle : WavePhase
                     }
                 }
                 break;
+            case 99:
+                {
+                    e = new EnemySpawnEvent(0, 0, CTType.EnemyKind.Minion, waveManager.TEMP_MINION_DATA);
+                    waveManager.AddEvent(e);
+                }
+                break;
             default:
                 {
                     for (int i = 0; i < waveManager.WaveLevel * 2; i++)

@@ -23,6 +23,6 @@ public abstract class BehaviorTree : MonoBehaviour, IBehaviorTree
 
     public void EndBT()
     {
-        //Root = null;
+        Root = null;
     }
 }

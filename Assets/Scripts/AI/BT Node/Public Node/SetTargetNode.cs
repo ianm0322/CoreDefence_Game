@@ -29,9 +29,14 @@ public class SetTargetNode : ExecutionNode
     protected override BTState OnUpdate()
     {
         var tr = _controller.Scanner.ScanEntity();
-        if(tr != null || _isTargetSetNull == true)
+        if(tr != null)
         {
+            tr.GetComponent<CD_GameObject>().FocusCount++;
             _controller.Target = tr;
+        }
+        else if(_isTargetSetNull == true)
+        {
+            _controller.Target = null;
         }
 
         if(_controller.Target == null)

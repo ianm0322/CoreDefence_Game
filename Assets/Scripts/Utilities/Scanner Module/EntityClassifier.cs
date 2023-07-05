@@ -26,8 +26,23 @@ public abstract class EntityClassifier : ClassifierModule<Transform>
         return false;
     }
 
+    private bool CanFocus(Transform tr)
+    {
+        CD_GameObject obj;
+        if(tr.TryGetComponent(out obj))
+        {
+            if (obj.CanFocus)
+                return true;
+        }
+        return false;
+    }
+
     protected override bool Filter(Transform obj)
     {
-        return CompareTags(obj);   // 목록에 없는 테그를 가진 오브젝트 필터링
+        if (CompareTags(obj) == false)   // 목록에 없는 테그를 가진 오브젝트 필터링
+            return false;
+        if (CanFocus(obj) == false)
+            return false;
+        return true;
     }
 } // public abstract class EntityClassifier : Classifier<Collider>

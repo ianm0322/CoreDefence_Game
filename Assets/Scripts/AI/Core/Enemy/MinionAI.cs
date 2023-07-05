@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static BT.NodeHelper;
-using static BT.Unity.NodeHelperForUnity;
 
 public class MinionAI : EnemyAI, ILateUpdateListener
 {
@@ -13,6 +12,11 @@ public class MinionAI : EnemyAI, ILateUpdateListener
     {
         return Root(
             Select(
+                Sequence(
+                    new IsDiedNode(Body),
+                    new EnemyDIeNode(this)
+                    ),
+
                 new IsParalysisNode(this),
 
                 // Target is exist pattern:

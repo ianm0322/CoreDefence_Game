@@ -956,6 +956,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Hp: 0
   MaxHp: 0
+  FocusCount: 0
+  MaxFocusCount: 3
 --- !u!114 &925932064805574083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -979,6 +981,7 @@ MonoBehaviour:
   Data:
     MaxHp: 15
     Hp: 15
+    MaxFocusCount: 3
     MoveSpeed: 4
     AttackSpeedMultiple: 0.8
     AttackDelay: 0

@@ -7,8 +7,14 @@ public class CD_GameObject : MonoBehaviour
 {
     public int Hp;
     public int MaxHp;
+    public int FocusCount = 0;
+    public int MaxFocusCount = 3;
+
+    public bool CanFocus => FocusCount < MaxFocusCount; // 임시 지정
+
     public bool IsDied { get; private set; } = false;
     public event Action OnDiedEvent;
+
 
     public int GetHp()
     {
@@ -41,7 +47,7 @@ public class CD_GameObject : MonoBehaviour
     public virtual void Die()
     {
         IsDied = true;
-        OnDiedEvent?.Invoke();
+        //OnDiedEvent?.Invoke();
     }
     public virtual void Init()
     {

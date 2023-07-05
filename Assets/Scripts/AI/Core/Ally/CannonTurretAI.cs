@@ -2,19 +2,15 @@ using BT;
 using static BT.NodeHelper;
 using UnityEngine;
 
-public class SimpleTurretAI : FacilityAI, IShooter, ITargetter
+public class CannonTurretAI : FacilityAI, IShooter
 {
     public Transform GunTr;
     public Transform HeadTr;
 
-    [field: SerializeField]
-    public Transform Target { get; set; }
-    public EntitySelector Scanner { get; set; }
-
     protected override void Awake()
     {
-        TestUpdateManager.Instance.update.Add(this.gameObject);
         base.Awake();
+        TestUpdateManager.Instance.update.Add(this.gameObject);
         Scanner = new EntitySelector(
             new SphereScanner(HeadTr, AIInfo.DetectRange, AIInfo.DetectTargetLayer),
             new EntityClassifier_RayClassifier(HeadTr, AIInfo.DetectTargetTags)
@@ -32,7 +28,7 @@ public class SimpleTurretAI : FacilityAI, IShooter, ITargetter
                     new LookAtTargetNode(this, HeadTr, new Vector3(0, -90, 5), new Vector3(1, 1, -1), AxisOrder.ZYX),
 
                     Select(
-                        new SimpleTurretShootingNode(this, Data), 
+                        new SimpleTurretShootingNode(this, Data),
                         Sequence(   // Target out of range sequence
                             new CheckTargetOutOfRangeNode(this.transform, this, AIInfo),
                             new SetTargetNullNode(this)

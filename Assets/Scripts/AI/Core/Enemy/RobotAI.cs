@@ -17,6 +17,12 @@ public class RobotAI : EnemyAI, ILateUpdateListener, IShooter
     {
         return Root(
             Select(
+                Sequence(
+                    new IsDiedNode(Body),
+                    LeafLog("A"),
+                    new EnemyDIeNode(this)
+                    ),
+
                 new IsParalysisNode(this),
 
                 Sequence(

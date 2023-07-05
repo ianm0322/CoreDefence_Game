@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2012425467031533742
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4067371220975023673}
+  m_Layer: 8
+  m_Name: BottomPoint
+  m_TagString: Facility
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4067371220975023673
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2012425467031533742}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6387644973184051963}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6388568543800270937
 GameObject:
   m_ObjectHideFlags: 0
@@ -11,7 +42,7 @@ GameObject:
   - component: {fileID: 6387644973372661893}
   - component: {fileID: 6403680970648485091}
   - component: {fileID: 6411712843649619569}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +127,7 @@ GameObject:
   - component: {fileID: 6387644972221417211}
   - component: {fileID: 6403680965987701731}
   - component: {fileID: 6411712846208590079}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PylonElement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -179,7 +210,7 @@ GameObject:
   - component: {fileID: 6387644976837140195}
   - component: {fileID: 6403680969305863193}
   - component: {fileID: 6411712844329975483}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -264,7 +295,7 @@ GameObject:
   - component: {fileID: 6387644973678549767}
   - component: {fileID: 6403680969009183121}
   - component: {fileID: 6411712846053156585}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BaseElement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -347,7 +378,7 @@ GameObject:
   - component: {fileID: 6387644970991638763}
   - component: {fileID: 6403680968795092529}
   - component: {fileID: 6411712846359949119}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -429,11 +460,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6387644973184051963}
+  - component: {fileID: 5019925861244855895}
   - component: {fileID: 6387644973184051962}
   - component: {fileID: 7313408270315554371}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Turret 1a
-  m_TagString: Untagged
+  m_TagString: Facility
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -451,9 +483,26 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6387644973372661893}
+  - {fileID: 4067371220975023673}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5019925861244855895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6388568547224564177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16b6760f689e08e4ca0c1debf2ef4996, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Hp: 0
+  MaxHp: 0
+  FocusCount: 0
+  MaxFocusCount: 10
 --- !u!114 &6387644973184051962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -471,12 +520,13 @@ MonoBehaviour:
   Agent: {fileID: 0}
   Collider: {fileID: 0}
   Anim: {fileID: 0}
-  GroundRayTr: {fileID: 0}
+  GroundRayTr: {fileID: 4067371220975023673}
   IsParalysis: 0
   id: 0
   Data:
     MaxHp: 200
     Hp: 200
+    MaxFocusCount: 3
     MoveSpeed: 10
     AttackSpeedMultiple: 0.8
     AttackDelay: 0.3
@@ -501,9 +551,9 @@ MonoBehaviour:
     TargetMissingDelay: 1
     DetectRange: 10
     DetectDelay: 1
+  facilityScale: {x: 2.4, y: 1.7, z: 2.4}
   GunTr: {fileID: 6389284881746079905}
   HeadTr: {fileID: 6387644975094491641}
-  <Target>k__BackingField: {fileID: 0}
 --- !u!65 &7313408270315554371
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -528,7 +578,7 @@ GameObject:
   - component: {fileID: 6387644975094491641}
   - component: {fileID: 6403680967943787319}
   - component: {fileID: 6411712845623598241}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Turret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -610,7 +660,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6389284881746079905}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Gun Tr
   m_TagString: Untagged
   m_Icon: {fileID: 0}

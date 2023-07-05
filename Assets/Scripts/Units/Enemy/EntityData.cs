@@ -6,6 +6,7 @@ public class EntityData
     [Header("Body")]
     public int MaxHp;
     public int Hp;
+    public int MaxFocusCount = 3;
 
     [Header("Agent")]
     public float MoveSpeed = 10;    // 평상시 이동속도
@@ -25,6 +26,7 @@ public class EntityData
     {
         MaxHp = data.MaxHp;
         Hp = data.Hp;
+        MaxFocusCount = data.MaxFocusCount;
         AttackDamage = data.AttackDamage;
         AttackDelay = data.AttackDelay;
         AttackSpeed = data.AttackSpeed;

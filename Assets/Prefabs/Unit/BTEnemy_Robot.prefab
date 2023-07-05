@@ -9926,6 +9926,7 @@ MonoBehaviour:
   Data:
     MaxHp: 6
     Hp: 6
+    MaxFocusCount: 3
     MoveSpeed: 10
     AttackSpeedMultiple: 0.8
     AttackDelay: 1
@@ -9952,6 +9953,7 @@ MonoBehaviour:
     DetectTargetLayer:
       serializedVersion: 2
       m_Bits: 384
+    DetectTargetTags: []
     AttackTargetRange: 10
     TargetMissingRange: 10
     TargetMissingDelay: 1
@@ -9959,10 +9961,6 @@ MonoBehaviour:
     DetectDelay: 1
   <Target>k__BackingField: {fileID: 0}
   DebugState: 
-  TargetLayer:
-    serializedVersion: 2
-    m_Bits: 384
-  TargetTags: []
   FirePointTr:
   - {fileID: 3805908539301184440}
   - {fileID: 3805908537627504001}
@@ -9982,6 +9980,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Hp: 10
   MaxHp: 10
+  FocusCount: 0
+  MaxFocusCount: 3
 --- !u!95 &3805908538252017994
 Animator:
   serializedVersion: 5
@@ -10024,7 +10024,7 @@ NavMeshAgent:
   m_Height: 0.09
   m_BaseOffset: 0.02
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 1
+  m_ObstacleAvoidanceType: 4
 --- !u!54 &3805908538252017992
 Rigidbody:
   m_ObjectHideFlags: 0

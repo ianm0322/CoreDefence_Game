@@ -4,61 +4,79 @@ using UnityEngine;
 
 public class BuilderManager : MonoSingleton<BuilderManager>
 {
-    public Transform GuideTr;
+    public BuildGuiderScript Guide;
+    private Transform _guideTr;
     public Transform[] GuideRayPoints;
     public GameObject Prefab;
+    private FacilityAI _prefabData;
 
     [Header("Facilities")]
     public float facilitiesStandardUnit;
 
-
     public bool IsBuildMode = false;
 
-    Ray ray = new Ray();
+    private Coroutine _buildModeCoroutine;
+    private Ray ray = new Ray();
+    private Collider[] _cols = new Collider[1];  // Guide 충돌 검사용 임시 변수
 
     protected override void Awake()
     {
         base.Awake();
-
+        _guideTr = Guide.transform;
 
         GuideRayPoints = new Transform[4];
         for (int i = 0; i < 4; i++)
         {
-            GuideRayPoints[i] = GuideTr.transform.GetChild(i);
+            GuideRayPoints[i] = _guideTr.transform.GetChild(i);
         }
+
+        // TEST
+        Prefab.TryGetComponent(out _prefabData);
+        _buildModeCoroutine = StartCoroutine(OnBuildModeCoroutine());
     }
 
-    private void Update()
+    private IEnumerator OnBuildModeCoroutine()
     {
-        if (IsBuildMode)
+        yield return null;
+        RaycastHit hit;
+        _guideTr.gameObject.SetActive(true);
+        while (IsBuildMode)
         {
-            RaycastHit hit;
-            GuideTr.gameObject.SetActive(true);
+
+            _guideTr.localScale = _prefabData.facilityScale;
+
             if (GetMousePosition(out hit))
             {
                 //var v = GetBuildPosition(hit.point + hit.normal * MapManager.Instance.ElementSize * 0.99f);
                 //tr.position = v;
                 var v = hit.point;
-                v.y += GuideTr.localScale.y * 0.5f;
-                GuideTr.position = v;
-                GuideTr.GetComponent<Renderer>().material.color = (IsNotCollisionWithObstacle() && IsEnoughPlace()) ? Color.green : Color.red;
+                v.y += _guideTr.localScale.y * 0.5f;
+                _guideTr.position = v;
+                if (IsPlaceable())
+                {
+                    _guideTr.GetComponent<Renderer>().material.color = Color.green;
+
+                    if (Input.GetMouseButtonDown(1) &&
+                    Physics.OverlapBox(_guideTr.position, _guideTr.localScale * 0.4999f).Length == 0)
+                    {
+                        Build();
+                    }
+                }
+                else
+                {
+                    _guideTr.GetComponent<Renderer>().material.color = Color.red;
+                }
             }
-            if (Input.GetMouseButtonDown(1) &&
-                Physics.OverlapBox(GuideTr.position, GuideTr.localScale * 0.49f).Length == 0)
-            {
-                Build();
-            }
+            
+            yield return null;
         }
-        else
-        {
-            GuideTr.gameObject.SetActive(false);
-        }
+        _guideTr.gameObject.SetActive(false);
     }
 
     public void Build()
     {
         var obj = Instantiate(Prefab);
-        obj.transform.position = GuideTr.position;
+        obj.transform.position = _guideTr.position + Vector3.down * _guideTr.localScale.y * 0.5f;
     }
 
     public bool GetMousePosition(out RaycastHit hit)
@@ -67,15 +85,20 @@ public class BuilderManager : MonoSingleton<BuilderManager>
         return Physics.Raycast(ray, out hit, float.PositiveInfinity, LayerMask.GetMask("Wall"));
     }
 
+    public bool IsPlaceable()
+    {
+        return IsNotCollisionWithObstacle() && IsEnoughPlace();
+    }
+
     /// <summary>
     /// 설치하려는 위치에 다른 오브젝트가 겹쳐 존재하는지 검사.
     /// </summary>
     /// <returns></returns>
     public bool IsNotCollisionWithObstacle()
     {
-        Collider[] cols = new Collider[2];  // 하나만 충돌해도 false이므로 size는 2. (cols[0]은 항상 자기 자신.)
-        Physics.OverlapBoxNonAlloc(GuideTr.position, GuideTr.localScale * 0.49999f, cols, GuideTr.rotation, LayerMask.GetMask("Wall", "Facility")); // 벽과 설치물만 감지함.
-        return cols[1] == null; // 충돌된 게 없으면 true 반환
+        _cols[0] = null;
+        Physics.OverlapBoxNonAlloc(_guideTr.position, _guideTr.localScale * 0.49999f, _cols, _guideTr.rotation, LayerMask.GetMask("Wall", "Facility")); // 벽과 설치물만 감지함.
+        return _cols[0] == null; // 충돌된 게 없으면 true 반환
     }
 
     /// <summary>
@@ -96,7 +119,6 @@ public class BuilderManager : MonoSingleton<BuilderManager>
         }
         return true;// 네 꼭지점 모두 문제 없으면 true 반환
     }
-
     #region Builder utilities
     public Vector3 GetBuildPosition(Vector3 pos)
     {

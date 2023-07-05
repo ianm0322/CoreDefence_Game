@@ -18,7 +18,7 @@ public abstract class AIController : BehaviorTree
     public Animator Anim;
 
     [SerializeField]
-    private Transform GroundRayTr;
+    protected Transform GroundRayTr;
 
     public bool IsParalysis = false;
 

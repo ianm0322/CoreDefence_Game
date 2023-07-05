@@ -15,15 +15,13 @@ public abstract class EnemyAI : AIController, IEnemyController, IUpdateListener,
 
     public EntitySelector Scanner { get; set; }
 
-    private Coroutine _dieCoroutine;
-
     protected virtual void Start()
     {
-        Body.OnDiedEvent += OnDied;
     }
 
     protected virtual void Update()
     {
+        Debug.Log("in ai: "+Body.Hp);
     }
 
     public virtual void InitForInstantiate()
@@ -32,8 +30,7 @@ public abstract class EnemyAI : AIController, IEnemyController, IUpdateListener,
 
     public virtual void OnUpdate()
     {
-        if (!Body.IsDied)
-            Operate();
+        Operate();
     }
 
     public virtual void OnCreateFromPool(object dataObj)
@@ -59,30 +56,7 @@ public abstract class EnemyAI : AIController, IEnemyController, IUpdateListener,
     public virtual void OnPushToPool()
     {
         gameObject.SetActive(false);
-
-        if (_dieCoroutine != null)
-        {
-            StopCoroutine(_dieCoroutine);
-            _dieCoroutine = null;
-        }
     }
-
-    protected virtual void OnDied()
-    {
-        Anim.SetBool("IsDied", true);
-        Agent.enabled = false;
-        Collider.enabled = false;
-
-        _dieCoroutine = StartCoroutine(DieCoroutine());
-    }
-
-    private IEnumerator DieCoroutine()
-    {
-        yield return new WaitForSeconds(5f);
-        EntityManager.Instance.DestroyEnemy(this);
-        _dieCoroutine = null;
-    }
-
     /// <summary>
     /// EnemyData를 현재 상태에 반영하는 메서드.
     /// </summary>
@@ -94,6 +68,7 @@ public abstract class EnemyAI : AIController, IEnemyController, IUpdateListener,
         // Body
         Body.MaxHp = Data.MaxHp;
         Body.Hp = Data.Hp;
+        Body.MaxFocusCount = Data.MaxFocusCount;
 
         // Anim
         Anim.SetFloat("AttackSpeed", Data.AttackSpeed);
