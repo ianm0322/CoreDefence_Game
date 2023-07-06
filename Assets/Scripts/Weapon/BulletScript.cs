@@ -10,12 +10,12 @@ public class BulletScript : BulletBase
 
     protected override void OnFired()
     {
-        Debug.Log(_prePos);
         _count = 0;
     }
 
     protected override void MovePosition()
     {
+        Debug.Log("A");
         Vector3 moveVector = this.transform.forward * Data.speed * Time.fixedDeltaTime;
         _rigid.MovePosition(_rigid.position + moveVector);
     }
