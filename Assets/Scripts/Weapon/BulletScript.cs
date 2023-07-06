@@ -10,6 +10,7 @@ public class BulletScript : BulletBase
 
     protected override void OnFired()
     {
+        base.OnFired();
         _count = 0;
     }
 

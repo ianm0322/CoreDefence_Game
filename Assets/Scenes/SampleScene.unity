@@ -63454,7 +63454,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51b30d1ae34669849947731375d9fbe4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 9110672733018737811, guid: a40acbc6cbc54fb46aba8ba42bf55c19, type: 3}
+  bulletPrefab: {fileID: 9110672733018737811, guid: 127cd4e9d0905554e810b7f142a1cd24, type: 3}
   _enemyPrefabList:
   - kind: 0
     prefab: {fileID: 925932064805574083, guid: 25c8f39b620691945ab31f9d1ea96d3f, type: 3}

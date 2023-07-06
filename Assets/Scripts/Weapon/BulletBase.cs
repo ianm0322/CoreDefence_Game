@@ -38,12 +38,13 @@ public abstract class BulletBase : MonoBehaviour, IPoolingObject, IFixedUpdateLi
 
     public void OnFixedUpdate()
     {
-        if(_onFire == false)    // 총알 생성 후 최초 1회만
+        if (_onFire == false)    // 총알 생성 후 최초 1회만
         {
             _onFire = true;
             _prePos = transform.position;
             _curPos = _prePos;
             _deltaPos = Vector3.zero;
+            _trail.emitting = true;
             OnFired();
         }
 
@@ -55,18 +56,18 @@ public abstract class BulletBase : MonoBehaviour, IPoolingObject, IFixedUpdateLi
     {
         CalculateDeltaPos();
 
-        if(IsLivingTime() == false || IsLivingDist(_deltaPos) == false || CheckInsideOfBoundary() == false)
+        if (IsLivingTime() == false || IsLivingDist(_deltaPos) == false || CheckInsideOfBoundary() == false)
         {
             DestroyBullet();
         }
 
         _hit = Physics.SphereCastAll(_prePos, _radius, _deltaPos.normalized, _deltaPos.magnitude, _layer);
-        if(_hit.Length > 0)
+        if (_hit.Length > 0)
         {
             OnHit(_hit);
         }
 
-        if(_isDied == false)
+        if (_isDied == false)
         {
             MovePosition();
         }
@@ -134,7 +135,7 @@ public abstract class BulletBase : MonoBehaviour, IPoolingObject, IFixedUpdateLi
     /// <returns></returns>
     private bool IsLivingDist(Vector3 vector)
     {
-        if(MathUtility.CompareDist(vector, _lifeDist) <= 0)
+        if (MathUtility.CompareDist(vector, _lifeDist) <= 0)
         {
             _lifeDist -= vector.magnitude;
             return true;
@@ -177,6 +178,7 @@ public abstract class BulletBase : MonoBehaviour, IPoolingObject, IFixedUpdateLi
     private IEnumerator DestroyRoutine()
     {
         _isDied = true;
+        _trail.emitting = false;
         yield return null;
         _render.enabled = false;
         yield return new WaitForSeconds(_trail.time);
@@ -211,7 +213,7 @@ public abstract class BulletBase : MonoBehaviour, IPoolingObject, IFixedUpdateLi
 
             _lifeTime = Time.time;
             _lifeDist = _data.lifeDistance;
-            _trail.emitting = true;
+            _onFire = false;
 
             _radius = transform.localScale.x * _collider.radius;
 
@@ -223,8 +225,6 @@ public abstract class BulletBase : MonoBehaviour, IPoolingObject, IFixedUpdateLi
 
     public virtual void OnPushToPool()
     {
-        _trail.emitting = false;
-        _onFire = false;
     }
     #endregion
 }

@@ -7,15 +7,6 @@ using static CTType;
 public class EntityManager : MonoSingleton<EntityManager>
 {
     [System.Serializable]
-    [Obsolete]
-    private class OldEnemyPrefabNode
-    {
-        public EnemyKind kind;
-        public EnemyAIController prefab;
-        //public EnemyAI prefab; for BT
-    }
-
-    [System.Serializable]
     private class EnemyPrefabNode
     {
         public EnemyKind kind;
