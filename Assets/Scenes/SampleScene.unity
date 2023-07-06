@@ -2020,6 +2020,7 @@ MonoBehaviour:
       damage: 0
       lifeTime: 0
       lifeDistance: 0
+      penetraitCount: 0
   TEMP_ROBOT_DATA:
     MaxHp: 6
     Hp: 6
@@ -2046,6 +2047,7 @@ MonoBehaviour:
       damage: 1
       lifeTime: 1
       lifeDistance: 30
+      penetraitCount: 0
 --- !u!1 &31417987
 GameObject:
   m_ObjectHideFlags: 0
@@ -69713,6 +69715,7 @@ MonoBehaviour:
     damage: 10
     lifeTime: 5
     lifeDistance: 20
+    penetraitCount: 0
   gunTr: {fileID: 816504882}
   fireDelay: 0.02
   lookDir: {x: 0, y: 0, z: 0}
@@ -71469,6 +71472,7 @@ MonoBehaviour:
     damage: 1
     lifeTime: 10
     lifeDistance: 100
+    penetraitCount: 0
   AttackDelay: 0.5
   AttackSpeed: 1
   AttackRange: 10
@@ -136479,6 +136483,7 @@ MonoBehaviour:
       damage: 1
       lifeTime: 10
       lifeDistance: 10
+      penetraitCount: 0
   AIInfo:
     DetectTargetLayer:
       serializedVersion: 2
@@ -136865,6 +136870,18 @@ PrefabInstance:
     - target: {fileID: 6819676883396862409, guid: 5229cf7ba06bd6d4780f19f0d6e9c72d, type: 3}
       propertyPath: m_Name
       value: Weapon_Rifle
+      objectReference: {fileID: 0}
+    - target: {fileID: 6819676883396862410, guid: 5229cf7ba06bd6d4780f19f0d6e9c72d, type: 3}
+      propertyPath: Data.Bullet.speed
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6819676883396862410, guid: 5229cf7ba06bd6d4780f19f0d6e9c72d, type: 3}
+      propertyPath: Data.Bullet.lifeTime
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6819676883396862410, guid: 5229cf7ba06bd6d4780f19f0d6e9c72d, type: 3}
+      propertyPath: Data.Bullet.penetraitCount
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7565768264094503898, guid: 5229cf7ba06bd6d4780f19f0d6e9c72d, type: 3}
       propertyPath: m_RootOrder

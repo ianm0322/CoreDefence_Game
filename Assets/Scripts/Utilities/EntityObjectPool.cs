@@ -57,6 +57,7 @@ public class EntityObjectPool<T> : IObjectPool<T> where T : MonoBehaviour, IPool
         // 초기화하고
         obj.transform.parent = Parent;
         // 풀에 넣기
+        obj.OnPushToPool();
         pool.Enqueue(obj);
     }
 

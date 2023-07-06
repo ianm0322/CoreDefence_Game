@@ -23,8 +23,8 @@ public class EntityManager : MonoSingleton<EntityManager>
     }
 
     // Bullet Object Pool
-    private ManagedObjectPool<BulletScript> bulletPool;
-    private List<BulletScript> liveBulletList = new List<BulletScript>();
+    private ManagedObjectPool<BulletBase> bulletPool;
+    private List<BulletBase> liveBulletList = new List<BulletBase>();
     [SerializeField]
     private GameObject bulletPrefab;
 
@@ -40,7 +40,7 @@ public class EntityManager : MonoSingleton<EntityManager>
 
     void Start()
     {
-        bulletPool = new ManagedObjectPool<BulletScript>(bulletPrefab.GetComponent<BulletScript>(), this.transform, 100);
+        bulletPool = new ManagedObjectPool<BulletBase>(bulletPrefab.GetComponent<BulletBase>(), this.transform, 100);
         InitEnemyPool();
     }
 
@@ -72,27 +72,27 @@ public class EntityManager : MonoSingleton<EntityManager>
     #region Bullet object pool methods
 
     // create
-    public BulletScript CreateBullet(BulletData data)
+    public BulletBase CreateBullet(BulletData data)
     {
-        BulletScript _bullet = bulletPool.CreateObject(data);
-        liveBulletList.Add(_bullet);
-        return _bullet;
+        BulletBase bullet = bulletPool.CreateObject(data);
+        liveBulletList.Add(bullet);
+        return bullet;
     }
-    public BulletScript CreateBullet(BulletData data, Vector3 position, Quaternion rotation)
+    public BulletBase CreateBullet(BulletData data, Vector3 position, Quaternion rotation)
     {
         // ¸¸µé°í
-        BulletScript bullet = CreateBullet(data);
+        BulletBase bullet = CreateBullet(data);
         bullet.transform.position = position;   // set position
         bullet.transform.rotation = rotation;   // set
         return bullet;
     }
-    public BulletScript CreateBullet(BulletData data, Transform transform)
+    public BulletBase CreateBullet(BulletData data, Transform transform)
     {
         return CreateBullet(data, transform.position, transform.rotation);
     }
 
     // destroy
-    public void DestroyBullet(BulletScript bullet)
+    public void DestroyBullet(BulletBase bullet)
     {
         bulletPool.PushObject(bullet);
         liveBulletList.Remove(bullet);

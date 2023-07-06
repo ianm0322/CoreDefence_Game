@@ -21,7 +21,6 @@ public abstract class EnemyAI : AIController, IEnemyController, IUpdateListener,
 
     protected virtual void Update()
     {
-        Debug.Log("in ai: "+Body.Hp);
     }
 
     public virtual void InitForInstantiate()

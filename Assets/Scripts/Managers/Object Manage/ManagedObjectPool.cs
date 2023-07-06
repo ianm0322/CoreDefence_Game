@@ -60,7 +60,7 @@ public class ManagedObjectPool<T> : IObjectPool<T>, IUpdateListener, IFixedUpdat
     public void OnUpdate()
     {
         T target;
-        for (int i = 0, end = ActiveList.Count; i < end; i++)
+        for (int i = ActiveList.Count - 1, end = 0; i >= end; i--)
         {
             target = ActiveList[i];
             (target as IUpdateListener)?.OnUpdate();

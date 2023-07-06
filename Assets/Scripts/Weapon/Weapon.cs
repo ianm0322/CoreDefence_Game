@@ -123,7 +123,7 @@ public abstract class WeaponBase : MonoBehaviour
     /// 총알을 생성하고 초기화하는 메서드
     /// </summary>
     /// <returns></returns>
-    public BulletScript CreateNewBullet()
+    public BulletBase CreateNewBullet()
     {
         var bullet = ProduceBullet();
         Vector3 angle = bullet.transform.eulerAngles;
@@ -134,7 +134,7 @@ public abstract class WeaponBase : MonoBehaviour
         return bullet;
     }
 
-    public BulletScript ProduceBullet()
+    public BulletBase ProduceBullet()
     {
         var bullet = EntityManager.Instance.CreateBullet(Data.Bullet, GunPointTr);
         return bullet;

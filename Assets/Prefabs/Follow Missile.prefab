@@ -9,14 +9,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9110672733018737814}
-  - component: {fileID: 9110672733018737810}
+  - component: {fileID: 1376444859144092162}
   - component: {fileID: 9110672733018737815}
   - component: {fileID: 9110672733018737812}
   - component: {fileID: 9110672733018737813}
   - component: {fileID: 9110672733018737817}
   - component: {fileID: 9110672733018737816}
   m_Layer: 0
-  m_Name: Test_Bullet
+  m_Name: Follow Missile
   m_TagString: EnemyBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37,7 +37,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9110672733018737810
+--- !u!114 &1376444859144092162
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -46,15 +46,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 9110672733018737811}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8dd0f2c231d351e418477781e3819bc1, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d52c1b95c9b6eb468ad89c1e857f872, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Data:
     tag: 
-    speed: 100
-    damage: 1
-    lifeTime: 1
-    lifeDistance: 1
+    speed: 0
+    damage: 0
+    lifeTime: 0
+    lifeDistance: 0
 --- !u!33 &9110672733018737815
 MeshFilter:
   m_ObjectHideFlags: 0

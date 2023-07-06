@@ -108,15 +108,7 @@ public class PlayerController : MonoBehaviour
 
     private void ShootingUpdate()
     {
-        RaycastHit hit;
-        if (Physics.Raycast(Camera.main.ViewportPointToRay(Vector3.one * 0.5f), out hit, float.PositiveInfinity))
-        {
-            gunTr.LookAt(hit.point);
-        }
-        else
-        {
-            gunTr.rotation = Quaternion.Euler(_playerMovement.LookDirection);
-        }
+        gunTr.LookAt(Camera.main.transform.position + Camera.main.transform.forward * 1000f);
 
         if (Input.GetButtonDown("Fire1"))
         {
