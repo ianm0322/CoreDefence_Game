@@ -10,7 +10,6 @@ public class SimpleTurretAI : FacilityAI, IShooter
     protected override void Awake()
     {
         base.Awake();
-        UpdateManager.Instance.update.Add(this.gameObject);
         Scanner = new EntitySelector(
             new SphereScanner(HeadTr, AIInfo.DetectRange, AIInfo.DetectTargetLayer),
             new EntityClassifier_RayClassifier(HeadTr, AIInfo.DetectTargetTags)

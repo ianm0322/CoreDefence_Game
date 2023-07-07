@@ -6,7 +6,6 @@ public class CannonBullet : BulletBase
 {
     protected override void MovePosition()
     {
-        Debug.Log("A");
         Vector3 moveVector = this.transform.forward * Data.speed * Time.fixedDeltaTime;
         _rigid.MovePosition(_rigid.position + moveVector);
         _rigid.AddForce(Physics.gravity * 10f, ForceMode.Acceleration);

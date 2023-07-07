@@ -3,6 +3,7 @@
 [Serializable]
 public class BulletData
 {
+    public BulletKind type;
     public string tag;
     public float speed;
     public int damage;
@@ -13,6 +14,7 @@ public class BulletData
     public BulletData() { }
     public BulletData(BulletData data)
     {
+        type = data.type;
         tag = data.tag;
         speed = data.speed;
         damage = data.damage;

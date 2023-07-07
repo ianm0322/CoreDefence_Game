@@ -13,9 +13,22 @@ public class EntityManager : MonoSingleton<EntityManager>
         public EnemyAI prefab;
     }
 
+    [System.Serializable]
+    private class BulletPrefabNode
+    {
+        public EnemyKind kind;
+        public EnemyAI prefab;
+    }
+
     // Bullet Object Pool
+    [SerializeField]
+    private List<BulletPrefabNode> _bulletPrefabList;
+    private Dictionary<BulletKind, ManagedObjectPool<BulletBase>> _bulletPoolDict;
+    
+
+    [Obsolete]
     private ManagedObjectPool<BulletBase> bulletPool;
-    private List<BulletBase> liveBulletList = new List<BulletBase>();
+    [Obsolete]
     [SerializeField]
     private GameObject bulletPrefab;
 
@@ -60,13 +73,13 @@ public class EntityManager : MonoSingleton<EntityManager>
         }
     }
 
-    #region Bullet object pool methods
+    #region [Bullet object pool methods]
 
     // create
     public BulletBase CreateBullet(BulletData data)
     {
         BulletBase bullet = bulletPool.CreateObject(data);
-        liveBulletList.Add(bullet);
+        //BulletBase bullet = _bulletPoolDict[data.type].CreateObject(data);
         return bullet;
     }
     public BulletBase CreateBullet(BulletData data, Vector3 position, Quaternion rotation)
@@ -86,7 +99,6 @@ public class EntityManager : MonoSingleton<EntityManager>
     public void DestroyBullet(BulletBase bullet)
     {
         bulletPool.PushObject(bullet);
-        liveBulletList.Remove(bullet);
         return;
     }
     #endregion
@@ -125,37 +137,5 @@ public class EntityManager : MonoSingleton<EntityManager>
         }
         return liveCount;
     }
-    #region For BT
-    //private void InitEnemyPool()
-    //{
-    //    _enemyPoolDict = new Dictionary<EnemyKind, ManagedObjectPool<EnemyAI>>();
-    //    foreach (var enemy in enemyPrefabList)
-    //    {
-    //        _enemyPoolDict.Add(enemy.kind, new ManagedObjectPool<EnemyAI>(enemy.prefab, this.transform));
-    //    }
-    //}
-
-    //public EnemyAI CreateEnemy(EnemyKind kind, EnemyData data)
-    //{
-    //    EnemyAI enemy = _enemyPoolDict[kind].CreateObject(data);
-    //    return enemy;
-    //}
-
-    //public void DestroyEnemy(EnemyAI returnInstance)
-    //{
-    //    EnemyKind kind = returnInstance.Kind;
-    //    _enemyPoolDict[kind].PushObject(returnInstance);
-    //}
-
-    //public int GetLiveEnemyCount()
-    //{
-    //    int liveCount = 0;
-    //    foreach (var pool in _enemyPoolDict.Values)
-    //    {
-    //        liveCount += pool.ActiveList.Count;
-    //    }
-    //    return liveCount;
-    //}
-    #endregion For BT
     #endregion [Enemy Object Pool]
 }

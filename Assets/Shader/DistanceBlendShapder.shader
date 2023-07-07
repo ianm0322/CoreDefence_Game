@@ -13,8 +13,10 @@ Shader "Custom/DistanceBlendShapder"
         Tags { "RenderType" = "Transparent" "Queue" = "Transparent" }
         LOD 200
 
+        Cull Off ZWrite Off ZTest Always
+
         CGPROGRAM
-        #pragma surface surf Lambert alpha:blend
+        #pragma surface surf Lambert noshadow noambient alpha:fade 
 
         #pragma target 3.0
 
@@ -34,18 +36,15 @@ Shader "Custom/DistanceBlendShapder"
 
         void surf (Input IN, inout SurfaceOutput o)
         {
-            float dist = distance(IN.worldPos, _WorldSpaceCameraPos);   //tanh ( dist * power - offset ) * gap/2 + gap/2
-            
-
-            float gap = (_MaxAlpha - _MinAlpha) * 0.5f;
+            float dist = distance(IN.worldPos, _WorldSpaceCameraPos);   
+            float gap = (_MaxAlpha - _MinAlpha) * 0.5f;                       // tanh ( dist * power - offset ) * gap/2 + gap/2
             float a = tanh(dist * _Power - _Dist) * gap + gap + _MinAlpha;  // Power°¡ ¹®Á¦°¡ ÀÖ¾î...¹º°¡ ¹º°¡...
 
-            //a = dist - 1;
-            
-            o.Emission = _Color.rgb;
+
             o.Alpha = saturate(a);
+            o.Emission = _Color.rgb;
         }
         ENDCG
     }
-    FallBack "Diffuse"
+    FallBack "Transparent"
 }
