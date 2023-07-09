@@ -21036,7 +21036,7 @@ RectTransform:
   - {fileID: 2014496537}
   - {fileID: 1563256324}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -63456,7 +63456,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51b30d1ae34669849947731375d9fbe4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bulletPrefabList: []
+  _bulletPrefabList:
+  - kind: 0
+    prefab: {fileID: 9110672733018737810, guid: a40acbc6cbc54fb46aba8ba42bf55c19, type: 3}
+  - kind: 1
+    prefab: {fileID: 1566661805370442519, guid: 127cd4e9d0905554e810b7f142a1cd24, type: 3}
   bulletPrefab: {fileID: 9110672733018737811, guid: 127cd4e9d0905554e810b7f142a1cd24, type: 3}
   _enemyPrefabList:
   - kind: 0
@@ -69735,8 +69739,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16b6760f689e08e4ca0c1debf2ef4996, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Hp: 2147483647
-  MaxHp: 2147483647
+  Hp: 1000
+  MaxHp: 1000
   FocusCount: 0
   MaxFocusCount: 3
 --- !u!1 &1067485083
@@ -71047,8 +71051,12 @@ PrefabInstance:
       value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 6819676883396862410, guid: 5229cf7ba06bd6d4780f19f0d6e9c72d, type: 3}
+      propertyPath: Data.Bullet.type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6819676883396862410, guid: 5229cf7ba06bd6d4780f19f0d6e9c72d, type: 3}
       propertyPath: Data.Bullet.speed
-      value: 100
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 6819676883396862410, guid: 5229cf7ba06bd6d4780f19f0d6e9c72d, type: 3}
       propertyPath: Data.MaxAmmoAmount
@@ -71068,7 +71076,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7565768264094503898, guid: 5229cf7ba06bd6d4780f19f0d6e9c72d, type: 3}
       propertyPath: m_RootOrder
-      value: 15
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 7565768264094503898, guid: 5229cf7ba06bd6d4780f19f0d6e9c72d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -87778,7 +87786,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1373366813
 GameObject:
@@ -100349,6 +100357,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1563256324}
   - component: {fileID: 1563256325}
+  - component: {fileID: 1563256326}
   m_Layer: 5
   m_Name: Slider
   m_TagString: Untagged
@@ -100373,11 +100382,11 @@ RectTransform:
   m_Father: {fileID: 330178927}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -621.03925, y: -470.91516}
-  m_SizeDelta: {x: 472.8679, y: 120.6931}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 45.97101, y: 0}
+  m_SizeDelta: {x: 470.8213, y: 128.1266}
+  m_Pivot: {x: 0, y: 0}
 --- !u!114 &1563256325
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100424,11 +100433,25 @@ MonoBehaviour:
   m_Direction: 0
   m_MinValue: 0
   m_MaxValue: 100
-  m_WholeNumbers: 1
+  m_WholeNumbers: 0
   m_Value: 100
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1563256326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1563256323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df0ae8b00e180d64bb62ddb945952f6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider: {fileID: 0}
+  player: {fileID: 0}
 --- !u!1 &1575752033
 GameObject:
   m_ObjectHideFlags: 0
@@ -136601,7 +136624,7 @@ Transform:
   m_Children:
   - {fileID: 4000011917579880}
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4000011586100247
 MonoBehaviour:

@@ -2,22 +2,23 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 using static CTType;
 
 public class EntityManager : MonoSingleton<EntityManager>
 {
-    [System.Serializable]
+    [Serializable]
     private class EnemyPrefabNode
     {
         public EnemyKind kind;
         public EnemyAI prefab;
     }
 
-    [System.Serializable]
+    [Serializable]
     private class BulletPrefabNode
     {
-        public EnemyKind kind;
-        public EnemyAI prefab;
+        public BulletKind kind;
+        public BulletBase prefab;
     }
 
     // Bullet Object Pool
@@ -44,13 +45,19 @@ public class EntityManager : MonoSingleton<EntityManager>
 
     void Start()
     {
-        bulletPool = new ManagedObjectPool<BulletBase>(bulletPrefab.GetComponent<BulletBase>(), this.transform, 100);
+        //bulletPool = new ManagedObjectPool<BulletBase>(bulletPrefab.GetComponent<BulletBase>(), this.transform, 100); [Old version]
+        InitBulletPool();
         InitEnemyPool();
     }
 
     private void FixedUpdate()
     {
-        bulletPool.OnFixedUpdate();
+        //bulletPool.OnFixedUpdate(); [Old version]
+        foreach (var pool in _bulletPoolDict.Values)
+        {
+            pool.OnFixedUpdate();
+        }
+
         foreach (var pool in _enemyPoolDict.Values)
         {
             pool.OnFixedUpdate();
@@ -78,10 +85,11 @@ public class EntityManager : MonoSingleton<EntityManager>
     // create
     public BulletBase CreateBullet(BulletData data)
     {
-        BulletBase bullet = bulletPool.CreateObject(data);
-        //BulletBase bullet = _bulletPoolDict[data.type].CreateObject(data);
+        //BulletBase bullet = bulletPool.CreateObject(data);    [Old version]
+        BulletBase bullet = _bulletPoolDict[data.type].CreateObject(data);
         return bullet;
     }
+
     public BulletBase CreateBullet(BulletData data, Vector3 position, Quaternion rotation)
     {
         // ¸¸µé°í
@@ -98,8 +106,18 @@ public class EntityManager : MonoSingleton<EntityManager>
     // destroy
     public void DestroyBullet(BulletBase bullet)
     {
-        bulletPool.PushObject(bullet);
+        //bulletPool.PushObject(bullet); [Old version]
+        _bulletPoolDict[bullet.Data.type].PushObject(bullet);
         return;
+    }
+
+    private void InitBulletPool()
+    {
+        _bulletPoolDict = new Dictionary<BulletKind, ManagedObjectPool<BulletBase>>();
+        for (int i = 0; i < _bulletPrefabList.Count; i++)
+        {
+            _bulletPoolDict.Add(_bulletPrefabList[i].kind, new ManagedObjectPool<BulletBase>(_bulletPrefabList[i].prefab, this.transform));
+        }
     }
     #endregion
 

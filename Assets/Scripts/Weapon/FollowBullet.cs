@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FollowBullet : BulletBase
+public class FollowBullet : DefaultBullet
 {
     Transform target;
 
@@ -39,5 +39,10 @@ public class FollowBullet : BulletBase
                 return;
             }
         }
+    }
+
+    public void SetTarget(Transform target)
+    {
+        this.target = target;
     }
 }

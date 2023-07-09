@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class BulletScript : BulletBase
+public class DefaultBullet : BulletBase
 {
     int _count;
     List<int> _ignoreColliderId = new List<int>();
