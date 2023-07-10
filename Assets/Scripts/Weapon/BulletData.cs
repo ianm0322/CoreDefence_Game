@@ -10,6 +10,11 @@ public class BulletData
     public float lifeTime;
     public float lifeDistance;
     public int penetraitCount = 1;
+    public float gravity = 0f;
+
+    [UnityEngine.Header("Grenade Only")]
+    public float explosionRange = 0f;
+    public float explosionPower = 0f;
 
     public BulletData() { }
     public BulletData(BulletData data)
@@ -21,5 +26,8 @@ public class BulletData
         lifeTime = data.lifeTime;
         lifeDistance = data.lifeDistance;
         penetraitCount = data.penetraitCount;
+        gravity = data.gravity;
+        explosionRange = data.explosionRange;
+        explosionPower = data.explosionPower;
     }
 }

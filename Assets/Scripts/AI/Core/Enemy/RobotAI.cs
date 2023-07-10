@@ -19,7 +19,6 @@ public class RobotAI : EnemyAI, ILateUpdateListener, IShooter
             Select(
                 Sequence(
                     new IsDiedNode(Body),
-                    LeafLog("A"),
                     new EnemyDIeNode(this)
                     ),
 
@@ -63,18 +62,18 @@ public class RobotAI : EnemyAI, ILateUpdateListener, IShooter
         StartBT();
     }
 
-    // TEST
-    protected override void Update()
-    {
-        base.Update();
-        OnUpdate();
-    }
+    //// TEST
+    //protected override void Update()
+    //{
+    //    base.Update();
+    //    OnUpdate();
+    //}
 
-    private void LateUpdate()
-    {
-        OnLateUpdate();
-    }
-    // end TEST
+    //private void LateUpdate()
+    //{
+    //    OnLateUpdate();
+    //}
+    //// end TEST
 
     public void OnLateUpdate()
     {
@@ -82,15 +81,6 @@ public class RobotAI : EnemyAI, ILateUpdateListener, IShooter
         {
             LookTarget();
             Anim.SetFloat("MoveVelocity", Agent.desiredVelocity.magnitude * 0.25f);
-        }
-    }
-
-    public void SetDebugState(string str)
-    {
-        if (DebugState != str)
-        {
-            DebugState = str;
-            Debug.Log("State Change : " + str);
         }
     }
 

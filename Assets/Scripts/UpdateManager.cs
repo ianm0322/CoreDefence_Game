@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UpdateManager : MonoSingleton<UpdateManager>
 {
-    //public List<GameObject> update;
+    public List<GameObject> Pool;
 
     #region Test
     // 정기 업데이트 리스트
@@ -25,17 +25,16 @@ public class UpdateManager : MonoSingleton<UpdateManager>
         InitCollections();
     }
 
+    private void Start()
+    {
+        foreach (var item in Pool)
+        {
+            Join(item, UpdateType.Update);
+        }
+    }
+
     private void Update()
     {
-        //IUpdateListener obj;
-        //for (int i = 0, end = update.Count; i < end; i++)
-        //{
-        //    if (update[i].TryGetComponent(out obj))
-        //    {
-        //        obj.OnUpdate();
-        //    }
-        //}
-
         // 정기 업데이트 실행
         for (int i = _updateList.Count - 1, end = 0; i >= end; i--)
         {

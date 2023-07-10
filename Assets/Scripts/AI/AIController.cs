@@ -30,35 +30,41 @@ public abstract class AIController : BehaviorTree
         TryGetComponent(out Rigid);
         TryGetComponent(out Agent);
         TryGetComponent(out Collider);
-        TryGetComponent(out Anim);
+        if(TryGetComponent(out Anim) == false)
+        {
+            Anim = GetComponentInChildren<Animator>();
+        }
+
+        GroundRayTr = transform.Find("Ground Ray Tr");
     }
 
-    public void Impact(System.Action forceMethod)
+    public void Impact(System.Action<Rigidbody> forceMethod, float stunDuration = 0f)
     {
         if (_forceCoroutine != null)
             StopCoroutine(_forceCoroutine);
-        _forceCoroutine = StartCoroutine(AddForceCoroutine(forceMethod));
+        _forceCoroutine = StartCoroutine(AddForceCoroutine(forceMethod, stunDuration));
     }
 
-    private IEnumerator AddForceCoroutine(System.Action forceMethod)
+    private IEnumerator AddForceCoroutine(System.Action<Rigidbody> forceMethod, float duration)
     {
         yield return null;
         SetParalysis(true);
 
-        forceMethod();
-
+        forceMethod(Rigid);
+        yield return new WaitForSeconds(duration);
         RaycastHit hit;
         float t = 0f;
         while(t < 3f)
         {
             yield return null;
+            if (Body.IsDied)
+                yield break;
             if(Rigid.velocity.sqrMagnitude < 0.1f)    // 레이가 애매하게 끼어서 작동하지 않을 때를 대비한, 오브젝트가 움직이지 않는 채로 3초 이상 있으면 원래 상태로 복구하는 기능.
                 t += Time.deltaTime;
             if (Physics.Raycast(GroundRayTr.position, Vector3.down, out hit, 0.1f, LayerMask.GetMask("Wall")))
             {
                 break;
             }
-            Debug.Log(t);
         }
 
         SetParalysis(false);
@@ -74,5 +80,10 @@ public abstract class AIController : BehaviorTree
             Agent.enabled = !boolean;
         Rigid.isKinematic = !boolean;
         Collider.material.dynamicFriction = (boolean == true) ? 1f : 0f;
+
+        if(boolean == false)
+        {
+            Rigid.velocity = Vector3.zero;
+        }
     }
 }

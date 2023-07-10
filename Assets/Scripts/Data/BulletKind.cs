@@ -5,5 +5,7 @@ using UnityEngine;
 public enum BulletKind
 {
     Normal,
-    Gravity
+    Gravity,
+    Grenade,
+
 }

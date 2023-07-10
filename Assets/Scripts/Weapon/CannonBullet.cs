@@ -8,7 +8,7 @@ public class CannonBullet : DefaultBullet
     {
         Vector3 moveVector = this.transform.forward * Data.speed * Time.fixedDeltaTime;
         _rigid.MovePosition(_rigid.position + moveVector);
-        _rigid.AddForce(Physics.gravity, ForceMode.Acceleration);
+        _rigid.AddForce(Physics.gravity * Data.gravity, ForceMode.Acceleration);
     }
 
     public override void OnCreateFromPool(object dataObj)
@@ -18,10 +18,15 @@ public class CannonBullet : DefaultBullet
         SetPhysics(true);
     }
 
+    protected override void OnDamageGivingBefore(CD_GameObject obj)
+    {
+        base.OnDamageGivingBefore(obj); 
+    }
+
     public override void OnPushToPool()
     {
         base.OnPushToPool();
-     
+
         SetPhysics(false);
     }
 

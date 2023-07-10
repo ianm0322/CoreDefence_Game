@@ -116,7 +116,7 @@ public abstract class BulletBase : MonoBehaviour, IPoolingObject, IFixedUpdateLi
             );
     }
 
-    private void SetLayerMask()
+    protected virtual void SetLayerMask()
     {
         if (CompareTag("PlayerBullet"))
         {

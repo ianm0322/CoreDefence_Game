@@ -7,18 +7,24 @@ public class DefaultBullet : BulletBase
 {
     int _count;
     List<int> _ignoreColliderId = new List<int>();
+    Vector3 gravity;
 
     protected override void OnFired()
     {
         base.OnFired();
         _count = 0;
+
+        gravity = Vector3.zero;
     }
 
     protected override void MovePosition()
     {
-        Debug.Log("A");
         Vector3 moveVector = this.transform.forward * Data.speed * Time.fixedDeltaTime;
         _rigid.MovePosition(_rigid.position + moveVector);
+
+        gravity += Physics.gravity * Time.fixedDeltaTime;
+        _rigid.MovePosition(_rigid.position + gravity * Time.fixedDeltaTime);
+        //_rigid.AddForce(Physics.gravity * Data.gravity, ForceMode.Acceleration);
     }
 
     protected override void OnHit(RaycastHit[] hit)
@@ -53,5 +59,26 @@ public class DefaultBullet : BulletBase
     {
         base.OnDestroyed();
         _ignoreColliderId.Clear();
+    }
+
+    public override void OnCreateFromPool(object dataObj)
+    {
+        base.OnCreateFromPool(dataObj);
+
+        if(Data.gravity != 0)
+            SetPhysics(true);
+    }
+
+    public override void OnPushToPool()
+    {
+        base.OnPushToPool();
+
+        if (Data.gravity != 0)
+            SetPhysics(false);
+    }
+
+    private void SetPhysics(bool enable)
+    {
+        _rigid.isKinematic = !enable;
     }
 }
