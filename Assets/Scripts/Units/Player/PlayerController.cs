@@ -66,6 +66,7 @@ public class PlayerController : MonoBehaviour
         {
             _weapon.transform.parent = gunTr;
             _weapon.transform.localPosition = Vector3.zero;
+            _weapon.gameObject.SetActive(true);
         }
     }
 

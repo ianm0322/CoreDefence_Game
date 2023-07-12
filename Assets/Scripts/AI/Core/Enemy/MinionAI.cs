@@ -58,15 +58,6 @@ public class MinionAI : EnemyAI, ILateUpdateListener
         }
     }
 
-    public void SetDebugState(string str)
-    {
-        if (DebugState != str)
-        {
-            DebugState = str;
-            Debug.Log("State Change : " + str);
-        }
-    }
-
     protected override void Awake()
     {
         base.Awake();
