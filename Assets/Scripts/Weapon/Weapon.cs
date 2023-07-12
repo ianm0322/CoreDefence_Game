@@ -136,6 +136,7 @@ public abstract class WeaponBase : MonoBehaviour
 
     public BulletBase ProduceBullet()
     {
+        Debug.Log(Data.Bullet.speed);
         var bullet = EntityManager.Instance.CreateBullet(Data.Bullet, GunPointTr);
         return bullet;
     }
@@ -149,6 +150,7 @@ public class WeaponData
     public float Cooldown = 1f;
     public float BulletSpread = 0f;
     public int MaxAmmoAmount;
+    public float ReloadCooltime = 1.2f;
 }
 
 public enum GunFireMode

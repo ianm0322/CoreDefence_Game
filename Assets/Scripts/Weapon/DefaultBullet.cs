@@ -22,8 +22,11 @@ public class DefaultBullet : BulletBase
         Vector3 moveVector = this.transform.forward * Data.speed * Time.fixedDeltaTime;
         _rigid.MovePosition(_rigid.position + moveVector);
 
-        gravity += Physics.gravity * Time.fixedDeltaTime;
-        _rigid.MovePosition(_rigid.position + gravity * Time.fixedDeltaTime);
+        if (Data.gravity != 0)
+        {
+            gravity += Physics.gravity * Time.fixedDeltaTime;
+            _rigid.MovePosition(_rigid.position + gravity * Time.fixedDeltaTime);
+        }
         //_rigid.AddForce(Physics.gravity * Data.gravity, ForceMode.Acceleration);
     }
 
@@ -65,7 +68,7 @@ public class DefaultBullet : BulletBase
     {
         base.OnCreateFromPool(dataObj);
 
-        if(Data.gravity != 0)
+        if (Data.gravity != 0)
             SetPhysics(true);
     }
 

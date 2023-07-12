@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class ItemInventory
 {
     List<ItemInventorySlot> _inventory;
@@ -36,11 +35,6 @@ public class ItemInventorySlot
 
 public class InventoryItem
 {
-    public ItemType type;
+    public InventoryItemType type;
     public int id;
-}
-
-public enum ItemType
-{
-    Turret
 }

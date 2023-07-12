@@ -86,7 +86,7 @@ public class EntityManager : MonoSingleton<EntityManager>
     public BulletBase CreateBullet(BulletData data)
     {
         //BulletBase bullet = bulletPool.CreateObject(data);    [Old version]
-        BulletBase bullet = _bulletPoolDict[data.type].CreateObject(data);
+        BulletBase bullet = _bulletPoolDict[data.type].CreateObject(new BulletData(data));
         return bullet;
     }
 

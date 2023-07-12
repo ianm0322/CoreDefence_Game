@@ -19,7 +19,6 @@ public abstract class FacilityAI : AIController, IFacilityController, IUpdateLis
     {
         base.Awake();
         Body.OnDiedEvent += OnDied;
-        UpdateManager.Instance.Join(this as IUpdateListener);
     }
 
     public void InitForInstantiate()

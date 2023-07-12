@@ -19,32 +19,8 @@ public class ChaserAI : EnemyAI, ILateUpdateListener
 
                 new IsParalysisNode(this),
 
-                // Target is exist pattern:
-                Sequence(
-                    // Check target is exist
-                    new IsTargetExistNode(this),
-                    Select(
-                        // Sequence: Escape if target is out of range
-                        Sequence(
-                            new TimeOverNode(Data.DetectDelay, new CheckTargetOutOfRangeNode(this.transform, this, AIInfo)),
-                            new SetTargetNullNode(this)
-                            ),
-                        // Sequence: Attack
-                        Sequence(
-                            new CheckAttackableReachNode(this),     // 공격 가능 위치면
-                            new AgentStopNode(Agent),               // 에이전트 멈추고
-                            new Minion_AttackNode(this)             // 공격
-                            ),
-                        // Move to target
-                        new ChaseTargetNode(this)
-                        )
-                    ),
-
-                // Target is non-exist pattern
-                new SetTargetNode(this),
-
-                // Move to core
-                new ChaseTargetNode(this, GameManager.Instance.Core.transform)
+                Select(
+                    )
                 )
             );
     }
@@ -71,3 +47,4 @@ public class ChaserAI : EnemyAI, ILateUpdateListener
         base.Start();
         StartBT();
     }
+}

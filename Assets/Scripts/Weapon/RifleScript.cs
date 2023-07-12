@@ -8,6 +8,13 @@ public class RifleScript : WeaponBase
     WeaponState state = WeaponState.Default;
     Coroutine ReloadCor;
 
+    private WaitForSeconds _reloadTime;
+
+    protected void Start()
+    {
+        new WaitForSeconds(Data.ReloadCooltime);
+    }
+
     protected override void OnGunTriggerDuring()
     {
         if (!IsAmmoEmpty && (state & WeaponState.CanFireState) != 0)
@@ -40,25 +47,9 @@ public class RifleScript : WeaponBase
     {
         yield return null;
         state = WeaponState.Reloading;
-        yield return new WaitForSeconds(1.2f);
+        yield return _reloadTime;
         SetAmmoFull();
         state = WeaponState.Default;
         ReloadCor = null;
     }
-}
-
-[System.Flags]
-[System.Serializable]
-public enum WeaponState
-{
-    None                    = 0,
-    Default                 = 1,
-    Firing                  = 2,
-    Reloading               = 4,
-    Jammed                  = 8,
-    NoAmmo                  = 16,
-
-    Everything = -1,
-    CanFireState = Firing | Default,
-    CantFireState = Reloading | Jammed | NoAmmo,
 }
