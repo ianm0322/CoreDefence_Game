@@ -153,6 +153,13 @@ public class ItemObject
 public class InventoryItem_Weapon : ItemObject
 {
     public override InventoryItemType type => InventoryItemType.Weapon;
+    WeaponBase weapon;
+
+    public InventoryItem_Weapon(GameObject obj)
+    {
+        gameObject = obj;
+        obj.TryGetComponent(out weapon);
+    }
 
     public override void OnCancled()
     {

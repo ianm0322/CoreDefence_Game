@@ -1,4 +1,4 @@
-Shader "Custom/DistanceBlendShapder"
+Shader "Custom/DistanceBlendShader"
 {
     Properties
     {

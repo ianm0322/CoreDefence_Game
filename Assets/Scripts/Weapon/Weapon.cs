@@ -6,10 +6,15 @@ using UnityEngine;
 
 public abstract class WeaponBase : MonoBehaviour
 {
+    [Header("Equip Properties")]
     public WeaponData Data;
     public GameObject Owner;
     public Transform GunPointTr;
 
+    public Vector3 equipRotationOffset;
+    public Vector3 equipPositionOffset;
+
+    [Header("Others")]
     [SerializeField]
     [Min(0)]
     private int _ammoCount;     // 장전된 총알 개수

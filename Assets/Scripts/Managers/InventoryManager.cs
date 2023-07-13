@@ -45,7 +45,6 @@ public class InventoryManager : MonoBehaviour
         }
         else if (Input.GetKeyUp(KeyCode.E))
         {
-            Debug.Log(selectedIndex);
             CloseInventory();
         }
 
@@ -58,6 +57,13 @@ public class InventoryManager : MonoBehaviour
         {
             // 아이템 버리기 기능
         }
+    }
+
+    // 인벤토리에서 아이템 슬롯을 선택할 때 작동하는 메서드
+    private void OnSelectSlot()
+    {
+        Debug.Log(selectedIndex);
+
     }
 
     #region Interface
@@ -330,6 +336,7 @@ public class InventoryManager : MonoBehaviour
     {
         yield return null;
         _mainCoroutine = null;
+        OnSelectSlot();
     }
     #endregion
 }
