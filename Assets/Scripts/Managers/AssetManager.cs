@@ -91,11 +91,3 @@ public class AssetManager : MonoSingleton<AssetManager>
         return _facilityDict[type];
     }
 }
-
-
-public enum FacilityKind
-{
-    Shooter,
-    Cannon,
-    END
-}

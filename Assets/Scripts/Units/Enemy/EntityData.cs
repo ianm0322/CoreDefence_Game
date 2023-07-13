@@ -3,6 +3,8 @@
 [System.Serializable]
 public class EntityData
 {
+    public string id;
+
     [Header("Body")]
     public int MaxHp;
     public int Hp;
@@ -34,5 +36,17 @@ public class EntityData
         BulletSpeed = data.BulletSpeed;
         MoveSpeed = data.MoveSpeed;
         AttackCount = data.AttackCount;
+    }
+    public virtual bool IsEquals(EntityData data)
+    {
+        return
+            this.MaxHp == data.MaxHp &&
+            this.MoveSpeed == data.MoveSpeed &&
+            this.AttackDelay == data.AttackDelay &&
+            this.AttackSpeed == data.AttackSpeed &&
+            this.AttackCount == data.AttackCount &&
+            this.AttackDamage == data.AttackDamage &&
+            this.AttackRange == data.AttackRange &&
+            this.BulletSpeed == data.BulletSpeed;
     }
 }

@@ -23,6 +23,31 @@ public class CTType : MonoBehaviour
         Golem,
         End
     }
+
+    public enum EntityKind
+    {
+        WEAPON_ID = 100,
+        Pistol,
+        Rifle,
+        Grenade,
+        W3,
+        W4,
+        W5,
+
+        FACILITY_ID = 200,
+        ShooterTurret,
+        CannonTurret,
+
+        BULLET_ID = 300,
+        NormalBullet,
+        GravityBullet,
+        GrenadeBullet,
+
+        ENEMY_ID = 400,
+        Minion,
+        Robot,
+        Golem,
+    }
 }
 
 public interface IUpdateListener
