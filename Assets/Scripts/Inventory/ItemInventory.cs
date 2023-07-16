@@ -1,3 +1,5 @@
+using BT;
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,7 +32,8 @@ public class ItemInventory
     {
         for (int i = 0; i < Count; i++)
         {
-            if (_inventory[i].item.name == itemName)
+            // 슬롯의 아이템
+            if (_inventory[i].IsEmpty == false && _inventory[i].Item.name == itemName)
             {
                 return _inventory[i];
             }
@@ -50,7 +53,7 @@ public class ItemInventory
     {
         for (int i = 0; i < _inventory.Count; i++)
         {
-            if(_inventory[i].item == null)
+            if(_inventory[i].IsEmpty)
             {
                 return _inventory[i];
             }
@@ -102,6 +105,7 @@ public class ItemInventory
         // 아이템 정상적으로 추가됐으면 true 반환.
         return true;
     }
+
     public bool ConsumeItem(ItemObject item, int count)
     {
         var slot = FindSlot(item.name);
@@ -115,26 +119,53 @@ public class ItemInventory
             return true;
         }
     }
+
+    public void SwapSlotPosition(int slotIdx1, int slotIdx2)
+    {
+        ItemInventorySlot slot1 = _inventory[slotIdx1];
+        ItemInventorySlot slot2 = _inventory[slotIdx2];
+
+        var tempItem = slot1.Item;
+        var tempAmount = slot1.amount;
+
+        slot1.SetItem(slot2.Item, slot2.amount);
+        slot2.SetItem(tempItem, tempAmount);
+    }
 }
 
 [System.Serializable]
 public class ItemInventorySlot
 {
-    public ItemInventory inventory { get; private set; }
-    public ItemObject item;
+    private ItemInventory _inventory { get; set; }
+    public ItemObject Item { get; private set; }
+
+    public bool IsEmpty => Item == null;
+
     public int index { get; private set; }
     public int amount;
 
     public ItemInventorySlot(ItemInventory inventory, int index)
     {
-        this.inventory = inventory;
+        this._inventory = inventory;
         this.index = index;
     }
 
     public void SetItem(ItemObject item, int count = 1)
     {
-        this.item = item;
+        this.Item = item;
         this.amount = count;
+    }
+    public bool UseItem()
+    {
+        if (!IsEmpty)
+        {
+            Item.Use();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
 
@@ -146,8 +177,15 @@ public class ItemObject
     public string name;
     public GameObject gameObject;
 
-    public virtual void OnSelected() { }
-    public virtual void OnCancled() { }
+    public ItemObject(GameObject obj, string name, Sprite icon)
+    {
+        this.gameObject = obj;
+        this.name = name;
+        this.icon = icon;
+    }
+
+    public virtual void Use() { }
+    public virtual void OnDisabled() { }
 }
 
 public class InventoryItem_Weapon : ItemObject
@@ -155,18 +193,22 @@ public class InventoryItem_Weapon : ItemObject
     public override InventoryItemType type => InventoryItemType.Weapon;
     WeaponBase weapon;
 
-    public InventoryItem_Weapon(GameObject obj)
+    public InventoryItem_Weapon(GameObject obj, string name, Sprite icon) : base(obj, name, icon)
     {
         gameObject = obj;
         obj.TryGetComponent(out weapon);
     }
 
-    public override void OnCancled()
+    public override void OnDisabled()
     {
-
+        weapon.gameObject.SetActive(false);
+        GameManager.Instance.player._weapon = weapon;
     }
-    public override void OnSelected()
-    {
 
+    public override void Use()
+    {
+        weapon.SetEquipTransform();
+        GameManager.Instance.player._weapon = weapon;
+        weapon.gameObject.SetActive(true);
     }
 }

@@ -805,7 +805,7 @@ SkinnedMeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 925932064805931480}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -980,6 +980,7 @@ MonoBehaviour:
   IsParalysis: 0
   Kind: 0
   Data:
+    id: 
     MaxHp: 15
     Hp: 15
     MaxFocusCount: 3
@@ -1007,6 +1008,9 @@ MonoBehaviour:
       lifeTime: 0
       lifeDistance: 0
       penetraitCount: 1
+      gravity: 0
+      explosionRange: 0
+      explosionPower: 0
   AIInfo:
     DetectTargetLayer:
       serializedVersion: 2

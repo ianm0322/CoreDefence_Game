@@ -8,10 +8,12 @@ public class GameManager : MonoSingleton<GameManager>
     public CoreScript Core;
 
     public Vector3 CorePosition { get { return Core.transform.position; } }
-    public Vector3[] PathPoint;
 
     public Transform PlayerSpawnPoint;
     public EnemySpawner[] Spawners;
+
+    public GameObject TEST_WEAPON;
+    public Sprite TEST_SPRITE;
 
     protected override void Awake()
     {
@@ -27,27 +29,18 @@ public class GameManager : MonoSingleton<GameManager>
         Cursor.lockState = CursorLockMode.Locked;
 
         player.Init();
-        player.Die();   // ##########################TEST
+        player.Spawn();
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
             Application.Quit();
-    }
 
-    public void Spawn(int spawnerIndex)
-    {
-        Spawners[spawnerIndex].Spawn();
-    }
-
-#if UNITY_EDITOR
-    private void OnDrawGizmos()
-    {
-        for (int i = 0; i < PathPoint.Length-1; i++)
+        if (Input.GetKeyDown(KeyCode.P))
         {
-            Gizmos.DrawLine(PathPoint[i], PathPoint[i + 1]);
+            var weapon = new InventoryItem_Weapon(TEST_WEAPON, "Rifle", TEST_SPRITE);
+            InventoryManager.Instance.Inventory.AcquireItem(weapon);
         }
     }
-#endif
 }

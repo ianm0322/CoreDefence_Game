@@ -48,7 +48,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        Body.OnDiedEvent += Die;
+        Body.OnDiedEvent += Spawn;
     }
 
     public void Init()
@@ -151,10 +151,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void Die()
+    public void Spawn()
     {
         this.transform.position = GameManager.Instance.PlayerSpawnPoint.position;
         _playerMovement.LookDirection = GameManager.Instance.PlayerSpawnPoint.eulerAngles;
         Body.SetHp(Body.MaxHp);
+    }
+
+    public void SetWeapon(WeaponBase weapon)
+    {
+        this._weapon = weapon;
     }
 }
