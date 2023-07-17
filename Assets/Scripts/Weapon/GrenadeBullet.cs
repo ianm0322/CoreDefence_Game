@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GrenadeBullet : BulletBase
 {
+    public ParticleSystem[] ExplosionParticles;
+
     protected override void OnFired()
     {
         base.OnFired();
@@ -28,7 +30,7 @@ public class GrenadeBullet : BulletBase
                 // º®¿¡ ºÎµúÇûÀ¸¸é
                 _rigid.position = obj.point + obj.normal * _radius;
                 Explosion();
-                //DestroyBullet();
+                DestroyBullet();
                 return;
             }
         }
@@ -36,6 +38,8 @@ public class GrenadeBullet : BulletBase
 
     private void Explosion()
     {
+        PlayParticle();
+
         var cols = Physics.OverlapSphere(this.transform.position, Data.explosionRange, _layer);
         AIController target;
         for (int i = 0; i < cols.Length; i++)
@@ -74,5 +78,13 @@ public class GrenadeBullet : BulletBase
     private void SetPhysics(bool enable)
     {
         _rigid.isKinematic = !enable;
+    }
+
+    private void PlayParticle()
+    {
+        for (int i = 0; i < ExplosionParticles.Length; i++)
+        {
+            ExplosionParticles[i].Play();
+        }
     }
 }

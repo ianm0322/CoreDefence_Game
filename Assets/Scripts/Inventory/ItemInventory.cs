@@ -53,7 +53,7 @@ public class ItemInventory
     {
         for (int i = 0; i < _inventory.Count; i++)
         {
-            if(_inventory[i].IsEmpty)
+            if (_inventory[i].IsEmpty)
             {
                 return _inventory[i];
             }
@@ -69,7 +69,7 @@ public class ItemInventory
     private bool AddItemInstance(ItemObject item, int count = 1)
     {
         var slot = FindEmptySlot();
-        if(slot == null)
+        if (slot == null)
         {
             return false;
         }
@@ -89,10 +89,10 @@ public class ItemInventory
     public bool AcquireItem(ItemObject item, int count = 1)
     {
         var slot = FindSlot(item.name);
-        if(slot == null)
+        if (slot == null)
         {
             // 기존 아이템이 없으면 아이템 생성 시도. 빈 슬롯이 없어 아이템을 추가할 수 없으면 false 반환.
-            if(AddItemInstance(item, count) == false)   
+            if (AddItemInstance(item, count) == false)
             {
                 return false;
             }
@@ -109,7 +109,7 @@ public class ItemInventory
     public bool ConsumeItem(ItemObject item, int count)
     {
         var slot = FindSlot(item.name);
-        if(slot == null)
+        if (slot == null)
         {
             return false;
         }
@@ -166,49 +166,5 @@ public class ItemInventorySlot
         {
             return false;
         }
-    }
-}
-
-[System.Serializable]
-public class ItemObject
-{
-    public virtual InventoryItemType type { get; }
-    public Sprite icon;
-    public string name;
-    public GameObject gameObject;
-
-    public ItemObject(GameObject obj, string name, Sprite icon)
-    {
-        this.gameObject = obj;
-        this.name = name;
-        this.icon = icon;
-    }
-
-    public virtual void Use() { }
-    public virtual void OnDisabled() { }
-}
-
-public class InventoryItem_Weapon : ItemObject
-{
-    public override InventoryItemType type => InventoryItemType.Weapon;
-    WeaponBase weapon;
-
-    public InventoryItem_Weapon(GameObject obj, string name, Sprite icon) : base(obj, name, icon)
-    {
-        gameObject = obj;
-        obj.TryGetComponent(out weapon);
-    }
-
-    public override void OnDisabled()
-    {
-        weapon.gameObject.SetActive(false);
-        GameManager.Instance.player._weapon = weapon;
-    }
-
-    public override void Use()
-    {
-        weapon.SetEquipTransform();
-        GameManager.Instance.player._weapon = weapon;
-        weapon.gameObject.SetActive(true);
     }
 }

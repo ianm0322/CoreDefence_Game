@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class InventoryUIScript : MonoBehaviour
@@ -10,13 +11,13 @@ public class InventoryUIScript : MonoBehaviour
 
     // Properties
     [Range(0f, 360f)]
-    public float offset;
-    public Sprite defaultSprite;
-    public Image prefab;
+    public float Offset;
+    public Sprite DefaultSprite;
+    public Image Prefab;
 
     // Field
-    public bool isInventoryOpened { get; private set; }
-    public int selectedIndex { get; set; }
+    public bool IsInventoryOpened { get; private set; }
+    public int SelectedIndex { get; set; }
 
     private Coroutine _mainCoroutine;
     private Coroutine _effectCoroutine;
@@ -49,18 +50,18 @@ public class InventoryUIScript : MonoBehaviour
             }
             else
             {
-                _icons[i].sprite = defaultSprite;
+                _icons[i].sprite = DefaultSprite;
             }
         }
     }
 
     private void InventoryUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
             OpenInventory();
         }
-        else if (Input.GetKeyUp(KeyCode.E))
+        else if (Input.GetKeyUp(KeyCode.Tab))
         {
             CloseInventory();
         }
@@ -79,11 +80,19 @@ public class InventoryUIScript : MonoBehaviour
     // 인벤토리에서 아이템 슬롯을 선택할 때 작동하는 메서드
     private void OnSelectSlot()
     {
-        Debug.Log(selectedIndex);
-        if(selectedIndex != -1)
+        Debug.Log(SelectedIndex);
+        if (SelectedIndex != -1)
         {
-
-            inventory.GetSlot(selectedIndex).Item?.Use();
+            var slot = inventory.GetSlot(SelectedIndex);
+            if (slot.Item == null)
+            {
+                Debug.Log("Yes!");
+                GameManager.Instance.player.SetWeapon(null);
+            }
+            else
+            {
+                slot.Item?.Use();
+            }
         }
 
     }
@@ -126,7 +135,7 @@ public class InventoryUIScript : MonoBehaviour
 
         for (int i = 0; i < _icons.Length; i++)
         {
-            var obj = Instantiate(prefab);
+            var obj = Instantiate(Prefab);
             _icons[i] = obj.GetComponent<Image>();
             obj.transform.SetParent(this.transform);
             obj.transform.localScale = Vector3.one;
@@ -136,7 +145,7 @@ public class InventoryUIScript : MonoBehaviour
             }
             else
             {
-                _icons[i].sprite = defaultSprite;
+                _icons[i].sprite = DefaultSprite;
             }
         }
     }
@@ -207,7 +216,7 @@ public class InventoryUIScript : MonoBehaviour
          * 3. angle * n                 => index = 0~n
          * 4. index %= n                => index는 0~n-1 사이값이므로, index==n일때 0으로 만들어줌.
          */
-        return (Mathf.RoundToInt(((angle + offset) / 360f) * (inventory.Count))) % (inventory.Count);
+        return (Mathf.RoundToInt(((angle + Offset) / 360f) * (inventory.Count))) % (inventory.Count);
     }
     /// <summary>
     /// 마우스 위치가 중앙으로부터 가까운 위치에 있으면 false를 반환한다.
@@ -260,7 +269,7 @@ public class InventoryUIScript : MonoBehaviour
     private void StateInitialize(bool isOpened)
     {
         Cursor.lockState = isOpened ? CursorLockMode.Confined : CursorLockMode.Locked;
-        isInventoryOpened = isOpened;
+        IsInventoryOpened = isOpened;
         for (int i = 0; i < _icons.Length; i++)
         {
             _icons[i].gameObject.SetActive(isOpened);
@@ -343,10 +352,11 @@ public class InventoryUIScript : MonoBehaviour
             // 아이템 옮기기 코드
 
             // 1. 아이콘에 마우스 클릭 시
-            if (Input.GetMouseButtonDown(0) && selectedIndex != -1)
+            if (Input.GetMouseButtonDown(0) && SelectedIndex != -1)
             {
-                tr = _icons[selectedIndex].rectTransform;
-                grapIndex = selectedIndex;
+                grapIndex = SelectedIndex;
+                tr = _icons[grapIndex].rectTransform;
+                tr.SetAsLastSibling();
             }
             else if (Input.GetMouseButton(0) && tr != null)
             {
@@ -354,18 +364,18 @@ public class InventoryUIScript : MonoBehaviour
             }
             else if (Input.GetMouseButtonUp(0))
             {
-                if (selectedIndex != -1 && grapIndex != selectedIndex)
+                if (SelectedIndex != -1 && grapIndex != SelectedIndex)
                 {
                     Debug.Log("Swap");
-                    inventory.SwapSlotPosition(grapIndex, selectedIndex);
+                    inventory.SwapSlotPosition(grapIndex, SelectedIndex);
                     ImageUpdate();
                 }
                 tr.position = _slotPositions[grapIndex];
                 tr = null;
             }
 
-            selectedIndex = GetSelectionIndex();    // 선택된 슬롯 인덱스 설정
-            HighlightSelection(selectedIndex);      // 선택된 슬롯 하이라이트
+            SelectedIndex = GetSelectionIndex();    // 선택된 슬롯 인덱스 설정
+            HighlightSelection(SelectedIndex);      // 선택된 슬롯 하이라이트
 
             yield return null;
         }

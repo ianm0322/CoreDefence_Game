@@ -20,9 +20,4 @@ public abstract class BehaviorTree : MonoBehaviour, IBehaviorTree
             Root = MakeBT();
         Root.Evaluate();
     }
-
-    public void EndBT()
-    {
-        Root = null;
-    }
 }

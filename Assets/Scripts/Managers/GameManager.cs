@@ -12,8 +12,7 @@ public class GameManager : MonoSingleton<GameManager>
     public Transform PlayerSpawnPoint;
     public EnemySpawner[] Spawners;
 
-    public GameObject TEST_WEAPON;
-    public Sprite TEST_SPRITE;
+    public ItemObject[] Items;
 
     protected override void Awake()
     {
@@ -39,8 +38,10 @@ public class GameManager : MonoSingleton<GameManager>
 
         if (Input.GetKeyDown(KeyCode.P))
         {
-            var weapon = new InventoryItem_Weapon(TEST_WEAPON, "Rifle", TEST_SPRITE);
-            InventoryManager.Instance.Inventory.AcquireItem(weapon);
+            for (int i = 0; i < Items.Length; i++)
+            {
+                InventoryManager.Instance.AddItem(Items[i]);
+            }
         }
     }
 }

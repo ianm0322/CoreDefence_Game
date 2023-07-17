@@ -8,7 +8,7 @@
     {
         this.machine = machine;
         this.player = machine.Self;
-        this.body = player._playerMovement;
+        this.body = player.PlayerMovement;
         return this;
     }
     public abstract void OnUpdate();

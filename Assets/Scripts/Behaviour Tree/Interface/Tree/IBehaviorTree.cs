@@ -8,6 +8,5 @@ namespace BT
     {
         RootNode MakeBT();
         void Operate();
-        void EndBT();
     }
 }

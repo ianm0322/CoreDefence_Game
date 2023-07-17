@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - Wall
   - Core
+  - Facility
   layers:
   - Default
   - TransparentFX

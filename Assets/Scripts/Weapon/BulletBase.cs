@@ -181,7 +181,7 @@ public abstract class BulletBase : MonoBehaviour, IPoolingObject, IFixedUpdateLi
         _trail.emitting = false;
         yield return null;
         _render.enabled = false;
-        yield return new WaitForSeconds(_trail.time);
+        yield return new WaitForSeconds(2f);
         _isDied = false;
         _render.enabled = true;
         EntityManager.Instance.DestroyBullet(this);

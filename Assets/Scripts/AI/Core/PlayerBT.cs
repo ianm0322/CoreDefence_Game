@@ -3,23 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using BT;
 
-public class PlayerBT : MonoBehaviour, IBehaviorTree
+public class PlayerBT : IBehaviorTree
 {
     RootNode _root;
+    GameObject _player;
 
-    public void EndBT()
+    CD_GameObject _body;
+
+    public PlayerBT(GameObject player)
     {
-        throw new System.NotImplementedException();
+        this._player = player;
+
+        player.TryGetComponent(out _body);
     }
 
     public RootNode MakeBT()
     {
         return new RootNode(
             new SelectorNode(
-                new SequenceNode(
-                    // Is Ground Node
-                    )
-                
+                new IsDiedNode(_body)//,
+
+                //new PlayerMoveNode(),
+
+                /*
+                 * Selector(
+                 *      IsGround
+                 *      Player Jump
+                 * )
+                 */
+
                 )
             );
     }

@@ -13,10 +13,15 @@ public class PlayerController : MonoBehaviour
     public float jumpPower;
 
     // Component
-    public PlayerBody _playerMovement;
-    public Rigidbody _rigid;
-    public CapsuleCollider _collider;
+    [HideInInspector]
+    public PlayerBody PlayerMovement;
+    [HideInInspector]
+    public Rigidbody Rigid;
+    [HideInInspector]
+    public CapsuleCollider Collider;
+    [HideInInspector]
     public CD_GameObject Body;
+
     [SerializeField]
     public WeaponBase _weapon;
 
@@ -37,12 +42,12 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        TryGetComponent(out _playerMovement);
-        TryGetComponent(out _collider);
+        TryGetComponent(out PlayerMovement);
+        TryGetComponent(out Collider);
         TryGetComponent(out Body);
 
         // ######### Test
-        TryGetComponent(out _rigid);
+        TryGetComponent(out Rigid);
         fireDelayYield = new WaitForSeconds(fireDelay);
     }
 
@@ -61,18 +66,6 @@ public class PlayerController : MonoBehaviour
         MoveUpdate();
         JumpUpdate();
         ShootingUpdate();
-
-        if (_weapon)
-        {
-            _weapon.transform.parent = gunTr;
-            _weapon.transform.localPosition = Vector3.zero;
-            _weapon.gameObject.SetActive(true);
-        }
-    }
-
-    private void FixedUpdate()
-    {
-
     }
 
     protected void MoveUpdate()
@@ -81,7 +74,7 @@ public class PlayerController : MonoBehaviour
         float mx = Input.GetAxisRaw("Mouse X") * StaticDataManager.Instance.MouseSensitive;
         float my = Input.GetAxisRaw("Mouse Y") * StaticDataManager.Instance.MouseSensitive;
         lookDir.Set(-my, mx, 0f);
-        _playerMovement.LookDirection += lookDir;
+        PlayerMovement.LookDirection += lookDir;
 
         float h, v;
         h = Input.GetAxisRaw("Horizontal");     // ¿Œ«≤
@@ -91,17 +84,17 @@ public class PlayerController : MonoBehaviour
         if (h != 0f && v != 0f)
             dir /= 1.4f;
 
-        _playerMovement.Move(dir * moveSpeed);
+        PlayerMovement.Move(dir * moveSpeed);
     }
 
     protected void JumpUpdate()
     {
-        if (Input.GetButtonDown("Jump") && _playerMovement.IsGround)
+        if (Input.GetButtonDown("Jump") && PlayerMovement.IsGround)
         {
             // Jump script
-            _playerMovement.Jump(jumpPower);
+            PlayerMovement.Jump(jumpPower);
         }
-        else if (!_playerMovement.IsGround)
+        else if (!PlayerMovement.IsGround)
         {
             // Fall script
         }
@@ -154,12 +147,24 @@ public class PlayerController : MonoBehaviour
     public void Spawn()
     {
         this.transform.position = GameManager.Instance.PlayerSpawnPoint.position;
-        _playerMovement.LookDirection = GameManager.Instance.PlayerSpawnPoint.eulerAngles;
+        PlayerMovement.LookDirection = GameManager.Instance.PlayerSpawnPoint.eulerAngles;
         Body.SetHp(Body.MaxHp);
     }
 
     public void SetWeapon(WeaponBase weapon)
     {
-        this._weapon = weapon;
+        if (this._weapon != null)
+        {
+            this._weapon.gameObject.SetActive(false);
+        }
+
+        if (weapon != null)
+        {
+            weapon.gameObject.SetActive(true);
+            this._weapon = weapon;
+
+            weapon.transform.localPosition = weapon.equipPositionOffset;
+            weapon.transform.localRotation = Quaternion.Euler(weapon.equipRotationOffset);
+        }
     }
 }
