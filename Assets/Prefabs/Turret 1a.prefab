@@ -463,6 +463,7 @@ GameObject:
   - component: {fileID: 5019925861244855895}
   - component: {fileID: 6387644973184051962}
   - component: {fileID: 7313408270315554371}
+  - component: {fileID: 4205688032909731009}
   m_Layer: 8
   m_Name: Turret 1a
   m_TagString: Facility
@@ -524,6 +525,7 @@ MonoBehaviour:
   IsParalysis: 0
   id: 0
   Data:
+    id: 
     MaxHp: 200
     Hp: 200
     MaxFocusCount: 3
@@ -535,12 +537,18 @@ MonoBehaviour:
     AttackDamage: 1
     AttackRange: 10
     BulletSpeed: 1
+    Kind: 0
     Bullet:
+      type: 0
       tag: PlayerBullet
       speed: 50
       damage: 1
       lifeTime: 10
       lifeDistance: 10
+      penetraitCount: 1
+      gravity: 0
+      explosionRange: 0
+      explosionPower: 0
   AIInfo:
     DetectTargetLayer:
       serializedVersion: 2
@@ -567,6 +575,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 12, y: 8.567761, z: 12}
   m_Center: {x: 0, y: 3.7838795, z: 0}
+--- !u!114 &4205688032909731009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6388568547224564177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7383d2063c9dc4e46b2c9988104cc6c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: 34b6d3db42f1bdd4dae0152e9f2c55c1, type: 3}
 --- !u!1 &6388568547672396251
 GameObject:
   m_ObjectHideFlags: 0

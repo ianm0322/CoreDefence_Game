@@ -15,4 +15,9 @@
 
         GameManager.Instance.player.SetWeapon(weapon);
     }
+
+    public override void OnDisabled()
+    {
+        GameManager.Instance.player.SetWeapon(null);
+    }
 }

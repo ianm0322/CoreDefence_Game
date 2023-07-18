@@ -14,7 +14,7 @@ Shader "Custom/HalfLambert"
 
         CGPROGRAM
         // Physically based Standard lighting model, and enable shadows on all light types
-        #pragma surface surf HalfLambert
+        #pragma surface surf HalfLambert Fullforwardshadows 
 
         // Use shader model 3.0 target, to get nicer looking lighting
         #pragma target 3.0
@@ -24,6 +24,7 @@ Shader "Custom/HalfLambert"
         struct Input
         {
             float2 uv_MainTex;
+            float3 viewDir;
         };
 
         half _Glossiness;
@@ -38,6 +39,9 @@ Shader "Custom/HalfLambert"
             fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
             o.Albedo = c.rgb;
             o.Alpha = c.a;
+
+            float rim = saturate(dot(o.Normal, IN.viewDir));
+            o.Emission = pow(1 - rim, 10) * 0.3f;
         }
 
         float4 LightingHalfLambert(SurfaceOutput s, float3 lightDir, float3 viewDir, float atten)
@@ -51,6 +55,8 @@ Shader "Custom/HalfLambert"
             float3 H = normalize(lightDir + viewDir);   // ºûÀÌ µé¾î¿À´Â º¤ÅÍ¿Í ½Ã¼± º¤ÅÍÀÇ Áß°£ º¤ÅÍ
             float spec = max(0, dot(H, s.Normal));
             spec = pow(spec, 80) / 2;
+
+
 
             float4 final;
             final.rgb = Diff + spec;

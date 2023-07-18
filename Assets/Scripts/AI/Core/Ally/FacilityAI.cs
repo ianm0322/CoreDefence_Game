@@ -28,7 +28,11 @@ public abstract class FacilityAI : AIController, IFacilityController, IUpdateLis
 
     public void OnCreateFromPool(object dataObj)
     {
-        Builded();
+        var data = dataObj as FacilityData;
+        if(data != null)
+        {
+            this.Data = data;
+        }
     }
 
     public void OnPushToPool()
@@ -44,26 +48,5 @@ public abstract class FacilityAI : AIController, IFacilityController, IUpdateLis
     {
         if (Target)
             Target.GetComponent<CD_GameObject>().FocusCount--;
-    }
-
-    protected virtual void Builded()
-    {
-    //    Ray ray = new Ray(GroundRayTr.position, Vector3.down);
-    //    RaycastHit hit;
-    //    int i = 0;
-    //    while (Physics.Raycast(ray, out hit, 0.1f, LayerMask.GetMask("Wall")) == false)
-    //    {
-    //        Debug.Log("A");
-    //        this.transform.position += Vector3.down * 1f;
-    //        if (++i > 1000)
-    //            break;
-    //    }
-    //    if(hit.collider != null)
-    //        Debug.Log(hit.transform.name);
-    }
-
-    public void LateUpdate()
-    {
-        Debug.DrawRay(GroundRayTr.position, Vector3.down * 0.1f);
     }
 }

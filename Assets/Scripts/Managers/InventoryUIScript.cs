@@ -18,6 +18,7 @@ public class InventoryUIScript : MonoBehaviour
     // Field
     public bool IsInventoryOpened { get; private set; }
     public int SelectedIndex { get; set; }
+    public int CursoredIndex { get; private set; }
 
     private Coroutine _mainCoroutine;
     private Coroutine _effectCoroutine;
@@ -78,6 +79,7 @@ public class InventoryUIScript : MonoBehaviour
     }
 
     // 인벤토리에서 아이템 슬롯을 선택할 때 작동하는 메서드
+    [Obsolete()]
     private void OnSelectSlot()
     {
         Debug.Log(SelectedIndex);
@@ -98,6 +100,16 @@ public class InventoryUIScript : MonoBehaviour
     }
 
     #region Interface
+    public void SelectSlot(int index)
+    {
+        if (index != -1)
+        {
+            inventory.GetSlot(SelectedIndex).Item?.OnDisabled();
+            SelectedIndex = index;
+            inventory.GetSlot(SelectedIndex).Item?.Use();
+        }
+    }
+
     /// <summary>
     /// 인벤토리를 연다.
     /// </summary>
@@ -113,7 +125,7 @@ public class InventoryUIScript : MonoBehaviour
     /// </summary>
     public void CloseInventory()
     {
-        OnSelectSlot();
+        SelectSlot(CursoredIndex);
 
         StateInitialize(false);
         ExecuteCoroutine(ref _mainCoroutine, InventoryCloseCor);
@@ -352,9 +364,9 @@ public class InventoryUIScript : MonoBehaviour
             // 아이템 옮기기 코드
 
             // 1. 아이콘에 마우스 클릭 시
-            if (Input.GetMouseButtonDown(0) && SelectedIndex != -1)
+            if (Input.GetMouseButtonDown(0) && CursoredIndex != -1)
             {
-                grapIndex = SelectedIndex;
+                grapIndex = CursoredIndex;
                 tr = _icons[grapIndex].rectTransform;
                 tr.SetAsLastSibling();
             }
@@ -364,18 +376,18 @@ public class InventoryUIScript : MonoBehaviour
             }
             else if (Input.GetMouseButtonUp(0))
             {
-                if (SelectedIndex != -1 && grapIndex != SelectedIndex)
+                if (CursoredIndex != -1 && grapIndex != CursoredIndex)
                 {
                     Debug.Log("Swap");
-                    inventory.SwapSlotPosition(grapIndex, SelectedIndex);
+                    inventory.SwapSlotPosition(grapIndex, CursoredIndex);
                     ImageUpdate();
                 }
                 tr.position = _slotPositions[grapIndex];
                 tr = null;
             }
 
-            SelectedIndex = GetSelectionIndex();    // 선택된 슬롯 인덱스 설정
-            HighlightSelection(SelectedIndex);      // 선택된 슬롯 하이라이트
+            CursoredIndex = GetSelectionIndex();    // 선택된 슬롯 인덱스 설정
+            HighlightSelection(CursoredIndex);      // 선택된 슬롯 하이라이트
 
             yield return null;
         }

@@ -17,23 +17,14 @@ public class EnemyData : EntityData
     public BulletData Bullet;
 
     public EnemyData() { }
-    public EnemyData(EnemyData data)
+    public EnemyData(EnemyData data) : base(data)
     {
-        MaxHp = data.MaxHp;
-        Hp = data.Hp;
-
         AttackTargetRange = data.AttackTargetRange;
         TargetMissingRange = data.TargetMissingRange;
         DetectRange = data.DetectRange;
         TargetMissingDelay = data.TargetMissingDelay;
+        DetectDelay = data.DetectDelay;
 
-        MoveSpeed = data.MoveSpeed;
-        AttackSpeedMultiple = data.AttackSpeedMultiple;
-
-        AttackDelay = data.AttackDelay;
-        AttackSpeed = data.AttackSpeed;
-        AttackDamage = data.AttackDamage;
-        AttackRange = data.AttackRange;
-        BulletSpeed = data.BulletSpeed;
+        Bullet = new BulletData(data.Bullet);
     }
 }

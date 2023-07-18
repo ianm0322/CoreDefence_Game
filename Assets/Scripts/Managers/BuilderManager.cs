@@ -31,8 +31,34 @@ public class BuilderManager : MonoSingleton<BuilderManager>
         }
 
         // TEST
+        //Prefab.TryGetComponent(out _prefabData);
+        //StartBuildMode();
+    }
+
+    public void SetPrefab(GameObject prefab)
+    {
+        Prefab = prefab;
         Prefab.TryGetComponent(out _prefabData);
-        _buildModeCoroutine = StartCoroutine(OnBuildModeCoroutine());
+        _guideTr.localPosition = _prefabData.facilityScale;
+    }
+
+    public void StartBuildMode()
+    {
+        if(IsBuildMode == false)
+        {
+            IsBuildMode = true;
+            if (_buildModeCoroutine != null)
+                StopCoroutine(_buildModeCoroutine);
+            _buildModeCoroutine = StartCoroutine(OnBuildModeCoroutine());
+        }
+    }
+
+    public void StopBuildMode()
+    {
+        if(_buildModeCoroutine != null)
+        {
+            IsBuildMode = false;
+        }
     }
 
     private IEnumerator OnBuildModeCoroutine()
@@ -71,11 +97,12 @@ public class BuilderManager : MonoSingleton<BuilderManager>
             yield return null;
         }
         _guideTr.gameObject.SetActive(false);
+        _buildModeCoroutine = null;
     }
 
     public void Build()
     {
-        var obj = Instantiate(Prefab);
+        var obj = EntityManager.Instance.CreateFacility(_prefabData.Data);
         obj.transform.position = _guideTr.position + Vector3.down * _guideTr.localScale.y * 0.5f;
     }
 

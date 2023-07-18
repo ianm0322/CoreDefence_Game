@@ -3,11 +3,13 @@
 [Serializable]
 public class FacilityData : EntityData
 {
+    public FacilityKind Kind;
     public BulletData Bullet;
 
     public FacilityData() { }
     public FacilityData(FacilityData data)
     {
+        Kind = data.Kind;
         MaxHp = data.MaxHp;
         Hp = data.Hp;
         AttackDamage = data.AttackDamage;

@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
 [System.Serializable]
-public class ItemObject : MonoBehaviour
+public abstract class ItemObject : MonoBehaviour
 {
     public virtual InventoryItemType type { get; }
     public Sprite icon;
 
-    public virtual void Use() { }
-    public virtual void OnDisabled() { }
+    public abstract void Use();
+    public abstract void OnDisabled();
 }

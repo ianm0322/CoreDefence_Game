@@ -21,21 +21,25 @@ public class EntityManager : MonoSingleton<EntityManager>
         public BulletBase prefab;
     }
 
+    [Serializable]
+    private class FacilityPrefabNode
+    {
+        public FacilityKind kind;
+        public FacilityAI prefab;
+    }
+
     // Bullet Object Pool
     [SerializeField]
     private List<BulletPrefabNode> _bulletPrefabList;
     private Dictionary<BulletKind, ManagedObjectPool<BulletBase>> _bulletPoolDict;
     
-
-    [Obsolete]
-    private ManagedObjectPool<BulletBase> bulletPool;
-    [Obsolete]
-    [SerializeField]
-    private GameObject bulletPrefab;
-
     [SerializeField]
     private List<EnemyPrefabNode> _enemyPrefabList;
     private Dictionary<EnemyKind, ManagedObjectPool<EnemyAI>> _enemyPoolDict;
+
+    [SerializeField]
+    private List<FacilityPrefabNode> _facilityPrefabList;
+    private Dictionary<FacilityKind, ManagedObjectPool<FacilityAI>> _facilityPoolDict;
 
     // ################TEST
     protected override void Awake()
@@ -48,6 +52,7 @@ public class EntityManager : MonoSingleton<EntityManager>
         //bulletPool = new ManagedObjectPool<BulletBase>(bulletPrefab.GetComponent<BulletBase>(), this.transform, 100); [Old version]
         InitBulletPool();
         InitEnemyPool();
+        InitFacilityPool();
     }
 
     private void FixedUpdate()
@@ -62,11 +67,21 @@ public class EntityManager : MonoSingleton<EntityManager>
         {
             pool.OnFixedUpdate();
         }
+
+        foreach (var pool in _facilityPoolDict.Values)
+        {
+            pool.OnFixedUpdate();
+        }
     }
 
     private void Update()
     {
         foreach (var pool in _enemyPoolDict.Values)
+        {
+            pool.OnUpdate();
+        }
+
+        foreach (var pool in _facilityPoolDict.Values)
         {
             pool.OnUpdate();
         }
@@ -79,6 +94,42 @@ public class EntityManager : MonoSingleton<EntityManager>
             pool.OnLateUpdate();
         }
     }
+
+    #region [Facility object pool]
+    private void InitFacilityPool()
+    {
+        _facilityPoolDict = new Dictionary<FacilityKind, ManagedObjectPool<FacilityAI>>();
+        for (int i = 0; i < _facilityPrefabList.Count; i++)
+        {
+            _facilityPoolDict.Add(_facilityPrefabList[i].kind, new ManagedObjectPool<FacilityAI>(_facilityPrefabList[i].prefab, this.transform));
+        }
+    }
+
+    public FacilityAI CreateFacility(FacilityData data)
+    {
+        var entity = _facilityPoolDict[data.Kind].CreateObject(data);
+        return entity;
+    }
+
+    public FacilityAI CreateFacility(FacilityData data, Vector3 position, Quaternion rotation)
+    {
+        var entity = CreateFacility(data);
+        entity.transform.position = position;
+        entity.transform.rotation = rotation;
+        return entity;
+    }
+    public FacilityAI CreateFacility(FacilityData data, Transform transform)
+    {
+        return CreateFacility(data, transform.position, transform.rotation);
+    }
+
+    // destroy
+    public void DestroyFacility(FacilityAI entity)
+    {
+        _facilityPoolDict[entity.Data.Kind].PushObject(entity);
+        return;
+    }
+    #endregion
 
     #region [Bullet object pool methods]
 
