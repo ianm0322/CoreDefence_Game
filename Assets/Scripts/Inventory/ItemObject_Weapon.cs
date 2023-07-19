@@ -1,22 +1,31 @@
-﻿public class ItemObject_Weapon : ItemObject
+﻿using UnityEngine;
+
+public class ItemObject_Weapon : IItem, ILinkedItem
 {
-    public override InventoryItemType type => InventoryItemType.Weapon;
+    public int Id { get; private set; }
+    public InventoryItemType ItemType { get; private set; }
+    public Sprite ItemIcon { get; private set; }
+
     WeaponBase weapon;
 
-    private void Awake()
+    public ItemObject_Weapon(InventoryItemType itemType, Sprite itemIcon, GameObject obj)
     {
-        TryGetComponent(out weapon);
+        ItemType = itemType;
+        ItemIcon = itemIcon;
+        this.SetPrefab(obj);
     }
 
-    public override void Use()
+    public void SetPrefab(GameObject obj)
     {
-        if(weapon == null)
-            TryGetComponent(out weapon);
+        obj.TryGetComponent(out this.weapon);
+    }
 
+    public void UseItem()
+    {
         GameManager.Instance.player.SetWeapon(weapon);
     }
 
-    public override void OnDisabled()
+    public void CancleItem()
     {
         GameManager.Instance.player.SetWeapon(null);
     }

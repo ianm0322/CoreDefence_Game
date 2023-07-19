@@ -457,13 +457,14 @@ GameObject:
   - component: {fileID: 7565768264094503898}
   - component: {fileID: 2103166499624398401}
   - component: {fileID: 6819676883396862410}
+  - component: {fileID: 5132509447331112761}
   m_Layer: 5
   m_Name: Weapon_Rifle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7565768264094503898
 Transform:
   m_ObjectHideFlags: 0
@@ -473,7 +474,7 @@ Transform:
   m_GameObject: {fileID: 6819676883396862409}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 24.426443, y: 6.2414727, z: 73.336784}
-  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
+  m_LocalScale: {x: 0.009999999, y: 0.01, z: 0.009999999}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4378673122933085546}
@@ -516,19 +517,42 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Data:
     Bullet:
+      type: 0
       tag: PlayerBullet
       speed: 100
-      damage: 1
-      lifeTime: 1
-      lifeDistance: 30
+      damage: 10
+      lifeTime: 100
+      lifeDistance: 100
+      penetraitCount: 1
+      gravity: 0
+      explosionRange: 0
+      explosionPower: 0
     Damage: 1
     Cooldown: 0.1
     BulletSpread: 5
-    MaxAmmoAmount: 20
+    MaxAmmoAmount: 100
+    ReloadCooltime: 1.2
   Owner: {fileID: 0}
   GunPointTr: {fileID: 3280229013256704411}
-  _ammoCount: 0
-  state: 0
+  equipRotationOffset: {x: 0, y: 0, z: 0}
+  equipPositionOffset: {x: 0, y: 0, z: 0}
+  _ammoCount: 10000
+  state: 1
+--- !u!114 &5132509447331112761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6819676883396862409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3247b2bf869bece4584876c1c01092ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 514
+  icon: {fileID: 21300000, guid: 16a34c8b1efff434e985ff65d2aba734, type: 3}
+  count: 1
 --- !u!1 &7841223171421240268
 GameObject:
   m_ObjectHideFlags: 0

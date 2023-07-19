@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
+using TMPro;
 using UnityEngine.UI;
 
 public class InventoryUIScript : MonoBehaviour
@@ -23,6 +23,7 @@ public class InventoryUIScript : MonoBehaviour
     private Coroutine _mainCoroutine;
     private Coroutine _effectCoroutine;
     private Image[] _icons = null;
+    private TMP_Text[] _countText = null;
     private Vector3[] _slotPositions = null;
 
     private void Start()
@@ -32,31 +33,36 @@ public class InventoryUIScript : MonoBehaviour
         inventory = InventoryManager.Instance.Inventory;
 
         // Init arrays
-        InitUIObject();
+        InitUIElements();
         InitSlotPositions();
     }
 
     private void Update()
     {
-        InventoryUpdate();
+        InventoryControlUpdate();
     }
 
     private void ImageUpdate()
     {
         for (int i = 0; i < _icons.Length; i++)
         {
-            if (inventory.GetSlot(i).Item?.icon != null)
+            var slot = inventory.GetSlot(i);
+            var item = slot?.Item;
+            if (item != null)
             {
-                _icons[i].sprite = inventory.GetSlot(i).Item.icon;
+                _icons[i].sprite = item.ItemIcon;
+                _countText[i].text = (item as ICountableItem)?.Count.ToString();
             }
             else
             {
                 _icons[i].sprite = DefaultSprite;
+                _countText[i].text = null;
             }
         }
     }
 
-    private void InventoryUpdate()
+    [Obsolete("테스트용 임시 메서드.")]
+    private void InventoryControlUpdate()
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
@@ -66,37 +72,10 @@ public class InventoryUIScript : MonoBehaviour
         {
             CloseInventory();
         }
-
-        else if (Input.GetMouseButtonDown(0))
-        {
-            // 아이템 옮기기 기능
-        }
-
         else if (Input.GetKeyDown(KeyCode.Q))
         {
             // 아이템 버리기 기능
         }
-    }
-
-    // 인벤토리에서 아이템 슬롯을 선택할 때 작동하는 메서드
-    [Obsolete()]
-    private void OnSelectSlot()
-    {
-        Debug.Log(SelectedIndex);
-        if (SelectedIndex != -1)
-        {
-            var slot = inventory.GetSlot(SelectedIndex);
-            if (slot.Item == null)
-            {
-                Debug.Log("Yes!");
-                GameManager.Instance.player.SetWeapon(null);
-            }
-            else
-            {
-                slot.Item?.Use();
-            }
-        }
-
     }
 
     #region Interface
@@ -104,9 +83,9 @@ public class InventoryUIScript : MonoBehaviour
     {
         if (index != -1)
         {
-            inventory.GetSlot(SelectedIndex).Item?.OnDisabled();
+            inventory.GetSlot(SelectedIndex).Item?.CancleItem();
             SelectedIndex = index;
-            inventory.GetSlot(SelectedIndex).Item?.Use();
+            inventory.GetSlot(SelectedIndex).Item?.UseItem();
         }
     }
 
@@ -138,22 +117,24 @@ public class InventoryUIScript : MonoBehaviour
     /// <summary>
     /// Slot을 표시할 Image Object을 생성하고 배열에 저장한다.
     /// </summary>
-    private void InitUIObject()
+    private void InitUIElements()
     {
         if (_icons == null)
         {
             _icons = new Image[inventory.Count];
+            _countText = new TMP_Text[inventory.Count];
         }
 
         for (int i = 0; i < _icons.Length; i++)
         {
             var obj = Instantiate(Prefab);
             _icons[i] = obj.GetComponent<Image>();
+            _countText[i] = obj.GetComponentInChildren<TMP_Text>();
             obj.transform.SetParent(this.transform);
             obj.transform.localScale = Vector3.one;
             if (inventory.GetSlot(i).Item != null)
             {
-                _icons[i].sprite = inventory.GetSlot(i).Item.icon;
+                _icons[i].sprite = inventory.GetSlot(i).Item.ItemIcon;
             }
             else
             {
@@ -354,8 +335,8 @@ public class InventoryUIScript : MonoBehaviour
     {
         yield return null;
 
-        RectTransform tr = null;
-        int grapIndex = -1;
+        RectTransform heldTr = null;
+        int heldIndex = -1;
 
         while (true)
         {
@@ -366,24 +347,30 @@ public class InventoryUIScript : MonoBehaviour
             // 1. 아이콘에 마우스 클릭 시
             if (Input.GetMouseButtonDown(0) && CursoredIndex != -1)
             {
-                grapIndex = CursoredIndex;
-                tr = _icons[grapIndex].rectTransform;
-                tr.SetAsLastSibling();
+                heldIndex = CursoredIndex;
+                heldTr = _icons[heldIndex].rectTransform;
+                heldTr.SetAsLastSibling();
             }
-            else if (Input.GetMouseButton(0) && tr != null)
+            else if (Input.GetMouseButton(0) && heldTr != null)
             {
-                tr.position = Input.mousePosition;
+                if (heldTr != null)
+                {
+                    heldTr.position = Input.mousePosition;
+                }
             }
             else if (Input.GetMouseButtonUp(0))
             {
-                if (CursoredIndex != -1 && grapIndex != CursoredIndex)
+                if (heldTr != null)
                 {
-                    Debug.Log("Swap");
-                    inventory.SwapSlotPosition(grapIndex, CursoredIndex);
-                    ImageUpdate();
+                    if (CursoredIndex != -1 && heldIndex != CursoredIndex)
+                    {
+                        Debug.Log("Swap");
+                        inventory.SwapSlotPosition(heldIndex, CursoredIndex);
+                        ImageUpdate();
+                    }
+                    heldTr.position = _slotPositions[heldIndex];
+                    heldTr = null;
                 }
-                tr.position = _slotPositions[grapIndex];
-                tr = null;
             }
 
             CursoredIndex = GetSelectionIndex();    // 선택된 슬롯 인덱스 설정
