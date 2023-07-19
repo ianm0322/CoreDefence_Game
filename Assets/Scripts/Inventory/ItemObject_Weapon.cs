@@ -6,7 +6,7 @@ public class ItemObject_Weapon : IItem, ILinkedItem
     public InventoryItemType ItemType { get; private set; }
     public Sprite ItemIcon { get; private set; }
 
-    WeaponBase weapon;
+    WeaponBase _weapon;
 
     public ItemObject_Weapon(InventoryItemType itemType, Sprite itemIcon, GameObject obj)
     {
@@ -17,12 +17,12 @@ public class ItemObject_Weapon : IItem, ILinkedItem
 
     public void SetPrefab(GameObject obj)
     {
-        obj.TryGetComponent(out this.weapon);
+        obj.TryGetComponent(out this._weapon);
     }
 
     public void UseItem()
     {
-        GameManager.Instance.player.SetWeapon(weapon);
+        GameManager.Instance.player.SetWeapon(_weapon);
     }
 
     public void CancleItem()

@@ -7,6 +7,9 @@ public class InventoryManager : MonoSingleton<InventoryManager>
     private ItemInventory _inventory;
     public ItemInventory Inventory => _inventory;
 
+    private int _money;
+    public int Money => _money;
+
     protected override void Awake()
     {
         base.Awake();
@@ -26,5 +29,20 @@ public class InventoryManager : MonoSingleton<InventoryManager>
         }
 
         _inventory.AddItem(item.ConvertToItemData());
+    }
+
+    public void AddMoney(int value)
+    {
+        _money += value;
+    }
+
+    public void SubtractMoney(int value)
+    {
+        _money = _money < value ? _money - value : 0;
+    }
+
+    public bool CanSpendMoney(int price)
+    {
+        return Money >= price;
     }
 }

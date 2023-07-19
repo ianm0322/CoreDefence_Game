@@ -12,8 +12,8 @@ public class GameManager : MonoSingleton<GameManager>
     public Transform PlayerSpawnPoint;
     public EnemySpawner[] Spawners;
 
-    public ItemObjectInfo[] Items;
-
+    public ItemObjectInfo[] StartingItemBundle;
+    
     protected override void Awake()
     {
         base.Awake();
@@ -29,6 +29,7 @@ public class GameManager : MonoSingleton<GameManager>
 
         player.Init();
         player.Spawn();
+        GiveStartingItemBundle();
     }
 
     void Update()
@@ -36,25 +37,32 @@ public class GameManager : MonoSingleton<GameManager>
         if (Input.GetKeyDown(KeyCode.Escape))
             Application.Quit();
 
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            for (int i = 0; i < Items.Length; i++)
-            {
-                InventoryManager.Instance.AddItem(Items[i]);
-            }
-        }
-
         if (Input.GetKeyDown(KeyCode.E))
         {
-            var obj = GetGazeObject(Camera.main, LayerMask.GetMask("UI"));
-            if(obj != null)
+            InteractOnGaze();
+        }
+    }
+
+    public bool InteractOnGaze()
+    {
+        var obj = GetGazeObject(Camera.main, LayerMask.GetMask("UI"));
+        if (obj != null)
+        {
+            IInteractable interact;
+            if (obj.TryGetComponent(out interact))
             {
-                IInteractable interact;
-                if(obj.TryGetComponent(out interact))
-                {
-                    interact.Interact();
-                }
+                interact.Interact();
+                return true;
             }
+        }
+        return true;
+    }
+
+    public void GiveStartingItemBundle()
+    {
+        for (int i = 0; i < StartingItemBundle.Length; i++)
+        {
+            InventoryManager.Instance.AddItem(StartingItemBundle[i]);
         }
     }
 

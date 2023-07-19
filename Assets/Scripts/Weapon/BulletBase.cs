@@ -207,7 +207,7 @@ public abstract class BulletBase : MonoBehaviour, IPoolingObject, IFixedUpdateLi
     {
         if (dataObj is BulletData)
         {
-            BulletData _data = dataObj as BulletData;
+            BulletData _data = new BulletData(dataObj as BulletData);
             this.Data = _data;
             this.tag = _data.tag;
 

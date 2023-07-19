@@ -151,7 +151,7 @@ public class PlayerController : MonoBehaviour
         Body.SetHp(Body.MaxHp);
     }
 
-    public void SetWeapon(WeaponBase weapon)
+    public void SetWeapon(WeaponBase weapon, bool isEquipNow = true)
     {
         if (this._weapon != null)
         {
@@ -160,11 +160,15 @@ public class PlayerController : MonoBehaviour
 
         if (weapon != null)
         {
-            weapon.gameObject.SetActive(true);
-            this._weapon = weapon;
-
+            weapon.transform.parent = gunTr;
             weapon.transform.localPosition = weapon.equipPositionOffset;
             weapon.transform.localRotation = Quaternion.Euler(weapon.equipRotationOffset);
+
+            if (isEquipNow)
+            {
+            this._weapon = weapon;
+            weapon.gameObject.SetActive(true);
+            }
         }
     }
 }

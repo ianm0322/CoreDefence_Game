@@ -24,7 +24,7 @@ public class DefaultBullet : BulletBase
 
         if (Data.gravity != 0)
         {
-            gravity += Physics.gravity * Time.fixedDeltaTime;
+            gravity += Physics.gravity * Data.gravity * Time.fixedDeltaTime;
             _rigid.MovePosition(_rigid.position + gravity * Time.fixedDeltaTime);
         }
         //_rigid.AddForce(Physics.gravity * Data.gravity, ForceMode.Acceleration);
