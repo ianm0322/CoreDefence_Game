@@ -12,7 +12,7 @@ public class GameManager : MonoSingleton<GameManager>
     public Transform PlayerSpawnPoint;
     public EnemySpawner[] Spawners;
 
-    public ItemObject[] Items;
+    public ItemObjectInfo[] Items;
 
     protected override void Awake()
     {
@@ -43,5 +43,29 @@ public class GameManager : MonoSingleton<GameManager>
                 InventoryManager.Instance.AddItem(Items[i]);
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            var obj = GetGazeObject(Camera.main, LayerMask.GetMask("UI"));
+            if(obj != null)
+            {
+                IInteractable interact;
+                if(obj.TryGetComponent(out interact))
+                {
+                    interact.Interact();
+                }
+            }
+        }
+    }
+
+    GameObject GetGazeObject(Camera cam, LayerMask layer)
+    {
+        Ray ray = new Ray(cam.transform.position, cam.transform.forward);
+        RaycastHit hit;
+        if(Physics.Raycast(ray, out hit, float.PositiveInfinity, layer))
+        {
+            return hit.collider.gameObject;
+        }
+        return null;
     }
 }

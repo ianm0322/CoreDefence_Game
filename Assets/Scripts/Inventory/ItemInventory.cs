@@ -28,18 +28,46 @@ public class ItemInventory
         }
     }
 
-    public ItemInventorySlot FindSlot(string itemName)
+    public ItemInventorySlot FindItemSlot(InventoryItemType itemType)
     {
+        // 슬롯 전체 검사해 동일한 타입의 오브젝트 있으면 반환
         for (int i = 0; i < Count; i++)
         {
-            // 슬롯의 아이템
-            if (_inventory[i].IsEmpty == false && _inventory[i].Item.name == itemName)
+            if (_inventory[i].Item.ItemType == itemType)
             {
                 return _inventory[i];
             }
         }
         return null;
     }
+
+    public bool TryFindItemSlot(InventoryItemType itemType, out ItemInventorySlot slot)
+    {
+        slot = null;
+        for (int i = 0; i < Count; i++)
+        {
+            if (_inventory[i].IsEmpty == false && _inventory[i].Item.ItemType == itemType)
+            {
+                slot = _inventory[i];
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public bool AddItem(IItem item)
+    {
+        for (int i = 0; i < Count; i++)
+        {
+            if (_inventory[i].IsEmpty)
+            {
+                _inventory[i].SetItem(item);
+                return true;
+            }
+        }
+        return false;
+    }
+
     public ItemInventorySlot GetSlot(int index)
     {
         return _inventory[index];
@@ -61,110 +89,14 @@ public class ItemInventory
         return null;
     }
 
-    /// <summary>
-    /// 빈 슬롯에 아이템을 추가한다. 빈 슬롯이 없으면 실행하지 않으며, false가 반환된다.
-    /// </summary>
-    /// <param name="item"></param>
-    /// <returns></returns>
-    private bool AddItemInstance(ItemObject item, int count = 1)
-    {
-        var slot = FindEmptySlot();
-        if (slot == null)
-        {
-            return false;
-        }
-        else
-        {
-            slot.SetItem(item, count);
-            return true;
-        }
-    }
-
-    /// <summary>
-    /// 아이템을 인벤토리에 추가한다. 같은 아이템이 이미 인벤토리에 있으면, 그 아이템의 개수를 증가시킨다. 메서드의 성공 여부가 bool값으로 반환된다.
-    /// </summary>
-    /// <param name="item"></param>
-    /// <param name="count"></param>
-    /// <returns></returns>
-    public bool AcquireItem(ItemObject item, int count = 1)
-    {
-        var slot = FindSlot(item.name);
-        if (slot == null)
-        {
-            // 기존 아이템이 없으면 아이템 생성 시도. 빈 슬롯이 없어 아이템을 추가할 수 없으면 false 반환.
-            if (AddItemInstance(item, count) == false)
-            {
-                return false;
-            }
-        }
-        else
-        {
-            // 기존 아이템이 있으면 그 아이템의 개수 증가.
-            slot.amount += count;
-        }
-        // 아이템 정상적으로 추가됐으면 true 반환.
-        return true;
-    }
-
-    public bool ConsumeItem(ItemObject item, int count)
-    {
-        var slot = FindSlot(item.name);
-        if (slot == null)
-        {
-            return false;
-        }
-        else
-        {
-            slot.amount -= count;
-            return true;
-        }
-    }
-
     public void SwapSlotPosition(int slotIdx1, int slotIdx2)
     {
         ItemInventorySlot slot1 = _inventory[slotIdx1];
         ItemInventorySlot slot2 = _inventory[slotIdx2];
 
         var tempItem = slot1.Item;
-        var tempAmount = slot1.amount;
 
-        slot1.SetItem(slot2.Item, slot2.amount);
-        slot2.SetItem(tempItem, tempAmount);
-    }
-}
-
-[System.Serializable]
-public class ItemInventorySlot
-{
-    private ItemInventory _inventory { get; set; }
-    public ItemObject Item { get; private set; }
-
-    public bool IsEmpty => Item == null;
-
-    public int index { get; private set; }
-    public int amount;
-
-    public ItemInventorySlot(ItemInventory inventory, int index)
-    {
-        this._inventory = inventory;
-        this.index = index;
-    }
-
-    public void SetItem(ItemObject item, int count = 1)
-    {
-        this.Item = item;
-        this.amount = count;
-    }
-    public bool UseItem()
-    {
-        if (!IsEmpty)
-        {
-            Item.Use();
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        slot1.SetItem(slot2.Item);
+        slot2.SetItem(tempItem);
     }
 }

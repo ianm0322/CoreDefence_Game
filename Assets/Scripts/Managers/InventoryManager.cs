@@ -14,8 +14,17 @@ public class InventoryManager : MonoSingleton<InventoryManager>
         _inventory = new ItemInventory();
     }
 
-    public void AddItem(ItemObject item)
+    public void AddItem(ItemObjectInfo item)
     {
-        _inventory.AcquireItem(item);
+        ItemInventorySlot slot;
+        if(_inventory.TryFindItemSlot(item.type, out slot))
+        {
+            if (slot.IncreaseItemCount(item.count))
+            {
+                return;
+            }
+        }
+
+        _inventory.AddItem(item.ConvertToItemData());
     }
 }

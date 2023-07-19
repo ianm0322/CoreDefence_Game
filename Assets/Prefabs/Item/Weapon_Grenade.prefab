@@ -260,13 +260,14 @@ GameObject:
   - component: {fileID: 3468659608672308539}
   - component: {fileID: 4280943187710236550}
   - component: {fileID: 4280943187710236551}
+  - component: {fileID: 727180874722781370}
   m_Layer: 0
   m_Name: Weapon_Grenade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3468659608672308539
 Transform:
   m_ObjectHideFlags: 0
@@ -303,7 +304,7 @@ MonoBehaviour:
     Bullet:
       type: 2
       tag: PlayerBullet
-      speed: 10
+      speed: 15
       damage: 10
       lifeTime: 10
       lifeDistance: 100
@@ -318,6 +319,8 @@ MonoBehaviour:
     ReloadCooltime: 0
   Owner: {fileID: 0}
   GunPointTr: {fileID: 3468659608672308539}
+  equipRotationOffset: {x: 0, y: 0, z: 0}
+  equipPositionOffset: {x: 0, y: -0.5, z: 0.5}
   _ammoCount: 999
   MaxCharging: 1.5
 --- !u!95 &4280943187710236551
@@ -341,6 +344,21 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &727180874722781370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4280943187710236545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3247b2bf869bece4584876c1c01092ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 515
+  icon: {fileID: 21300000, guid: 28ef0040ea00b884eb6f521d4e43907c, type: 3}
+  count: 1
 --- !u!1 &5658821793368027910
 GameObject:
   m_ObjectHideFlags: 0
