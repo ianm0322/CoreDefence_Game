@@ -3,6 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public interface IPlayerMovement
+{
+    void Move(Vector3 movement);
+    void Jump(float power);
+    void SetActive(bool enabled);
+}
+
 public class PlayerBody : MonoBehaviour
 {
     [Serializable]
