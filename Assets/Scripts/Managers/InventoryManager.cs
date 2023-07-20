@@ -7,6 +7,7 @@ public class InventoryManager : MonoSingleton<InventoryManager>
     private ItemInventory _inventory;
     public ItemInventory Inventory => _inventory;
 
+    [SerializeField]
     private int _money;
     public int Money => _money;
 
@@ -17,18 +18,18 @@ public class InventoryManager : MonoSingleton<InventoryManager>
         _inventory = new ItemInventory();
     }
 
-    public void AddItem(ItemObjectInfo item)
+    public bool AddItem(ItemObjectInfo item)
     {
         ItemInventorySlot slot;
         if(_inventory.TryFindItemSlot(item.type, out slot))
         {
             if (slot.IncreaseItemCount(item.count))
             {
-                return;
+                return true;
             }
         }
 
-        _inventory.AddItem(item.ConvertToItemData());
+        return _inventory.AddItem(item.ConvertToItemData());
     }
 
     public void AddMoney(int value)
@@ -38,7 +39,7 @@ public class InventoryManager : MonoSingleton<InventoryManager>
 
     public void SubtractMoney(int value)
     {
-        _money = _money < value ? _money - value : 0;
+        _money = _money > value ? _money - value : 0;
     }
 
     public bool CanSpendMoney(int price)

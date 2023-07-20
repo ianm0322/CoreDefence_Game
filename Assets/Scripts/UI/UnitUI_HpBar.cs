@@ -20,6 +20,8 @@ public class UnitUI_HpBar : UnitUI
     private Vector3 _position;
     private Vector3 _offset;
 
+    private Coroutine _mainCoroutine;
+
     protected void Awake()
     {
         if (_unit == null)
@@ -40,14 +42,12 @@ public class UnitUI_HpBar : UnitUI
 
         if (IsInsideOfView())
         {
-            //_anim.SetBool("IsVisible", true);
-            //_renderer.enabled = true;
+            SetVisible(true);
             DrawHpBar();
         }
         else
         {
-            //_anim.SetBool("IsVisible", false);
-            //_renderer.enabled = false;
+            SetVisible(false);
         }
     }
 
@@ -87,5 +87,10 @@ public class UnitUI_HpBar : UnitUI
         // Red와 Green의 가시율 증가를 위해 rate를 제곱하여 구간을 보정하였다.
         // HSV으로 색채 사이값을 자연스럽게 보간함.
         _renderer.material.color = Color.HSVToRGB(Mathf.Lerp(COLOR_RED, COLOR_GREEN, Mathf.Pow(HpRate, 2)), 1f, 1f);
+    }
+
+    private void SetVisible(bool onoff)
+    {
+        _renderer.enabled = onoff;
     }
 }

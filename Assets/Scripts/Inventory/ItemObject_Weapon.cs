@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class ItemObject_Weapon : IItem, ILinkedItem
 {
@@ -7,6 +8,8 @@ public class ItemObject_Weapon : IItem, ILinkedItem
     public Sprite ItemIcon { get; private set; }
 
     WeaponBase _weapon;
+
+    public event Action<IItem> ItemDestroyedEvent;
 
     public ItemObject_Weapon(InventoryItemType itemType, Sprite itemIcon, GameObject obj)
     {

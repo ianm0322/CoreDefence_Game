@@ -36850,8 +36850,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _childImageRenderer: {fileID: 17970202}
   _product: {fileID: 7458980884470423533, guid: 63883ad2dc2e6e9478b1e73b0729eb0d, type: 3}
+  _price: 1
   _isLimittedProduct: 1
-  _amount: 1
+  _stock: 0
 --- !u!65 &561818158
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -56163,8 +56164,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _childImageRenderer: {fileID: 991211517}
   _product: {fileID: 7458980884470423533, guid: 63883ad2dc2e6e9478b1e73b0729eb0d, type: 3}
+  _price: 1
   _isLimittedProduct: 0
-  _amount: 0
+  _stock: 0
 --- !u!65 &830219327
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -74047,6 +74049,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fef444d23785694b9e80e47a3db3a69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _money: 0
 --- !u!1 &1122813352
 GameObject:
   m_ObjectHideFlags: 0

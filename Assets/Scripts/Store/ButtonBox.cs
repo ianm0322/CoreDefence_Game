@@ -37,9 +37,9 @@ public class ButtonBox : MonoBehaviour, IInteractable
         }
     }
 
-    public void LockButton()
+    public void SetLock(bool boolean)
     {
-        _anim.SetBool("IsLocked", true);
+        _anim.SetBool("IsLocked", boolean);
     }
 
     public void Init()

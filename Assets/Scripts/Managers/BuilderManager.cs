@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +19,8 @@ public class BuilderManager : MonoSingleton<BuilderManager>
     private Coroutine _buildModeCoroutine;
     private Ray ray = new Ray();
     private Collider[] _cols = new Collider[1];  // Guide 충돌 검사용 임시 변수
+
+    public event Action<GameObject> OnFacilityBuiltEvent;
 
     protected override void Awake()
     {
@@ -104,6 +107,7 @@ public class BuilderManager : MonoSingleton<BuilderManager>
     {
         var obj = EntityManager.Instance.CreateFacility(_prefabData.Data);
         obj.transform.position = _guideTr.position + Vector3.down * _guideTr.localScale.y * 0.5f;
+        OnFacilityBuiltEvent(obj.gameObject);
     }
 
     public bool GetMousePosition(out RaycastHit hit)

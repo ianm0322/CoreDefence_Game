@@ -1,4 +1,6 @@
-﻿[System.Serializable]
+﻿using System;
+
+[System.Serializable]
 public class ItemInventorySlot
 {
     private ItemInventory _parent { get; set; }
@@ -7,6 +9,11 @@ public class ItemInventorySlot
 
     public bool IsEmpty => Item == null;
 
+    private void OnItemDestroyedListener(IItem item)
+    {
+        item.ItemDestroyedEvent -= OnItemDestroyedListener;
+        RemoveItem();
+    }
 
     public ItemInventorySlot(ItemInventory inventory, int index)
     {
@@ -17,7 +24,9 @@ public class ItemInventorySlot
     public void SetItem(IItem item)
     {
         this.Item = item;
+        item.ItemDestroyedEvent += OnItemDestroyedListener;
     }
+
     public bool UseItem()
     {
         if (!IsEmpty)
@@ -33,6 +42,7 @@ public class ItemInventorySlot
 
     public void RemoveItem()
     {
+        this.Item.CancleItem();
         this.Item = null;
     }
 
