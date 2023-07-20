@@ -92,8 +92,8 @@ MonoBehaviour:
   Kind: 1
   Data:
     id: 
-    MaxHp: 6
-    Hp: 6
+    MaxHp: 60
+    Hp: 60
     MaxFocusCount: 3
     MoveSpeed: 10
     AttackSpeedMultiple: 0.8
@@ -115,7 +115,7 @@ MonoBehaviour:
       type: 0
       tag: EnemyBullet
       speed: 25
-      damage: 1
+      damage: 10
       lifeTime: 1
       lifeDistance: 30
       penetraitCount: 1

@@ -33,6 +33,7 @@ public abstract class FacilityAI : AIController, IFacilityController, IUpdateLis
         {
             this.Data = data;
         }
+        Body.Init(data);
     }
 
     public void OnPushToPool()

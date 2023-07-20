@@ -49,8 +49,10 @@ public class CD_GameObject : MonoBehaviour
         IsDied = true;
         //OnDiedEvent?.Invoke();
     }
-    public virtual void Init()
+    public virtual void Init(EntityData data)
     {
         IsDied = false;
+        MaxHp = data.MaxHp;
+        Hp = data.Hp;
     }
 }

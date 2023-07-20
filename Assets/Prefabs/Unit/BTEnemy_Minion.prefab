@@ -981,15 +981,15 @@ MonoBehaviour:
   Kind: 0
   Data:
     id: 
-    MaxHp: 15
-    Hp: 15
+    MaxHp: 150
+    Hp: 150
     MaxFocusCount: 3
     MoveSpeed: 4
     AttackSpeedMultiple: 0.8
     AttackDelay: 0
     AttackSpeed: 1
     AttackCount: 0
-    AttackDamage: 1
+    AttackDamage: 10
     AttackRange: 4
     BulletSpeed: 0
     DetectTargetLayer:

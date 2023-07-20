@@ -7,7 +7,7 @@ public class FacilityData : EntityData
     public BulletData Bullet;
 
     public FacilityData() { }
-    public FacilityData(FacilityData data)
+    public FacilityData(FacilityData data) : base(data)
     {
         Kind = data.Kind;
         MaxHp = data.MaxHp;

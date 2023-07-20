@@ -10,16 +10,15 @@ public class UnitUI_HpBar : UnitUI
 
     private CD_GameObject _unit;
     private Renderer _renderer;
+    private Animator _anim;
 
     public float HpRate = 1f;
+    public float VisibleDist = 50f;
+    public float VisibleWide = 0.2f;
 
     private Vector3 _scale;
     private Vector3 _position;
     private Vector3 _offset;
-
-    private Coroutine _fadeInOutCoroutine;
-
-    private int TEST_STATE = 0; // 0=APPEARENCE, 1=DISAPPEARENCE
 
     protected void Awake()
     {
@@ -29,6 +28,7 @@ public class UnitUI_HpBar : UnitUI
         }
 
         TryGetComponent(out _renderer);
+        TryGetComponent(out _anim);
 
         _scale = this.transform.localScale;
         _position = this.transform.localPosition;
@@ -40,19 +40,23 @@ public class UnitUI_HpBar : UnitUI
 
         if (IsInsideOfView())
         {
-            _renderer.enabled = true;
+            //_anim.SetBool("IsVisible", true);
+            //_renderer.enabled = true;
             DrawHpBar();
         }
         else
         {
-            _renderer.enabled = false;
+            //_anim.SetBool("IsVisible", false);
+            //_renderer.enabled = false;
         }
     }
 
     private bool IsInsideOfView()
     {
         Vector2 vp = Camera.main.WorldToViewportPoint(_unit.transform.position);
-        return 0.2f < vp.x && vp.x < 0.8f;
+        bool cond1 = VisibleWide < vp.x && vp.x < 1f- VisibleWide;
+        bool cond2 = MathUtility.CompareDist(_unit.transform.position - Camera.main.transform.position, VisibleDist) < 0;
+        return cond1 && cond2;
     }
 
     private void DrawHpBar()
@@ -83,38 +87,5 @@ public class UnitUI_HpBar : UnitUI
         // Red와 Green의 가시율 증가를 위해 rate를 제곱하여 구간을 보정하였다.
         // HSV으로 색채 사이값을 자연스럽게 보간함.
         _renderer.material.color = Color.HSVToRGB(Mathf.Lerp(COLOR_RED, COLOR_GREEN, Mathf.Pow(HpRate, 2)), 1f, 1f);
-    }
-
-    private IEnumerator FadeInCoroutine()
-    {
-        yield return null;
-
-        while (true)
-        {
-            transform.localScale = Vector3.Lerp(transform.localScale, Vector3.one, Time.deltaTime);
-            float f = (transform.localScale - Vector3.one).sqrMagnitude;
-            if (f * f < float.Epsilon)
-            {
-                yield break;
-            }
-            yield return null;
-        }
-    }
-
-    private IEnumerator FadeOutCoroutine()
-    {
-        yield return null;
-
-        while (true)
-        {
-            transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, Time.deltaTime);
-            float f = (transform.localScale - Vector3.one).sqrMagnitude;
-            if (f * f < float.Epsilon)
-            {
-                _fadeInOutCoroutine = null;
-                yield break;
-            }
-            yield return null;
-        }
     }
 }
