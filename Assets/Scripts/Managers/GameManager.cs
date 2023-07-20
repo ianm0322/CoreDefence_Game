@@ -41,6 +41,30 @@ public class GameManager : MonoSingleton<GameManager>
         {
             InteractOnGaze();
         }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            var obj = GetGazeObject(Camera.main, LayerMask.GetMask("UI"));
+            if(obj != null)
+            {
+                IInteractable interact;
+                if(obj.TryGetComponent(out interact))
+                {
+                    interact.Interact();
+                }
+            }
+        }
+    }
+
+    GameObject GetGazeObject(Camera cam, LayerMask layer)
+    {
+        Ray ray = new Ray(cam.transform.position, cam.transform.forward);
+        RaycastHit hit;
+        if(Physics.Raycast(ray, out hit, float.PositiveInfinity, layer))
+        {
+            return hit.collider.gameObject;
+        }
+        return null;
     }
 
     public bool InteractOnGaze()
@@ -64,16 +88,5 @@ public class GameManager : MonoSingleton<GameManager>
         {
             InventoryManager.Instance.AddItem(StartingItemBundle[i]);
         }
-    }
-
-    GameObject GetGazeObject(Camera cam, LayerMask layer)
-    {
-        Ray ray = new Ray(cam.transform.position, cam.transform.forward);
-        RaycastHit hit;
-        if(Physics.Raycast(ray, out hit, float.PositiveInfinity, layer))
-        {
-            return hit.collider.gameObject;
-        }
-        return null;
     }
 }

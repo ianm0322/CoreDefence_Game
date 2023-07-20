@@ -17,6 +17,7 @@ public class ItemObject_Weapon : IItem, ILinkedItem
 
     public void SetPrefab(GameObject obj)
     {
+
         obj.TryGetComponent(out this._weapon);
     }
 
