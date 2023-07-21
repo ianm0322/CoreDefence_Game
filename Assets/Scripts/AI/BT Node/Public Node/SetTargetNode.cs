@@ -31,8 +31,11 @@ public class SetTargetNode : ExecutionNode
         var tr = _controller.Scanner.ScanEntity();
         if(tr != null)
         {
-            tr.GetComponent<CD_GameObject>().FocusCount++;
-            _controller.Target = tr;
+            // 대상이 감지되면 포커싱 시도. 포커싱 실패했다면 
+            if(tr.GetComponent<CD_GameObject>().AddFocus()==true)
+            {
+                _controller.Target = tr;
+            }
         }
         else if(_isTargetSetNull == true)
         {

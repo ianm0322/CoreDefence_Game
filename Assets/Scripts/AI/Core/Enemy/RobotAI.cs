@@ -26,7 +26,7 @@ public class RobotAI : EnemyAI, ILateUpdateListener, IShooter
 
                 Sequence(
                     // Default: move to core
-                    new ChaseTargetNode(this, GameManager.Instance.Core.transform),
+                    new ChaseTargetNode(this, StageInfoManager.Instance.Core.transform),
 
                     Select(
                         // Target is exist sequence:

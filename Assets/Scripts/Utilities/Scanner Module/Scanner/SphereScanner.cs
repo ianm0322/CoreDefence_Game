@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
+[Obsolete()]
 public class SphereScanner : ScannerModule<Transform>
 {
     public Transform origin;

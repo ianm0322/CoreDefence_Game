@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CoreScript : CD_GameObject
+public class CoreScript : MonoBehaviour
 {
-    public override void Die()
+    public void Die()
     {
         Debug.Log("코어 이즈 죽음!");
     }

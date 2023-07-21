@@ -1,92 +1,56 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoSingleton<GameManager>
 {
-    public PlayerController player;
-    public CoreScript Core;
+    private List<IInitializeOnLoad> _managerListOnScene = new List<IInitializeOnLoad>();
 
-    public Vector3 CorePosition { get { return Core.transform.position; } }
-
-    public Transform PlayerSpawnPoint;
-    public EnemySpawner[] Spawners;
-
-    public ItemObjectInfo[] StartingItemBundle;
-    
     protected override void Awake()
     {
         base.Awake();
-        if(player == null)
+
+        // 이 오브젝트와 상위 오브젝트를 모두 불괴 설정함.
+        Transform tr = this.transform;
+        while (tr != null)
         {
-            player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+            DontDestroyOnLoad(tr.gameObject);
+            tr = tr.parent;
         }
     }
 
-    void Start()
+    public void OnSceneLoaded()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-
-        player.Init();
-        player.Spawn();
-        GiveStartingItemBundle();
+        InitSceneManager();
+        InitializeOnSceneLoad();
     }
 
-    void Update()
+    private void InitSceneManager()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-            Application.Quit();
-
-        if (Input.GetKeyDown(KeyCode.E))
+        _managerListOnScene.Clear();
+        var managers = GameObject.FindGameObjectsWithTag("Manager");
+        IInitializeOnLoad element;
+        for (int i = 0; i < managers.Length; i++)
         {
-            InteractOnGaze();
-        }
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            var obj = GetGazeObject(Camera.main, LayerMask.GetMask("UI"));
-            if(obj != null)
+            if (managers[i].TryGetComponent(out element))
             {
-                IInteractable interact;
-                if(obj.TryGetComponent(out interact))
-                {
-                    interact.Interact();
-                }
+                _managerListOnScene.Add(element);
             }
-        }
-    }
-
-    GameObject GetGazeObject(Camera cam, LayerMask layer)
-    {
-        Ray ray = new Ray(cam.transform.position, cam.transform.forward);
-        RaycastHit hit;
-        if(Physics.Raycast(ray, out hit, float.PositiveInfinity, layer))
-        {
-            return hit.collider.gameObject;
-        }
-        return null;
-    }
-
-    public bool InteractOnGaze()
-    {
-        var obj = GetGazeObject(Camera.main, LayerMask.GetMask("UI"));
-        if (obj != null)
-        {
-            IInteractable interact;
-            if (obj.TryGetComponent(out interact))
+#if UNITY_EDITOR
+            else
             {
-                interact.Interact();
-                return true;
+                Debug.LogError("초기화할 수 없는 매니저 오브젝트 감지. 정상적인 작동인지 확인하시오.", this);
             }
+#endif
         }
-        return true;
     }
 
-    public void GiveStartingItemBundle()
+    private void InitializeOnSceneLoad()
     {
-        for (int i = 0; i < StartingItemBundle.Length; i++)
+        for (int i = 0; i < _managerListOnScene.Count; i++)
         {
-            InventoryManager.Instance.AddItem(StartingItemBundle[i]);
+            _managerListOnScene[i].Init();
         }
     }
 }

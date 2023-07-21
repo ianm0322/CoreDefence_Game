@@ -39,6 +39,6 @@ public class EnemyState_RobotMove : EnemyState
 
     private void MoveToCoreUpdate()
     {
-        Self.Agent.SetDestination(GameManager.Instance.CorePosition);
+        Self.Agent.SetDestination(StageInfoManager.Instance.CorePosition);
     }
 }

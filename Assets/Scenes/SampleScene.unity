@@ -32603,33 +32603,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 510454900}
-  - component: {fileID: 510454899}
+  - component: {fileID: 510454901}
   m_Layer: 0
-  m_Name: Game Manager
+  m_Name: Stage Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &510454899
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 510454898}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6fdfdbd1a375f8b4b8e863080e40a3b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 1063734656}
-  Core: {fileID: 1768407903}
-  PlayerSpawnPoint: {fileID: 850822363}
-  Spawners:
-  - {fileID: 1211455344}
-  StartingItemBundle:
-  - {fileID: 1359465871}
 --- !u!4 &510454900
 Transform:
   m_ObjectHideFlags: 0
@@ -32645,6 +32626,24 @@ Transform:
   m_Father: {fileID: 1076888517}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &510454901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 510454898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31548f5cd2bec4d42b3ceaa559624e9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Core: {fileID: 0}
+  PlayerSpawnPoint: {fileID: 850822363}
+  Spawners:
+  - {fileID: 1211455344}
+  StartingItemBundle:
+  - {fileID: 1359465871}
 --- !u!1 &512232594
 GameObject:
   m_ObjectHideFlags: 0
@@ -70221,7 +70220,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Hp: 1000
   MaxHp: 1000
-  FocusCount: 0
   MaxFocusCount: 3
 --- !u!1 &1067485083
 GameObject:
@@ -113935,6 +113933,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1768407902}
   - component: {fileID: 1768407903}
+  - component: {fileID: 1768407904}
+  - component: {fileID: 1768407905}
   m_Layer: 8
   m_Name: Core
   m_TagString: Core
@@ -113971,10 +113971,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f05af155f0b1dab4ea55c30975f3b4c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Hp: 0
-  MaxHp: 0
-  FocusCount: 0
-  MaxFocusCount: 3
+--- !u!114 &1768407904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1768407901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16b6760f689e08e4ca0c1debf2ef4996, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Hp: 10
+  MaxHp: 10
+  MaxFocusCount: 999
+--- !u!54 &1768407905
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1768407901}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1769605394
 GameObject:
   m_ObjectHideFlags: 0

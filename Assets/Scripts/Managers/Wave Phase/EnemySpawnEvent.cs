@@ -18,7 +18,7 @@ public class EnemySpawnEvent : PhaseEvent
     {
         // 에네미 스폰 코드
         var enemy = EntityManager.Instance.CreateEnemy(kind, data);
-        enemy.Agent.Warp(GameManager.Instance.Spawners[0].transform.position);
+        enemy.Agent.Warp(StageInfoManager.Instance.Spawners[0].transform.position);
         //GameManager.Instance.Spawn(0);
     }
 }

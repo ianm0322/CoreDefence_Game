@@ -64,7 +64,7 @@ public class EnemyState_RobotAttack : EnemyState
 
     private void MoveToCoreUpdate()
     {
-        Self.Agent.SetDestination(GameManager.Instance.CorePosition);
+        Self.Agent.SetDestination(StageInfoManager.Instance.CorePosition);
     }
 
     private bool IsDistTooFar()

@@ -19,12 +19,7 @@ public class EnemyDIeNode : ExecutionNode
         base.OnEnter();
         _time = Time.time;
 
-        controller.Anim.SetBool("IsDied", true);
-        controller.Agent.enabled = false;
-        controller.Collider.enabled = false;
-
-        if (controller.Target)
-            controller.Target.GetComponent<CD_GameObject>().FocusCount--;
+        Die();
     }
 
     protected override BTState OnUpdate()
@@ -46,5 +41,19 @@ public class EnemyDIeNode : ExecutionNode
         controller.Agent.enabled = true;
         controller.Collider.enabled = true;
         EntityManager.Instance.DestroyEnemy(controller);
+    }
+
+    private void Die()
+    {
+        // 컴포넌트 초기화
+        controller.Anim.SetBool("IsDied", true);
+        controller.Agent.enabled = false;
+        controller.Collider.enabled = false;
+
+        // 타겟중이면 타겟 해제
+        if (controller.Target)
+            controller.Target.GetComponent<CD_GameObject>().ReleaseFocus();
+
+        InventoryManager.Instance.AddMoney(10);
     }
 }

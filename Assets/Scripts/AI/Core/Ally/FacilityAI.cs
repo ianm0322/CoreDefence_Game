@@ -48,6 +48,6 @@ public abstract class FacilityAI : AIController, IFacilityController, IUpdateLis
     public virtual void OnDied()
     {
         if (Target)
-            Target.GetComponent<CD_GameObject>().FocusCount--;
+            Target.GetComponent<CD_GameObject>().ReleaseFocus();
     }
 }

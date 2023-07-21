@@ -58,6 +58,8 @@ MonoBehaviour:
     lifeDistance: 0
     penetraitCount: 1
     gravity: 0
+    explosionRange: 0
+    explosionPower: 0
 --- !u!33 &9110672733018737815
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -179,7 +181,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.3
+  m_Time: 0.01
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1

@@ -12,7 +12,7 @@ public class AmmoHUD : MonoBehaviour
 
     private void Start()
     {
-        player = GameManager.Instance.player;
+        player = StageInfoManager.Instance.Player;
     }
 
     private void LateUpdate()

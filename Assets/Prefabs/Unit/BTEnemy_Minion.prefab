@@ -957,7 +957,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Hp: 0
   MaxHp: 0
-  FocusCount: 0
   MaxFocusCount: 3
 --- !u!114 &925932064805574083
 MonoBehaviour:

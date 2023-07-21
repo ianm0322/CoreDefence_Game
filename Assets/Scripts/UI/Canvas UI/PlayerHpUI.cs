@@ -11,7 +11,7 @@ public class PlayerHpUI : MonoBehaviour
     private void Start()
     {
         TryGetComponent(out slider);
-        GameManager.Instance.player.TryGetComponent(out player);
+        StageInfoManager.Instance.Player.TryGetComponent(out player);
 
         slider.minValue = 0;
         slider.maxValue = 1;
