@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class TargettableEntityClassifier : AbstractClassifier
+public class TargetableEntityClassifier : AbstractClassifier
 {
     protected override bool Check(Collider target)
     {

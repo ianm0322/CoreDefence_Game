@@ -8,7 +8,7 @@ public class OverlabSphereScanner : IScanner
     private float range;
     private LayerMask layer;
 
-    private Collider[] _cols = new Collider[8];
+    //private Collider[] _cols = new Collider[8];
 
     public OverlabSphereScanner(Transform origin, float range, LayerMask layer)
     {
@@ -17,15 +17,15 @@ public class OverlabSphereScanner : IScanner
         this.layer = layer;
     }
 
-    public Collider[] FindColliders()
+    public int FindColliders(Collider[] cols)
     {
-        return Scan();
+        return Overlab(cols);
     }
 
-    private Collider[] Scan()
+    private int Overlab(Collider[] cols)
     {
-        Physics.OverlapSphereNonAlloc(origin.position, range, _cols, layer);
-        return _cols;
+        int count = Physics.OverlapSphereNonAlloc(origin.position, range, cols, layer);
+        return count;
     }
 
 

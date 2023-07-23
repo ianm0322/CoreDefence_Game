@@ -12,6 +12,11 @@ public abstract class AbstractClassifier : IClassifier
 
     public bool Evaluate(Collider target)
     {
+        if(target == null)
+        {
+
+        }
+
         // 평가 결과 false면 결과 반환
         bool result = Check(target);
         if (result == false)

@@ -14,7 +14,7 @@ public class MinionAI : EnemyAI, ILateUpdateListener
             Select(
                 Sequence(
                     new IsDiedNode(Body),
-                    new EnemyDIeNode(this)
+                    new EnemyDieNode(this)
                     ),
 
                 new IsParalysisNode(this),
@@ -61,10 +61,10 @@ public class MinionAI : EnemyAI, ILateUpdateListener
     protected override void Awake()
     {
         base.Awake();
-        Scanner = new EntitySelector(
-            new SphereScanner(transform, Data.DetectRange, AIInfo.DetectTargetLayer),
-            new EntityClassifier_MeleeAgent(transform, Agent, AIInfo.DetectTargetTags)
-            );
+        //Scanner = new EntitySelector(
+        //    new SphereScanner(transform, Data.DetectRange, AIInfo.DetectTargetLayer),
+        //    new EntityClassifier_MeleeAgent(transform, Agent, AIInfo.DetectTargetTags)
+        //    );
     }
 
     protected override void Start()
@@ -77,9 +77,21 @@ public class MinionAI : EnemyAI, ILateUpdateListener
     {
         if (Target != null)
         {
-            Vector3 look = (Target.position - transform.position).normalized;
+            Vector3 look = (Target.transform.position - transform.position).normalized;
             look.y = 0;
             transform.forward = Vector3.Lerp(transform.forward, look, 5 * Time.deltaTime);
         }
+    }
+
+    public override void InitForInstantiate()
+    {
+        base.InitForInstantiate();
+    }
+
+    public override void OnCreateFromPool(object dataObj)
+    {
+        base.OnCreateFromPool(dataObj);
+
+        _selector = new MinionTargetSelector(this);
     }
 }

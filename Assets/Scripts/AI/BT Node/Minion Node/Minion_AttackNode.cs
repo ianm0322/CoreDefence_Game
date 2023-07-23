@@ -66,7 +66,7 @@ public class Minion_AttackNode : EnemyAINode
 
     private bool IsTargetNear()
     {
-        return (_controller.Target.position - _controller.transform.position).sqrMagnitude 
+        return (_controller.GetTarget().transform.position - _controller.transform.position).sqrMagnitude 
                 < _controller.Data.AttackRange * _controller.Data.AttackRange;
     }
 

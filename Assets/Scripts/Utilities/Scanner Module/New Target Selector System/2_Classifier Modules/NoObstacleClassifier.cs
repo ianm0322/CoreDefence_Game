@@ -5,6 +5,12 @@ public class NoObstacleClassifier : AbstractClassifier
     private Transform _self;
     private LayerMask _obstacleLayer;
 
+    public NoObstacleClassifier(Transform self, LayerMask obstacleLayer)
+    {
+        _self = self;
+        _obstacleLayer = obstacleLayer;
+    }
+
     protected override bool Check(Collider target)
     {
         // 대상과 나 사이에 가로막는 장애물이 있으면 실패 반환
@@ -24,12 +30,12 @@ public class NoObstacleClassifier : AbstractClassifier
         // 대상과 나 사이를 가로막는 장애물이 있는가?
         if (Physics.Linecast(_self.position, obj.position, _obstacleLayer)) 
         {
-            //Debug.DrawLine(_self.position, obj.position, Color.red);
+            Debug.DrawLine(_self.position, obj.position, Color.red);
             return true;
         }
         else
         {
-            //Debug.DrawLine(_self.position, obj.position, Color.green);
+            Debug.DrawLine(_self.position, obj.position, Color.green);
             return false;
         }
     }

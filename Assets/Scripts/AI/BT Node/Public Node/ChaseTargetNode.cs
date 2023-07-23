@@ -25,7 +25,7 @@ public class ChaseTargetNode : EnemyAINode
         }
         else
         {
-            _controller.Agent.SetDestination(_controller.Target.position);
+            _controller.Agent.SetDestination(_controller.GetTarget().transform.position);
         }
         return BTState.Success;
     }

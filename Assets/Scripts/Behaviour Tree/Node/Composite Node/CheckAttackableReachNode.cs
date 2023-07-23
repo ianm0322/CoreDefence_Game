@@ -21,6 +21,6 @@ public class CheckAttackableReachNode : EnemyAINode
 
     private bool IsNear()
     {
-        return MathUtility.CompareDist(_controller.Target.position - _controller.transform.position, _controller.Data.AttackTargetRange) < 0;
+        return MathUtility.CompareDist(_controller.GetTarget().transform.position - _controller.transform.position, _controller.Data.AttackTargetRange) < 0;
     }
 }

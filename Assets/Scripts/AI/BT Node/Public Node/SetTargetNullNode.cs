@@ -14,8 +14,8 @@ public class SetTargetNullNode : ExecutionNode
 
     protected override BTState OnUpdate()
     {
-        _controller.Target.GetComponent<CD_GameObject>().ReleaseFocus();
-        _controller.Target = null;
+        _controller.GetTarget().GetComponent<CD_GameObject>().ReleaseFocus();
+        _controller.SetTarget(null);
         return BTState.Success;
     }
 }

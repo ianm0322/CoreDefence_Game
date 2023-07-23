@@ -19,7 +19,7 @@ public class RobotAI : EnemyAI, ILateUpdateListener, IShooter
             Select(
                 Sequence(
                     new IsDiedNode(Body),
-                    new EnemyDIeNode(this)
+                    new EnemyDieNode(this)
                     ),
 
                 new IsParalysisNode(this),
@@ -50,7 +50,7 @@ public class RobotAI : EnemyAI, ILateUpdateListener, IShooter
     protected override void Awake()
     {
         base.Awake();
-        Scanner = new EntitySelector(
+        _selector = new EntitySelector(
              new SphereScanner(FirePointTr[0], Data.DetectRange, Data.DetectTargetLayer),
              new EntityClassifier_Robot(transform, new string[2] { "Player", "Facility" })
             );
@@ -86,8 +86,8 @@ public class RobotAI : EnemyAI, ILateUpdateListener, IShooter
 
     public void Shot()
     {
-        EntityManager.Instance.CreateBullet(Data.Bullet, FirePointTr[0].position, Quaternion.LookRotation(Target.position - FirePointTr[0].position));
-        EntityManager.Instance.CreateBullet(Data.Bullet, FirePointTr[1].position, Quaternion.LookRotation(Target.position - FirePointTr[1].position));
+        EntityManager.Instance.CreateBullet(Data.Bullet, FirePointTr[0].position, Quaternion.LookRotation(GetTarget().transform.position - FirePointTr[0].position));
+        EntityManager.Instance.CreateBullet(Data.Bullet, FirePointTr[1].position, Quaternion.LookRotation(GetTarget().transform.position - FirePointTr[1].position));
     }
 
     private void LookTarget()
@@ -96,12 +96,12 @@ public class RobotAI : EnemyAI, ILateUpdateListener, IShooter
         {
             Vector3 angle;
 
-            Quaternion rotation = Quaternion.LookRotation(Target.position - BodyTr.position);
+            Quaternion rotation = Quaternion.LookRotation(GetTarget().transform.position - BodyTr.position);
             angle = Vector3.zero;
             angle.y = rotation.eulerAngles.y - 90;
             BodyTr.eulerAngles = angle;
 
-            rotation = Quaternion.LookRotation(Target.position - GunTr.position);
+            rotation = Quaternion.LookRotation(GetTarget().transform.position - GunTr.position);
             angle = rotation.eulerAngles;
             angle = Vector3.zero;
             angle.z = -rotation.eulerAngles.x;

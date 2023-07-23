@@ -12,7 +12,7 @@ public abstract class FacilityAI : AIController, IFacilityController, IUpdateLis
 
     public Vector3 facilityScale = Vector3.one;
 
-    public Transform Target { get; set; }
+    public Collider Target { get; set; }
     public EntitySelector Scanner { get; set; }
 
     protected override void Awake()
@@ -49,5 +49,20 @@ public abstract class FacilityAI : AIController, IFacilityController, IUpdateLis
     {
         if (Target)
             Target.GetComponent<CD_GameObject>().ReleaseFocus();
+    }
+
+    public Collider GetTarget()
+    {
+        return Target;
+    }
+
+    public void SetTarget(Collider target)
+    {
+        Target = target;
+    }
+
+    public ITargetSelector GetTargetSelector()
+    {
+        return Scanner;
     }
 }

@@ -6,16 +6,25 @@ public abstract class AbstractTargetSelector : ITargetSelector
 
     public AbstractTargetSelector()
     {
-        _selector = Produce();
     }
 
     public Collider Find()
     {
+        if(_selector == null)
+        {
+            _selector = Produce();
+        }
+
         return _selector.Find();
     }
 
     public bool Evaluate(Collider col)
     {
+        if (_selector == null)
+        {
+            _selector = Produce();
+        }
+
         return _selector.Evaluate(col);
     }
 

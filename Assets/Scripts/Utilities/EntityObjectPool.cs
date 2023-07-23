@@ -90,7 +90,10 @@ public class EntityObjectPool<T> : IObjectPool<T> where T : MonoBehaviour, IPool
 
     private T Instantiate()
     {
-        T obj = GameObject.Instantiate(Origin);
+        var obje = GameObject.Instantiate(Origin);
+        T obj;
+        obje.TryGetComponent(out obj);
+        //T obj = GameObject.Instantiate(Origin);
         obj.transform.parent = Parent;
         obj.InitForInstantiate();
         obj.gameObject.SetActive(false);

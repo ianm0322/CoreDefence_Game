@@ -2,6 +2,7 @@
 
 public interface ITargetter
 {
-    Transform Target { get; set; }
-    EntitySelector Scanner { get; set; }
+    Collider GetTarget();
+    void SetTarget(Collider target);
+    ITargetSelector GetTargetSelector();
 }

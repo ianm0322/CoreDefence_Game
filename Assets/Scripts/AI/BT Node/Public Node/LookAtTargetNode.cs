@@ -22,11 +22,11 @@ public class LookAtTargetNode : ExecutionNode
 
     protected override BTState OnUpdate()
     {
-        if (_controller.Target != null)
+        if (_controller.GetTarget() != null)
         {
             Vector3 angle;
 
-            angle = Quaternion.LookRotation(_controller.Target.position - _tr.position).eulerAngles;
+            angle = Quaternion.LookRotation(_controller.GetTarget().transform.position - _tr.position).eulerAngles;
             angle = _axisOrder.Transform(angle);
             angle.x *= _offsetMultiple.x;
             angle.y *= _offsetMultiple.y;

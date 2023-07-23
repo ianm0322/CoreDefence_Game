@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using BT;
 
-public class EnemyDIeNode : ExecutionNode
+public class EnemyDieNode : ExecutionNode
 {
     private EnemyAI controller;
 
     private float _time;
 
-    public EnemyDIeNode(EnemyAI controller)
+    public EnemyDieNode(EnemyAI controller)
     {
         this.controller = controller;
     }

@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class SetTargetNode : ExecutionNode
 {
-    ITargetter _controller;
+    ITargetter _self;
 
     bool _isTargetSetNull;
 
-    public SetTargetNode(ITargetter controller) : base()
+    public SetTargetNode(ITargetter self) : base()
     {
-        this._controller = controller;
+        this._self = self;
         SetOption(isTargetSetNull: false);
     }
 
@@ -28,29 +28,26 @@ public class SetTargetNode : ExecutionNode
 
     protected override BTState OnUpdate()
     {
-        var tr = _controller.Scanner.ScanEntity();
-        if(tr != null)
+        if (_self.GetTargetSelector() == null) Debug.Log("Target Selector is null");
+        var target = _self.GetTargetSelector().Find();
+        if (target != null)
         {
             // 대상이 감지되면 포커싱 시도. 포커싱 실패했다면 
-            if(tr.GetComponent<CD_GameObject>().AddFocus()==true)
+            if (target.GetComponent<CD_GameObject>().AddFocus() == true)
             {
-                _controller.Target = tr;
+                _self.SetTarget(target);
+                return BTState.Success;
+            }
+            else
+            {
+                return BTState.Failure;
             }
         }
-        else if(_isTargetSetNull == true)
+        else if (_isTargetSetNull == true)
         {
-            _controller.Target = null;
-        }
-
-        if(_controller.Target == null)
-        {
+            _self.SetTarget(null);
             return BTState.Failure;
         }
-        else
-        {
-            return BTState.Success;
-        }
+        return BTState.Failure;
     }
-
-
 }

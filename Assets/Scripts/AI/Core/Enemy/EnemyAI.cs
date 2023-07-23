@@ -11,9 +11,11 @@ public abstract class EnemyAI : AIController, IEnemyController, IUpdateListener,
     public EnemyData Data;
     public AIData AIInfo;
     [field: SerializeField]
-    public Transform Target { get; set; }
+    public Collider Target { get; set; }
 
-    public EntitySelector Scanner { get; set; }
+    //public EntitySelector Scanner { get; set; }
+    // 셀렉터테스트
+    protected ITargetSelector _selector;
 
     protected virtual void Start()
     {
@@ -71,5 +73,20 @@ public abstract class EnemyAI : AIController, IEnemyController, IUpdateListener,
 
         // Anim
         Anim.SetFloat("AttackSpeed", Data.AttackSpeed);
+    }
+
+    public ITargetSelector GetTargetSelector()
+    {
+        return _selector;
+    }
+
+    public Collider GetTarget()
+    {
+        return Target;
+    }
+
+    public void SetTarget(Collider target)
+    {
+        this.Target = target;
     }
 }

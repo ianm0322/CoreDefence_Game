@@ -23,7 +23,7 @@ public class CheckTargetOutOfRangeNode : ExecutionNode
 
     protected override BTState OnUpdate()
     {
-        if (_targetter.Target == null) 
+        if (_targetter.GetTarget() == null) 
             return BTState.Failure;    // 타겟이 없으면 실패(계속)
 
         if (IsTargetTooFar()) 
@@ -38,7 +38,7 @@ public class CheckTargetOutOfRangeNode : ExecutionNode
 
     private bool IsTargetTooFar()
     {
-        if (MathUtility.CompareDist(_selfTr.position - _targetter.Target.position, _data.TargetMissingRange) > 0)
+        if (MathUtility.CompareDist(_selfTr.position - _targetter.GetTarget().transform.position, _data.TargetMissingRange) > 0)
         {
             return true;
         }
@@ -47,6 +47,6 @@ public class CheckTargetOutOfRangeNode : ExecutionNode
 
     private bool CantDetect()
     {
-        return _targetter.Scanner.CheckScanned(_targetter.Target) == false;
+        return _targetter.GetTargetSelector().Evaluate(_targetter.GetTarget());
     }
 }

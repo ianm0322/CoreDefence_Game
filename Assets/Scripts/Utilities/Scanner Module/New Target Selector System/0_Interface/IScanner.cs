@@ -2,5 +2,5 @@
 
 public interface IScanner
 {
-    Collider[] FindColliders();
+    int FindColliders(Collider[] cols);
 }

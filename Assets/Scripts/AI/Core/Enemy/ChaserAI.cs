@@ -14,7 +14,7 @@ public class ChaserAI : EnemyAI, ILateUpdateListener
             Select(
                 Sequence(
                     new IsDiedNode(Body),
-                    new EnemyDIeNode(this)
+                    new EnemyDieNode(this)
                     ),
 
                 new IsParalysisNode(this),
@@ -36,7 +36,7 @@ public class ChaserAI : EnemyAI, ILateUpdateListener
     protected override void Awake()
     {
         base.Awake();
-        Scanner = new EntitySelector(
+        _selector = new EntitySelector(
             new SphereScanner(transform, Data.DetectRange, AIInfo.DetectTargetLayer),
             new EntityClassifier_MeleeAgent(transform, Agent, AIInfo.DetectTargetTags)
             );

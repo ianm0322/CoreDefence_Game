@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EntitySelector
+[Obsolete()]
+public class EntitySelector : ITargetSelector
 {
     public ScannerModule<Transform> scanner;
     public ClassifierModule<Transform> classifier;
@@ -33,5 +35,24 @@ public class EntitySelector
     public bool CheckScanned(Transform target)
     {
         return classifier.Check(target);
+    }
+
+    Collider ITargetSelector.Find()
+    {
+        Collider col;
+        Transform tr = ScanEntity();
+        if (tr != null)
+        {
+            if (tr.TryGetComponent(out col))
+            {
+                return col;
+            }
+        }
+        return null;
+    }
+
+    bool ITargetSelector.Evaluate(Collider col)
+    {
+        return CheckScanned(col.transform);
     }
 }

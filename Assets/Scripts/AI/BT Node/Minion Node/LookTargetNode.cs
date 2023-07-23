@@ -16,7 +16,7 @@ public class LookTargetNode : EnemyAINode
     {
         if (_controller.Target)
         {
-            Vector3 look = (_controller.Target.position - _tr.position).normalized;
+            Vector3 look = (_controller.GetTarget().transform.position - _tr.position).normalized;
             look.y = 0;
             _tr.forward = Vector3.Lerp(_tr.forward, look, 5 * Time.deltaTime);
         }

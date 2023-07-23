@@ -14,7 +14,7 @@ public class IsTargetExistNode : ExecutionNode
 
     protected override BTState OnUpdate()
     {
-        if (_controller.Target == null)
+        if (_controller.GetTarget() == null)
             return BTState.Failure;
         else
             return BTState.Success;
