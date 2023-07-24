@@ -53,4 +53,8 @@ public class GameManager : MonoSingleton<GameManager>
             _managerListOnScene[i].Init();
         }
     }
+
+    public void LoadScene()
+    {
+    }
 }

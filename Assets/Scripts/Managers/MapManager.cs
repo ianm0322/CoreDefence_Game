@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Obsolete("제거할 예정인 매니저")]
 public class MapManager : MonoSingleton<MapManager>
 {
     [Rito.CustomAttributes.MethodButton("GenerateMap", "Generation")]

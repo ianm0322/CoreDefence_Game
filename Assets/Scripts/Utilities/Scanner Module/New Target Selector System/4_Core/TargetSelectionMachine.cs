@@ -26,7 +26,12 @@ public sealed class TargetSelectionMachine : ITargetSelector
 
     public Collider Find()
     {
-        // 검사할 충돌체 구하기
+        // 1. Scanner로 대상을 탐색하고
+        // 2. Classifier로 대상 외 개체를 선별하고
+        // 3. PriorityCalculator의 우선순위 계산값을 토대로 가장 우선순위가 높은 개체를 선별
+        // 위 일련의 프로세스를 실행하여 적절한 타겟을 구하는 메서드.
+
+        // Scanner 실행: 검사할 충돌체 구하기
         int count = _scanner.FindColliders(_foundColliders);
         if (count == 0)
         {
@@ -40,11 +45,11 @@ public sealed class TargetSelectionMachine : ITargetSelector
         {
             col = _foundColliders[i];
 
-            // 검사에서 완전히 제외할 대상 필터링
+            // Classifier 실행: 제외 대상 필터링
             if (_classifier.Evaluate(col) == false)
                 continue;
 
-            // 우선순위 연산 후 우선순위에 따라 정렬
+            // PriorityCalculator 실행: 우선순위 연산 및 최고우선순위 선별
             float priority = _priorityCalc.Calculate(col);
             if (higherPriority < priority)
             {
@@ -53,7 +58,7 @@ public sealed class TargetSelectionMachine : ITargetSelector
             }
         }
 
-        // 결과 반환(결과가 없으면 null 반환)
+        // 결과 반환(결과가 없으면 higherCollider의 초기값 null이 반환됨)
         return higherCollider;
     }
 

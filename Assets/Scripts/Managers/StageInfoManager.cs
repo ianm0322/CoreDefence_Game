@@ -36,32 +36,7 @@ public class StageInfoManager : MonoSingleton<StageInfoManager>
         GiveStartingItemBundle();
     }
 
-    // ==> input manager∑Œ ¿Ãµø
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-            Application.Quit();
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            InteractOnGaze();
-        }
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            var obj = GetGazeObject(Camera.main, LayerMask.GetMask("UI"));
-            if(obj != null)
-            {
-                IInteractable interact;
-                if(obj.TryGetComponent(out interact))
-                {
-                    interact.Interact();
-                }
-            }
-        }
-    }
-
-    GameObject GetGazeObject(Camera cam, LayerMask layer)
+    public GameObject GetGazeObject(Camera cam, LayerMask layer)
     {
         Ray ray = new Ray(cam.transform.position, cam.transform.forward);
         RaycastHit hit;

@@ -33,7 +33,7 @@ public class WavePhase_Battle : WavePhase
 
     }
 
-    public virtual void PushEnemySpawnPool()
+    private void PushEnemySpawnPool()
     {
         PhaseEvent e;
         switch (waveManager.WaveLevel)
@@ -43,8 +43,8 @@ public class WavePhase_Battle : WavePhase
                     for (int i = 0; i < 3; i++)
                     {
                         //e = new EnemySpawnEvent((i + 1) * 2f, 0, CTType.EnemyKind.Minion, waveManager.TEMP_MINION_DATA);   // null 말고 다른 데이터값
-                        e = new EnemySpawnEvent((i + 1) * 2f, 0, CTType.EnemyKind.Robot, waveManager.TEMP_ROBOT_DATA);   // null 말고 다른 데이터값
-                        waveManager.AddEvent(e);
+                        //e = new EnemySpawnEvent((i + 1) * 2f, 0, CTType.EnemyKind.Robot, waveManager.TEMP_ROBOT_DATA);   // null 말고 다른 데이터값
+                        //waveManager.AddEvent(e);
                     }
                 }
                 break;
@@ -52,8 +52,8 @@ public class WavePhase_Battle : WavePhase
                 {
                     for (int i = 0; i < 5; i++)
                     {
-                        e = new EnemySpawnEvent((i + 1) * 2f, 0, CTType.EnemyKind.Minion, waveManager.TEMP_MINION_DATA);   // null 말고 다른 데이터값
-                        waveManager.AddEvent(e);
+                        //e = new EnemySpawnEvent((i + 1) * 2f, 0, CTType.EnemyKind.Minion, waveManager.TEMP_MINION_DATA);   // null 말고 다른 데이터값
+                        //waveManager.AddEvent(e);
                     }
                 }
                 break;
@@ -63,13 +63,13 @@ public class WavePhase_Battle : WavePhase
                     {
                         if ((i & 1) == 0)
                         {
-                            e = new EnemySpawnEvent((i + 1) * 2f, 0, CTType.EnemyKind.Minion, waveManager.TEMP_MINION_DATA);   // null 말고 다른 데이터값
+                            //e = new EnemySpawnEvent((i + 1) * 2f, 0, CTType.EnemyKind.Minion, waveManager.TEMP_MINION_DATA);   // null 말고 다른 데이터값
                         }
                         else
                         {
-                            e = new EnemySpawnEvent((i + 1) * 2f, 0, CTType.EnemyKind.Robot, waveManager.TEMP_ROBOT_DATA);   // null 말고 다른 데이터값
+                            //e = new EnemySpawnEvent((i + 1) * 2f, 0, CTType.EnemyKind.Robot, waveManager.TEMP_ROBOT_DATA);   // null 말고 다른 데이터값
                         }
-                        waveManager.AddEvent(e);
+                        //waveManager.AddEvent(e);
                     }
                 }
                 break;
@@ -79,20 +79,20 @@ public class WavePhase_Battle : WavePhase
                     {
                         if ((i % 4) == 0)
                         {
-                            e = new EnemySpawnEvent((i + 1) * 2f, 0, CTType.EnemyKind.Robot, waveManager.TEMP_ROBOT_DATA);   // null 말고 다른 데이터값
+                            //e = new EnemySpawnEvent((i + 1) * 2f, 0, CTType.EnemyKind.Robot, waveManager.TEMP_ROBOT_DATA);   // null 말고 다른 데이터값
                         }
                         else
                         {
-                            e = new EnemySpawnEvent((i + 1) * 2f, 0, CTType.EnemyKind.Minion, waveManager.TEMP_MINION_DATA);   // null 말고 다른 데이터값
+                            //e = new EnemySpawnEvent((i + 1) * 2f, 0, CTType.EnemyKind.Minion, waveManager.TEMP_MINION_DATA);   // null 말고 다른 데이터값
                         }
-                        waveManager.AddEvent(e);
+                        //waveManager.AddEvent(e);
                     }
                 }
                 break;
             case 99:
                 {
-                    e = new EnemySpawnEvent(0, 0, CTType.EnemyKind.Minion, waveManager.TEMP_MINION_DATA);
-                    waveManager.AddEvent(e);
+                    //e = new EnemySpawnEvent(0, 0, CTType.EnemyKind.Minion, waveManager.TEMP_MINION_DATA);
+                    //waveManager.AddEvent(e);
                 }
                 break;
             default:
@@ -102,16 +102,40 @@ public class WavePhase_Battle : WavePhase
                         int rand = Random.Range(0, 9);
                         if (rand < 3)
                         {
-                            e = new EnemySpawnEvent((i + 1) * 2f, 0, CTType.EnemyKind.Robot, waveManager.TEMP_ROBOT_DATA);   // null 말고 다른 데이터값
+                            //e = new EnemySpawnEvent((i + 1) * 2f, 0, CTType.EnemyKind.Robot, waveManager.TEMP_ROBOT_DATA);   // null 말고 다른 데이터값
                         }
                         else
                         {
-                            e = new EnemySpawnEvent((i + 1) * 2f, 0, CTType.EnemyKind.Minion, waveManager.TEMP_MINION_DATA);   // null 말고 다른 데이터값
+                            //e = new EnemySpawnEvent((i + 1) * 2f, 0, CTType.EnemyKind.Minion, waveManager.TEMP_MINION_DATA);   // null 말고 다른 데이터값
                         }
-                        waveManager.AddEvent(e);
+                        //waveManager.AddEvent(e);
                     }
                 }
                 break;
         }
     }
+}
+
+public class PhaseEventPattern_MinionOnly
+{
+    protected int i = 0;
+
+    public void GetNext(List<PhaseEvent> eventList, float term)
+    {
+        //eventList.Add(new EnemySpawnEvent())
+    }
+
+    public void Reset()
+    {
+        i = 0;
+    }
+}
+
+public enum PhaseEventPatternKind
+{
+    MinionOnly,
+    RobotOnly,
+    OneMinionOneRobot,
+    Random,
+    End
 }

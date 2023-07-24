@@ -28,8 +28,6 @@ public class InventoryUIScript : MonoBehaviour
 
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-
         inventory = InventoryManager.Instance.Inventory;
 
         // Init arrays
@@ -39,7 +37,7 @@ public class InventoryUIScript : MonoBehaviour
 
     private void Update()
     {
-        InventoryControlUpdate();
+        //InventoryControlUpdate();
     }
 
     private void ImageUpdate()
@@ -88,6 +86,27 @@ public class InventoryUIScript : MonoBehaviour
             inventory.GetSlot(SelectedIndex).Item?.UseItem();
         }
     }
+
+    //public void SelectPointedSlot(out InventoryUIScript slot)
+    //{
+    //    // 인벤토리가 열려있을 때, 현재 가리키고 있는 슬롯을 선택하는 메서드
+    //    slot = null;
+    //}
+
+    //public void SelectPointedSlot()
+    //{
+    //    // 인벤토리가 열려있을 때, 현재 가리키고 있는 슬롯을 선택하는 메서드
+    //}
+
+    //public Image HoldSlot()
+    //{
+    //    return null;
+    //}
+
+    //public void PutSlot()
+    //{
+    //    // Held slot을 현재 가리키는 위치로 이동시킨다.
+    //}
 
     /// <summary>
     /// 인벤토리를 연다.
