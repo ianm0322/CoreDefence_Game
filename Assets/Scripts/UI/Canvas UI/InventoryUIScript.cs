@@ -28,7 +28,7 @@ public class InventoryUIScript : MonoBehaviour
 
     private void Start()
     {
-        inventory = InventoryManager.Instance.Inventory;
+        inventory = StageManager.Instance.Inventory;
 
         // Init arrays
         InitUIElements();

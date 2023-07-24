@@ -30,9 +30,9 @@ public class InputManager : MonoSingleton<InputManager>
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if(StageInfoManager.Instance != null)
+            if(StageManager.Instance != null)
             {
-                StageInfoManager.Instance.InteractOnGaze();
+                StageManager.Instance.InteractOnGaze();
             }
         }
     }

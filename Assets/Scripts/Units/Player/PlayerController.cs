@@ -146,8 +146,8 @@ public class PlayerController : MonoBehaviour
 
     public void Spawn()
     {
-        this.transform.position = StageInfoManager.Instance.PlayerSpawnPoint.position;
-        PlayerMovement.LookDirection = StageInfoManager.Instance.PlayerSpawnPoint.eulerAngles;
+        this.transform.position = StageManager.Instance.PlayerSpawnPoint.position;
+        PlayerMovement.LookDirection = StageManager.Instance.PlayerSpawnPoint.eulerAngles;
         Body.SetHp(Body.MaxHp);
     }
 

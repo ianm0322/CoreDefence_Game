@@ -54,6 +54,6 @@ public class EnemyDieNode : ExecutionNode
         if (controller.Target)
             controller.Target.GetComponent<CD_GameObject>().ReleaseFocus();
 
-        InventoryManager.Instance.AddMoney(10);
+        StageManager.Instance.AddMoney(10);
     }
 }

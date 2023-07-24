@@ -26,11 +26,11 @@ public class ItemObject_Weapon : IItem, ILinkedItem
 
     public void UseItem()
     {
-        StageInfoManager.Instance.Player.SetWeapon(_weapon);
+        StageManager.Instance.Player.SetWeapon(_weapon);
     }
 
     public void CancleItem()
     {
-        StageInfoManager.Instance.Player.SetWeapon(null);
+        StageManager.Instance.Player.SetWeapon(null);
     }
 }

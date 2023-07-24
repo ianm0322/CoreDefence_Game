@@ -14,7 +14,7 @@ public class EnemyState_GotoCore : EnemyState
     public override void OnStateEnter(IState state)
     {
         base.OnStateEnter(state);
-        corePos = StageInfoManager.Instance.CorePosition;
+        corePos = StageManager.Instance.CorePosition;
         Self.Agent.SetDestination(corePos);
 
     }
@@ -40,7 +40,7 @@ public class EnemyState_GotoCore : EnemyState
     {
         if (CheckCoreIsNear())
         {
-            Self.FocusTarget = (StageInfoManager.Instance.Core.transform);
+            Self.FocusTarget = (StageManager.Instance.Core.transform);
             Self.MoveState(state_readyToAttack);
             return;
         }

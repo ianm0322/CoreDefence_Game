@@ -18,7 +18,7 @@ public class EnemyState_Move : EnemyState
 
     public override void OnStateEnter(IState state)
     {
-        Self.Agent.SetDestination(StageInfoManager.Instance.CorePosition);
+        Self.Agent.SetDestination(StageManager.Instance.CorePosition);
         Self.Agent.speed = Self.data.MoveSpeed;
     }
 

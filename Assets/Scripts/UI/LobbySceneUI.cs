@@ -9,7 +9,7 @@ public class LobbySceneUI : MonoBehaviour
 
     public void PlayButton()
     {
-        SceneManager.LoadScene(PlaySceneName);
+        GameManager.Instance.LoadScene(Data.SceneKind.PlayScene);
     }
 
     public void ExitButton()

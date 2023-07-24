@@ -3,6 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+namespace Data
+{
+    public enum SceneKind
+    {
+        LobbyScene,
+        PlayScene,
+        GameOverScene,
+        End
+    }
+}
+
 public class GameManager : MonoSingleton<GameManager>
 {
     private List<IInitializeOnLoad> _managerListOnScene = new List<IInitializeOnLoad>();
@@ -10,14 +21,11 @@ public class GameManager : MonoSingleton<GameManager>
     protected override void Awake()
     {
         base.Awake();
+    }
 
-        // 이 오브젝트와 상위 오브젝트를 모두 불괴 설정함.
-        Transform tr = this.transform;
-        while (tr != null)
-        {
-            DontDestroyOnLoad(tr.gameObject);
-            tr = tr.parent;
-        }
+    private void Start()
+    {
+        LoadScene(Data.SceneKind.LobbyScene);
     }
 
     public void OnSceneLoaded()
@@ -54,7 +62,34 @@ public class GameManager : MonoSingleton<GameManager>
         }
     }
 
-    public void LoadScene()
+    public void LoadScene(Data.SceneKind scene)
     {
+        switch (scene)
+        {
+            case Data.SceneKind.LobbyScene:
+                {
+                    SceneManager.LoadScene("LobbyScene");
+                    SoundManager.Instance.PlayBGM(Data.BGMKind.BGM_Lobby);
+                }
+                break;
+            case Data.SceneKind.PlayScene:
+                {
+                    SceneManager.LoadScene("LobbyScene");
+                    SoundManager.Instance.PlayBGM(Data.BGMKind.BGM_Lobby);
+                    LoadPlayScene();
+                }
+                break;
+            case Data.SceneKind.GameOverScene:
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void LoadPlayScene()
+    {
+
+        StageManager.Instance.Player.Spawn();
+        StageManager.Instance.GiveStartingItemBundle();
     }
 }

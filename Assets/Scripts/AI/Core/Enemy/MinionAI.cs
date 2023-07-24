@@ -44,7 +44,7 @@ public class MinionAI : EnemyAI, ILateUpdateListener
                 new SetTargetNode(this),
 
                 // Move to core
-                new ChaseTargetNode(this, StageInfoManager.Instance.Core.transform)
+                new ChaseTargetNode(this, StageManager.Instance.Core.transform)
                 )
             );
     }

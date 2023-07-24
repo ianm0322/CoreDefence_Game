@@ -56,11 +56,8 @@ public sealed class WaveManager : MonoSingleton<WaveManager>
     public bool EventQueueIsEmpty => _eventQueueList.Count == 0;
 
     [SerializeField]
-    private List<Data.PairElement<CTType.EnemyKind, EnemyData>> _enemyBaseDatas;
-    private Dictionary<CTType.EnemyKind, EnemyData> _enemyBaseDatasDict;
-
-    public EnemyData MinionBaseData;
-    public EnemyData RobotBaseData;
+    private List<Data.PairElement<CTType.EnemyKind, EnemyData>> _enemyBaseDatas;    // 인스펙터에서 받는 베이스 데이터
+    private Dictionary<CTType.EnemyKind, EnemyData> _enemyBaseDatasDict;            // 적 객체의 기본 데이터
 
     #region [Logic]
     protected override void Awake()
@@ -144,21 +141,6 @@ public sealed class WaveManager : MonoSingleton<WaveManager>
     #endregion
 
     #region [Basic Method]
-    public EnemyData GetEnemyData(CTType.EnemyKind enemyKind)
-    {
-        EnemyData data;
-        if (_enemyBaseDatasDict.TryGetValue(enemyKind, out data))
-        {
-            data = GetUpgradeEnemySpec(data, 1.1f, WaveLevel);  // 레벨에 따른 스팩 상승(수정 필요)
-            return data;
-        }
-        else
-        {
-            Debug.LogError("Dictionary haz no this element");
-            return null;
-        }
-    }
-
     public void AddEvent(PhaseEvent phaseEvent)
     {
         if (_eventQueueList == null)
@@ -247,6 +229,22 @@ public sealed class WaveManager : MonoSingleton<WaveManager>
         }
     }
     #endregion
+    public EnemyData GetEnemyData(CTType.EnemyKind enemyKind)
+    {
+        EnemyData data;
+        if (_enemyBaseDatasDict.TryGetValue(enemyKind, out data))
+        {
+            data = GetUpgradeEnemySpec(data, 1.1f, WaveLevel-1);  // 레벨에 따른 스팩 상승(수정 필요)
+            return data;
+        }
+#if UNITY_EDITOR
+        else
+        {
+            Debug.LogError("Dictionary haz no this element");
+            return null;
+        }
+#endif
+    }
 
     private void InitDatas()
     {

@@ -56,7 +56,7 @@ public class ShopButton : ButtonBox
             {
                 // 3. 아이템 추가 성공했다면 재고와 돈을 감소시킨다.
                 DecreaseStock();
-                InventoryManager.Instance.SubtractMoney(_price);
+                StageManager.Instance.SubtractMoney(_price);
                 return true;
             }
         }
@@ -65,12 +65,12 @@ public class ShopButton : ButtonBox
 
     private bool GiveItem()
     {
-        return InventoryManager.Instance.AddItem(_product);
+        return StageManager.Instance.AddItem(_product);
     }
 
     private bool HasPlayerEnoughMoney()
     {
-        return InventoryManager.Instance.CanSpendMoney( _price);
+        return StageManager.Instance.CanSpendMoney( _price);
     }
 
     private bool HasShopEnoughStock()
