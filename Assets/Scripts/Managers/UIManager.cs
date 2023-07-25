@@ -15,15 +15,8 @@ public class UIManager : MonoSingleton<UIManager>, IInitializeOnLoad
                 var invUi = GameObject.Find("InventoryUI");
                 if (invUi != null)
                 {
-                    if (invUi.TryGetComponent(out _inventoryUI))
+                    if (!invUi.TryGetComponent(out _inventoryUI))
                     {
-                        // 인벤토리 ui script를 발견했을 때
-
-                    }
-                    else
-                    {
-                        // 인벤토리 ui에 인벤토리 ui script가 붙어있지 않을 때
-                        // 인벤토리 ui에 스크립트 붙이고 초기화
                         Debug.LogError("UIManager can't find 'InventoryUI' object.");
                     }
                 }
@@ -31,6 +24,9 @@ public class UIManager : MonoSingleton<UIManager>, IInitializeOnLoad
             return _inventoryUI;
         }
     }
+
+    [SerializeField]
+    GameObject _pausePanel;
 
     protected override void Awake()
     {
@@ -43,7 +39,7 @@ public class UIManager : MonoSingleton<UIManager>, IInitializeOnLoad
 
     public override void InitOnSceneLoad(string sceneName)
     {
-        if (sceneName == StaticData.PlaySceneName)
+        if (GameManager.Instance.GetCurrentScene() == Data.SceneKind.PlayScene)
         {
             Init();
 
@@ -54,6 +50,9 @@ public class UIManager : MonoSingleton<UIManager>, IInitializeOnLoad
     public void Init()
     {
         FindInventoryUI();
+        _pausePanel = GameObject.Find(StaticData.UIPausePanelName);
+        if (_pausePanel == null) 
+            MyDebug.Log($"UIManager couldn't find \"{StaticData.UIPausePanelName}\"");
     }
 
     private void FindInventoryUI()
@@ -84,5 +83,12 @@ public class UIManager : MonoSingleton<UIManager>, IInitializeOnLoad
             }
 #endif
         }
+    }
+
+    [System.Obsolete()]
+    public void SetActivePausePanel(bool enabled)
+    {
+        //if(_pausePanel != null)
+        //    _pausePanel.SetActive(enabled);
     }
 }

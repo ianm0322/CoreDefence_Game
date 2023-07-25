@@ -27,6 +27,7 @@ public static class MyDebug
 public class GameManager : MonoSingleton<GameManager>
 {
     private Data.SceneKind _currentScene;
+    private bool _isPause;
 
     private void Start()
     {
@@ -39,6 +40,7 @@ public class GameManager : MonoSingleton<GameManager>
     public void LoadScene(Data.SceneKind scene)
     {
         _currentScene = scene;
+
         switch (scene)
         {
             case Data.SceneKind.LobbyScene:
@@ -53,6 +55,8 @@ public class GameManager : MonoSingleton<GameManager>
                 }
                 break;
             case Data.SceneKind.GameOverScene:
+                {
+                }
                 break;
             default:
                 break;
@@ -74,5 +78,26 @@ public class GameManager : MonoSingleton<GameManager>
     public Data.SceneKind GetCurrentScene()
     {
         return _currentScene;
+    }
+
+    public void PauseGame(bool isPause)
+    {
+        if(GetCurrentScene() == Data.SceneKind.PlayScene)
+        {
+            UIManager.Instance.SetActivePausePanel(isPause);
+            Time.timeScale = isPause ? 0f : 1f;
+            _isPause = isPause;
+        }
+        else
+        {
+            UIManager.Instance.SetActivePausePanel(false);
+            Time.timeScale = 1f;
+            _isPause = false;
+        }
+    }
+
+    public void GameOver()
+    {
+        throw new System.NotImplementedException();
     }
 }

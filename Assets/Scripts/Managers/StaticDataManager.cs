@@ -35,4 +35,6 @@ public static class StaticData
     public static string GameOverSceneName { get; private set; } = "GameOverScene";
 
     public static float EnemyUpgradeRate { get; private set; } = 1.1f;  // 적 웨이브 레벨에 따른 업그레이드 수치(+10%)
+
+    public static string UIPausePanelName { get; private set; } = "PausePanel";
 }

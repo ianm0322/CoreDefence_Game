@@ -4,8 +4,17 @@ using UnityEngine;
 
 public class CoreScript : MonoBehaviour
 {
+    CD_GameObject _body;
+
+    private void Awake()
+    {
+        TryGetComponent(out _body);
+
+        _body.OnDiedEvent += Die;
+    }
+
     public void Die()
     {
-        Debug.Log("코어 이즈 죽음!");
+        GameManager.Instance.GameOver();
     }
 }

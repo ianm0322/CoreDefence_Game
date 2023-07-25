@@ -33,7 +33,10 @@ public class InputManager : MonoSingleton<InputManager>
     private void GameControlUpdate()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
+        {
             Application.Quit();
+            //GameManager.Instance.PauseGame(true);
+        }
     }
 
     private void PlayerControlUpdate()
