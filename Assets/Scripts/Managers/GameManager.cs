@@ -14,56 +14,31 @@ namespace Data
     }
 }
 
+public static class MyDebug
+{
+    public static void Log(string str)
+    {
+#if UNITY_EDITOR
+        Debug.Log(str);
+#endif
+    }
+}
+
 public class GameManager : MonoSingleton<GameManager>
 {
-    private List<IInitializeOnLoad> _managerListOnScene = new List<IInitializeOnLoad>();
-
-    protected override void Awake()
-    {
-        base.Awake();
-    }
+    private Data.SceneKind _currentScene;
 
     private void Start()
     {
-        LoadScene(Data.SceneKind.LobbyScene);
-    }
-
-    public void OnSceneLoaded()
-    {
-        InitSceneManager();
-        InitializeOnSceneLoad();
-    }
-
-    private void InitSceneManager()
-    {
-        _managerListOnScene.Clear();
-        var managers = GameObject.FindGameObjectsWithTag("Manager");
-        IInitializeOnLoad element;
-        for (int i = 0; i < managers.Length; i++)
-        {
-            if (managers[i].TryGetComponent(out element))
-            {
-                _managerListOnScene.Add(element);
-            }
 #if UNITY_EDITOR
-            else
-            {
-                Debug.LogError("초기화할 수 없는 매니저 오브젝트 감지. 정상적인 작동인지 확인하시오.", this);
-            }
+        LoadScene(Data.SceneKind.LobbyScene);
+        MyDebug.Log("GameManager is initialized!");
 #endif
-        }
-    }
-
-    private void InitializeOnSceneLoad()
-    {
-        for (int i = 0; i < _managerListOnScene.Count; i++)
-        {
-            _managerListOnScene[i].Init();
-        }
     }
 
     public void LoadScene(Data.SceneKind scene)
     {
+        _currentScene = scene;
         switch (scene)
         {
             case Data.SceneKind.LobbyScene:
@@ -74,8 +49,6 @@ public class GameManager : MonoSingleton<GameManager>
                 break;
             case Data.SceneKind.PlayScene:
                 {
-                    SceneManager.LoadScene("LobbyScene");
-                    SoundManager.Instance.PlayBGM(Data.BGMKind.BGM_Lobby);
                     LoadPlayScene();
                 }
                 break;
@@ -88,8 +61,18 @@ public class GameManager : MonoSingleton<GameManager>
 
     private void LoadPlayScene()
     {
+        SoundManager.Instance.PlayBGM(Data.BGMKind.BGM_Lobby);
+        SceneManager.LoadScene("PlayScene");
+    }
 
-        StageManager.Instance.Player.Spawn();
-        StageManager.Instance.GiveStartingItemBundle();
+    [System.Obsolete()]
+    public string GetSceneName()
+    {
+        return SceneManager.GetActiveScene().name;
+    }
+
+    public Data.SceneKind GetCurrentScene()
+    {
+        return _currentScene;
     }
 }

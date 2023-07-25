@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     public WeaponBase _weapon;
+    [SerializeField]
+    private ItemObjectInfo[] _startWeapons;
 
     [Header("Attack")]
     [SerializeField]
@@ -54,6 +56,14 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         Body.OnDiedEvent += Spawn;
+        Spawn();
+        Init();
+
+        for (int i = 0; i < _startWeapons.Length; i++)
+        {
+            StageManager.Instance.AddItem(_startWeapons[i]);
+        }
+        StageManager.Instance.AddMoney(100);
     }
 
     public void Init()
@@ -166,8 +176,8 @@ public class PlayerController : MonoBehaviour
 
             if (isEquipNow)
             {
-            this._weapon = weapon;
-            weapon.gameObject.SetActive(true);
+                this._weapon = weapon;
+                weapon.gameObject.SetActive(true);
             }
         }
     }

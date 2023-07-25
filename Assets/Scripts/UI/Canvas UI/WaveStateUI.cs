@@ -17,7 +17,7 @@ public class WaveStateUI : MonoBehaviour
     void Update()
     {
         sb.Clear();
-        if (WaveManager.Instance.CurrentPhase != null)
+        if (WaveManager.Instance?.CurrentPhase != null)
         {
             sb.Append("[").Append(WaveManager.Instance.CurrentPhase.Phase.ToString()).Append("]\nTime: ");
             if (WaveManager.Instance.CurrentPhase.Phase == WavePhaseKind.BattlePhase)

@@ -25,7 +25,7 @@ public class WavePhase_Maintenance : WavePhase
     {
         if (IsTimeOver())
         {
-            WaveManager.Instance.SetPhase(WavePhaseKind.BattlePhase);   //전투 웨이브 실행
+            waveManager.StartBattlePhase();   //전투 웨이브 실행
         }
     }
 

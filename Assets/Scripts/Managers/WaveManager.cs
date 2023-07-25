@@ -51,6 +51,8 @@ public sealed class WaveManager : MonoSingleton<WaveManager>
     [SerializeField]
     private float _maintenanceTimeLimit = 180f;             // 정비 페이즈 제한시간
     public float MaintenanceTimeLimit => _maintenanceTimeLimit;
+    private float _gameStartTime;
+    public float GameStartTime => _gameStartTime;
 
     private List<PhaseEvent> _eventQueueList = new List<PhaseEvent>();
     public bool EventQueueIsEmpty => _eventQueueList.Count == 0;
@@ -64,18 +66,35 @@ public sealed class WaveManager : MonoSingleton<WaveManager>
     {
         base.Awake();
 
-        // 페이즈 상태 추가
-        _phaseDict = new Dictionary<WavePhaseKind, WavePhase> {
-            { WavePhaseKind.MaintenancePhase, new WavePhase_Maintenance() },
-            { WavePhaseKind.BattlePhase, new WavePhase_Battle() },
-        };
-
-        InitDatas();
     }
 
-    private void Start()
+    public override void InitOnSceneLoad(string sceneName)
     {
+        if (sceneName == "PlayScene")
+        {
+            Init();
+            StartWave();
+            MyDebug.Log("WaveManager is initialized!");
+        }
+    }
+
+    public void Init()
+    {
+        InitCollections();
+        InitPhase();
+        //InitManagerData();
+    }
+
+    public void StartWave()
+    {
+        InitGameData();
         StartCoroutine(WaveLogicCoroutine());
+        StartMaintenancePhase();
+    }
+
+    public void EndGame()
+    {
+        StopAllCoroutines();
     }
 
     private IEnumerator WaveLogicCoroutine()
@@ -108,13 +127,13 @@ public sealed class WaveManager : MonoSingleton<WaveManager>
     #region [Wave Control Method]
     public void StartBattlePhase()
     {
-        WaveLevel++;
         SetPhase(WavePhaseKind.BattlePhase);
     }
 
     public void StartMaintenancePhase()
     {
-        SetPhase(WavePhaseKind.BattlePhase);
+        WaveLevel++;
+        SetPhase(WavePhaseKind.MaintenancePhase);
     }
 
     public void StartGameOverPhase()
@@ -215,6 +234,7 @@ public sealed class WaveManager : MonoSingleton<WaveManager>
     public void SetPhase(WavePhaseKind phase)
     {
         // 이전 페이즈가 없으면(최초 실행시) 새 페이즈만 초기화하고 메서드 종료
+        Debug.Log("Set Phase " + phase.ToString());
         if (CurrentPhase == null)
         {
             CurrentPhase = _phaseDict[phase];
@@ -229,12 +249,13 @@ public sealed class WaveManager : MonoSingleton<WaveManager>
         }
     }
     #endregion
+
     public EnemyData GetEnemyData(CTType.EnemyKind enemyKind)
     {
         EnemyData data;
         if (_enemyBaseDatasDict.TryGetValue(enemyKind, out data))
         {
-            data = GetUpgradeEnemySpec(data, 1.1f, WaveLevel-1);  // 레벨에 따른 스팩 상승(수정 필요)
+            data = GetUpgradeEnemySpec(data, GetUpdateRateByLevel());  // 레벨에 따른 스팩 상승(수정 필요)
             return data;
         }
 #if UNITY_EDITOR
@@ -246,7 +267,7 @@ public sealed class WaveManager : MonoSingleton<WaveManager>
 #endif
     }
 
-    private void InitDatas()
+    private void InitCollections()
     {
         if (_enemyBaseDatasDict == null)
         {
@@ -261,16 +282,54 @@ public sealed class WaveManager : MonoSingleton<WaveManager>
             var data = _enemyBaseDatas[i];
             _enemyBaseDatasDict.Add(data.key, data.content);
         }
+
+        if (_eventQueueList == null)
+        {
+            _eventQueueList = new List<PhaseEvent>();
+        }
+        else
+        {
+            _eventQueueList.Clear();
+        }
     }
 
-    private EnemyData GetUpgradeEnemySpec(EnemyData data, float updateRate, float level)
+    private void InitPhase()
     {
-        data.AttackDamage = Mathf.FloorToInt(data.AttackDamage * Mathf.Pow(updateRate, level));
+        if (_phaseDict == null)
+        {
+            _phaseDict = new Dictionary<WavePhaseKind, WavePhase>();
+        }
+        else
+        {
+            _phaseDict.Clear();
+        }
+        // 페이즈 상태 추가
+        _phaseDict.Add(WavePhaseKind.MaintenancePhase, new WavePhase_Maintenance());   // 정비 페이즈
+        _phaseDict.Add(WavePhaseKind.BattlePhase, new WavePhase_Battle());        // 전투 페이즈
+    }
+
+    private void InitGameData()
+    {
+        WaveLevel = 0;
+        _gameStartTime = Time.time;
+    }
+
+    private EnemyData GetUpgradeEnemySpec(EnemyData data, float updateRate)
+    {
+        data.AttackDamage = Mathf.FloorToInt(data.AttackDamage * updateRate);
         data.Bullet.damage = data.AttackDamage;
-        data.MaxHp = Mathf.FloorToInt(data.MaxHp * Mathf.Pow(updateRate, level));
-        data.Hp = Mathf.FloorToInt(data.Hp * Mathf.Pow(updateRate, level));
-        data.MoveSpeed = Mathf.FloorToInt(data.MoveSpeed * Mathf.Pow(updateRate, level));
+        data.MaxHp = Mathf.FloorToInt(data.MaxHp * updateRate);
+        data.Hp = Mathf.FloorToInt(data.Hp * updateRate);
+        data.MoveSpeed = Mathf.FloorToInt(data.MoveSpeed * updateRate);
 
         return data;
+    }
+
+    private float GetUpdateRateByLevel()
+    {
+        // 10레벨마다 10%씩 지수적 증가.
+        float level = 1f + Mathf.Floor(WaveLevel - 1 / 10f);    // 1..10 => 0, 11..11 => 1 ~>
+        float power = Mathf.Pow(StaticData.EnemyUpgradeRate, level);    // level:0 => power:1(1.1^0), level:1 => power:1.1(1.1^1), level:2 => power:1.21(1.1^2)
+        return power;
     }
 }

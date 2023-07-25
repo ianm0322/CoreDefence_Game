@@ -28,32 +28,36 @@ public class StageManager : MonoSingleton<StageManager>
     public int Money => _money;
     #endregion
 
-
-    public void Init()
+    public override void InitOnSceneLoad(string sceneName)
     {
-        InitDatas();
-        InitInventory();
-
-        Cursor.lockState = CursorLockMode.Locked;
-
-        Player.Init();
+        if (sceneName == "PlayScene")
+        {
+            InitOnPlay();
+        }
     }
 
-    private void InitDatas()
+    public void InitOnPlay()
+    {
+        MyDebug.Log("StageManager is initialized!");
+        InitInventory();
+        InitObjects();
+    }
+
+    private void InitObjects()
     {
         if (Player == null)
         {
-            Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+            Player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerController>();
         }
         if (Core == null)
         {
-            Core = GameObject.FindGameObjectWithTag("Core").GetComponent<CoreScript>();
+            Core = GameObject.FindGameObjectWithTag("Core")?.GetComponent<CoreScript>();
         }
         if (PlayerSpawnPoint == null)
         {
-            PlayerSpawnPoint = GameObject.Find(StaticDataManager.Instance.PlayerSpawnPointName).transform;
+            PlayerSpawnPoint = GameObject.Find(StaticData.PlayerSpawnPointName)?.transform;
             if (PlayerSpawnPoint == null)
-                Debug.LogError($"StageManager: \"{StaticDataManager.Instance.PlayerSpawnPointName}\" found failure");
+                Debug.LogError($"StageManager: \"{StaticData.PlayerSpawnPointName}\" found failure");
         }
         if (EnemySpawnPoint == null || EnemySpawnPoint.Length == 0)
         {
@@ -91,7 +95,8 @@ public class StageManager : MonoSingleton<StageManager>
     {
         for (int i = 0; i < StartingItemBundle.Length; i++)
         {
-            StageManager.Instance.AddItem(StartingItemBundle[i]);
+            AddItem(StartingItemBundle[i]);
+            MyDebug.Log($"Give player {StartingItemBundle[i].name}");
         }
     }
 

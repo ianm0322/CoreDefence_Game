@@ -7,16 +7,27 @@ public class InputManager : MonoSingleton<InputManager>
     protected override void Awake()
     {
         base.Awake();
-
-        Cursor.lockState = CursorLockMode.Locked;
+    }
+    public override void InitOnSceneLoad(string sceneName)
+    {
+        if (GameManager.Instance.GetCurrentScene() == Data.SceneKind.PlayScene)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
+        }
     }
 
-    // ==> input manager∑Œ ¿Ãµø
     void Update()
     {
-        GameControlUpdate();
-        PlayerControlUpdate();
-        InventoryControlUpdate();
+        if (GameManager.Instance.GetCurrentScene() == Data.SceneKind.PlayScene)
+        {
+            GameControlUpdate();
+            PlayerControlUpdate();
+            InventoryControlUpdate();
+        }
     }
 
     private void GameControlUpdate()
@@ -27,10 +38,9 @@ public class InputManager : MonoSingleton<InputManager>
 
     private void PlayerControlUpdate()
     {
-
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if(StageManager.Instance != null)
+            if (StageManager.Instance != null)
             {
                 StageManager.Instance.InteractOnGaze();
             }
@@ -41,6 +51,8 @@ public class InputManager : MonoSingleton<InputManager>
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
+            if (UIManager.Instance == null) MyDebug.Log("UIManager is not exist");
+            else if (UIManager.Instance.InventoryUI == null) MyDebug.Log("inventory ui is not exist");
             UIManager.Instance.InventoryUI.OpenInventory();
         }
         else if (Input.GetKeyUp(KeyCode.Tab))

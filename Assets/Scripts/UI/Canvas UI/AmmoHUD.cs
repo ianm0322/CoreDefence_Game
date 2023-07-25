@@ -10,21 +10,20 @@ public class AmmoHUD : MonoBehaviour
 
     PlayerController player;
 
-    private void Start()
-    {
-        player = StageManager.Instance.Player;
-    }
-
     private void LateUpdate()
     {
-        if(player._weapon != null)
+        player = StageManager.Instance?.Player;
+        if (player != null)
         {
-            SetTextEnabled(true);
-            TextUpdate();
-        }
-        else
-        {
-            SetTextEnabled(false);
+            if (player._weapon != null)
+            {
+                SetTextEnabled(true);
+                TextUpdate();
+            }
+            else
+            {
+                SetTextEnabled(false);
+            }
         }
     }
 
