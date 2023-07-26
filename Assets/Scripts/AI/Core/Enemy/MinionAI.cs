@@ -10,43 +10,52 @@ public class MinionAI : EnemyAI, ILateUpdateListener
 
     public override RootNode MakeBT()
     {
-        return Root(
-            Select(
-                Sequence(
-                    new IsDiedNode(Body),
-                    new EnemyDieNode(this)
-                    ),
+        if (StageManager.Instance.Core == null) 
+        {
+            //Debug.Log("Stage manager wasn't init");
+        }
+        else if (StageManager.Instance.Core.transform == null)
+        {
+            //Debug.Log("Stage manager's core don't have transform");
+        }
 
-                new IsParalysisNode(this),
+        return new RootNode(
+               new SelectorNode(
+                   new SequenceNode(
+                       new IsDiedNode(Body),
+                       new EnemyDieNode(this)
+                       ),
 
-                // Target is exist pattern:
-                Sequence(
-                    // Check target is exist
-                    new IsTargetExistNode(this),
-                    Select(
-                        // Sequence: Escape if target is out of range
-                        Sequence(
-                            new TimeOverNode(Data.DetectDelay, new CheckTargetOutOfRangeNode(this.transform, this, AIInfo)),
-                            new SetTargetNullNode(this)
-                            ),
-                        // Sequence: Attack
-                        Sequence(
-                            new CheckAttackableReachNode(this),     // 공격 가능 위치면
-                            new AgentStopNode(Agent),               // 에이전트 멈추고
-                            new Minion_AttackNode(this)             // 공격
-                            ),
-                        // Move to target
-                        new ChaseTargetNode(this)
-                        )
-                    ),
+                   new IsParalysisNode(this),
 
-                // Target is non-exist pattern
-                new SetTargetNode(this),
+                   // Target is exist pattern:
+                   new SequenceNode(
+                       // Check target is exist
+                       new IsTargetExistNode(this),
+                       new SelectorNode(
+                           // new SequenceNode: Escape if target is out of range
+                           new SequenceNode(
+                               new TimeOverNode(Data.DetectDelay, new CheckTargetOutOfRangeNode(this.transform, this, AIInfo)),
+                               new SetTargetNullNode(this)
+                               ),
+                           // new SequenceNode: Attack
+                           new SequenceNode(
+                               new CheckAttackableReachNode(this),     // 공격 가능 위치면
+                               new AgentStopNode(Agent),               // 에이전트 멈추고
+                               new Minion_AttackNode(this)             // 공격
+                               ),
+                           // Move to target
+                           new ChaseTargetNode(this)
+                           )
+                       ),
 
-                // Move to core
-                new ChaseTargetNode(this, StageManager.Instance.Core.transform)
-                )
-            );
+                   // Target is non-exist pattern
+                   new SetTargetNode(this),
+
+                   // Move to core
+                   new ChaseTargetNode(this, StageManager.Instance.Core.transform)
+                   )
+               );
     }
 
     public void OnLateUpdate()
@@ -61,7 +70,7 @@ public class MinionAI : EnemyAI, ILateUpdateListener
     protected override void Awake()
     {
         base.Awake();
-        //Scanner = new EntitySelector(
+        //Scanner = new Entitynew SelectorNodeor(
         //    new SphereScanner(transform, Data.DetectRange, AIInfo.DetectTargetLayer),
         //    new EntityClassifier_MeleeAgent(transform, Agent, AIInfo.DetectTargetTags)
         //    );

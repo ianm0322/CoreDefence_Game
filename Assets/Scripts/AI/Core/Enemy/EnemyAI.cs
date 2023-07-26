@@ -21,10 +21,6 @@ public abstract class EnemyAI : AIController, IEnemyController, IUpdateListener,
     {
     }
 
-    protected virtual void Update()
-    {
-    }
-
     public virtual void InitForInstantiate()
     {
     }

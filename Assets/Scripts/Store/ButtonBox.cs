@@ -50,7 +50,7 @@ public class ButtonBox : MonoBehaviour, IInteractable
     private void PressButton()
     {
         _anim.SetBool("IsPressed", true);
-        Debug.Log("Is Pressed!");
+        MyDebug.Log("Is Pressed!");
     }
 
     private void OnPressedEvent()

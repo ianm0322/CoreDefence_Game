@@ -19,7 +19,7 @@ public class AgentPossibleClassifier : AbstractClassifier
 
     protected override bool Check(Collider target)
     {
-        if (target == null) Debug.Log("AgentPossibleClassifier.Check(Collider): Target is null");
+        if (target == null) MyDebug.Log("AgentPossibleClassifier.Check(Collider): Target is null");
         return IsReachable(target.transform.position);
     }
 
@@ -32,7 +32,7 @@ public class AgentPossibleClassifier : AbstractClassifier
         // 3. last와 goal이 근접하면 true, 아니면 false 반환
 
         // (1) path 계산
-        if (_agent == null) Debug.Log("A");
+        if (_agent == null) MyDebug.Log("A");
 
         bool isProperPath = _agent.CalculatePath(goal, _path);
         if (isProperPath == false)

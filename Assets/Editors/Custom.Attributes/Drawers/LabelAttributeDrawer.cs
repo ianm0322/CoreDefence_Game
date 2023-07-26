@@ -20,7 +20,7 @@ namespace Rito.CustomAttributes
         {
             if (fieldInfo.FieldType.Ex_IsArrayOrListType())
             {
-                Debug.LogWarning("배열, 리스트 타입에는 사용할 수 없습니다");
+                MyDebug.Log("배열, 리스트 타입에는 사용할 수 없습니다");
                 EditorGUI.PropertyField(position, property, label, true);
                 return;
             }

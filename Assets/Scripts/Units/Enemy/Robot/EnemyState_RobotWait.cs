@@ -31,14 +31,13 @@ public class EnemyState_RobotWait : EnemyState
         }
         else if (CanRetarget())
         {
-            //Debug.Log(Self.Scanner.CheckScanned(Self.FocusTarget));
+            //MyDebug.Log(Self.Scanner.CheckScanned(Self.FocusTarget));
             Self.MoveState(state_attack);
         }
     }
 
     private bool CanRetarget()
     {
-        Debug.Log(Self.Scanner.CheckScanned(Self.FocusTarget));
         return Self.Scanner.CheckScanned(Self.FocusTarget);
     }
 

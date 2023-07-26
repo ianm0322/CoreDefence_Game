@@ -14,7 +14,7 @@ namespace BT.DebugNodes
         protected override BTState OnUpdate()
         {
             if (State != BTState.Running)
-                Debug.Log(_log);
+                MyDebug.Log(_log);
             return content.Evaluate();
         }
     }

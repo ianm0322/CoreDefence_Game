@@ -32,7 +32,7 @@ namespace Rito.CustomAttributes
 
                 EditorGUI.PropertyField(position, property, label, true);
                 EditorGUILayout.HelpBox(strErr, MessageType.Error);
-                Debug.LogError(strErr);
+                MyDebug.Log(strErr);
                 return;
             }
 

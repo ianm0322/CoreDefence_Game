@@ -18,9 +18,7 @@ public static class MyDebug
 {
     public static void Log(string str)
     {
-#if UNITY_EDITOR
         Debug.Log(str);
-#endif
     }
 }
 
@@ -29,9 +27,13 @@ public class GameManager : MonoSingleton<GameManager>
     private Data.SceneKind _currentScene;
     private bool _isPause;
 
+    public event System.Action OnGameOverEvent;
+
     private void Start()
     {
 #if UNITY_EDITOR
+        LoadScene(Data.SceneKind.LobbyScene);
+#else
         LoadScene(Data.SceneKind.LobbyScene);
         MyDebug.Log("GameManager is initialized!");
 #endif
@@ -45,7 +47,7 @@ public class GameManager : MonoSingleton<GameManager>
         {
             case Data.SceneKind.LobbyScene:
                 {
-                    SceneManager.LoadScene("LobbyScene");
+                    SceneManager.LoadScene(StaticData.LobbySceneName);
                     SoundManager.Instance.PlayBGM(Data.BGMKind.BGM_Lobby);
                 }
                 break;
@@ -56,6 +58,7 @@ public class GameManager : MonoSingleton<GameManager>
                 break;
             case Data.SceneKind.GameOverScene:
                 {
+                    SceneManager.LoadScene(StaticData.GameOverSceneName);
                 }
                 break;
             default:
@@ -66,7 +69,7 @@ public class GameManager : MonoSingleton<GameManager>
     private void LoadPlayScene()
     {
         SoundManager.Instance.PlayBGM(Data.BGMKind.BGM_Lobby);
-        SceneManager.LoadScene("PlayScene");
+        SceneManager.LoadScene(StaticData.PlaySceneName);
     }
 
     [System.Obsolete()]
@@ -98,6 +101,9 @@ public class GameManager : MonoSingleton<GameManager>
 
     public void GameOver()
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
+        OnGameOverEvent?.Invoke();
+        EntityManager.Instance.ClearAllPools();
+        LoadScene(Data.SceneKind.GameOverScene);
     }
 }

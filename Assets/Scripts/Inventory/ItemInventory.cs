@@ -4,12 +4,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
 public class ItemInventory
 {
     public int Id { get; private set; }
 
-    [SerializeField]
     private List<ItemInventorySlot> _inventory;
 
     //public int Count { get; private set; }

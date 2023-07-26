@@ -14,7 +14,7 @@ namespace BT.DebugNodes
         }
         protected override BTState OnUpdate()
         {
-            Debug.Log(_log);
+            MyDebug.Log(_log);
             return _result;
         }
     }

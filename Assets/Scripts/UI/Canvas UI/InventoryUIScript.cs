@@ -383,7 +383,7 @@ public class InventoryUIScript : MonoBehaviour
                 {
                     if (CursoredIndex != -1 && heldIndex != CursoredIndex)
                     {
-                        Debug.Log("Swap");
+                        MyDebug.Log("Swap");
                         inventory.SwapSlotPosition(heldIndex, CursoredIndex);
                         ImageUpdate();
                     }

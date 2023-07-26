@@ -34,10 +34,15 @@ public class EntityObjectPool<T> : IObjectPool<T> where T : MonoBehaviour, IPool
         }
         pool.Clear();
         allObjects.Clear();
+        Capacity = 0;
     }
 
     public T CreateObject(object data)
     {
+        if(Capacity == 0)
+        {
+            SetCapacity(64);
+        }
         if (pool.Count == 0)
         {
             SetCapacity(Capacity * 2);

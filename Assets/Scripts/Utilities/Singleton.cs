@@ -20,11 +20,11 @@ public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T
         {
             _instance = this.GetComponent<T>();
             Transform tr = _instance.transform;
-            while (tr != null)
+            while (tr.parent != null)
             {
-                DontDestroyOnLoad(tr.gameObject);
                 tr = tr.parent;
             }
+            DontDestroyOnLoad(tr.gameObject);
         }
         else
         {

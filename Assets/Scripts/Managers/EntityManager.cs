@@ -32,7 +32,7 @@ public class EntityManager : MonoSingleton<EntityManager>
     [SerializeField]
     private List<BulletPrefabNode> _bulletPrefabList;
     private Dictionary<BulletKind, ManagedObjectPool<BulletBase>> _bulletPoolDict;
-    
+
     [SerializeField]
     private List<EnemyPrefabNode> _enemyPrefabList;
     private Dictionary<EnemyKind, ManagedObjectPool<EnemyAI>> _enemyPoolDict;
@@ -50,48 +50,90 @@ public class EntityManager : MonoSingleton<EntityManager>
     void Start()
     {
         //bulletPool = new ManagedObjectPool<BulletBase>(bulletPrefab.GetComponent<BulletBase>(), this.transform, 100); [Old version]
-        InitBulletPool();
-        InitEnemyPool();
-        InitFacilityPool();
+        //InitBulletPool();
+        //InitEnemyPool();
+        //InitFacilityPool();
+    }
+
+    public override void InitOnSceneLoad(string sceneName)
+    {
+        if (GameManager.Instance.GetCurrentScene() == Data.SceneKind.PlayScene)
+        {
+            InitBulletPool();
+            InitEnemyPool();
+            InitFacilityPool();
+        }
     }
 
     private void FixedUpdate()
     {
-        //bulletPool.OnFixedUpdate(); [Old version]
-        foreach (var pool in _bulletPoolDict.Values)
+        if (GameManager.Instance.GetCurrentScene() == Data.SceneKind.PlayScene)
         {
-            pool.OnFixedUpdate();
-        }
+            if (_enemyPoolDict == null)
+                return;
+            foreach (var pool in _bulletPoolDict.Values)
+            {
+                pool.OnFixedUpdate();
+            }
 
-        foreach (var pool in _enemyPoolDict.Values)
-        {
-            pool.OnFixedUpdate();
-        }
+            foreach (var pool in _enemyPoolDict.Values)
+            {
+                pool.OnFixedUpdate();
+            }
 
-        foreach (var pool in _facilityPoolDict.Values)
-        {
-            pool.OnFixedUpdate();
+            foreach (var pool in _facilityPoolDict.Values)
+            {
+                pool.OnFixedUpdate();
+            }
         }
     }
 
     private void Update()
     {
-        foreach (var pool in _enemyPoolDict.Values)
+        if (GameManager.Instance.GetCurrentScene() == Data.SceneKind.PlayScene)
         {
-            pool.OnUpdate();
-        }
+            if (_enemyPoolDict == null)
+                return;
+            foreach (var pool in _enemyPoolDict.Values)
+            {
+                pool.OnUpdate();
+            }
 
-        foreach (var pool in _facilityPoolDict.Values)
-        {
-            pool.OnUpdate();
+            foreach (var pool in _facilityPoolDict.Values)
+            {
+                pool.OnUpdate();
+            }
         }
     }
 
     private void LateUpdate()
     {
+        if (GameManager.Instance.GetCurrentScene() == Data.SceneKind.PlayScene)
+        {
+            if (_enemyPoolDict == null)
+                return;
+            foreach (var pool in _enemyPoolDict.Values)
+            {
+                pool.OnLateUpdate();
+            }
+        }
+    }
+
+    public void ClearAllPools()
+    {
+        foreach (var pool in _bulletPoolDict.Values)
+        {
+            pool.Clear();
+        }
+
         foreach (var pool in _enemyPoolDict.Values)
         {
-            pool.OnLateUpdate();
+            pool.Clear();
+        }
+
+        foreach (var pool in _facilityPoolDict.Values)
+        {
+            pool.Clear();
         }
     }
 

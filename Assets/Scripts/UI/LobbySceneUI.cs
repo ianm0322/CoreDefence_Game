@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class LobbySceneUI : MonoBehaviour
 {
-    public string PlaySceneName;
+    public GameObject tutorial;
 
     public void PlayButton()
     {
@@ -19,6 +19,17 @@ public class LobbySceneUI : MonoBehaviour
 
     public void TutorialButton()
     {
+        tutorial.SetActive(true);
+        StartCoroutine(TutorialCoroutine());
+    }
 
+    private IEnumerator TutorialCoroutine()
+    {
+        yield return null;
+        while (Input.anyKeyDown == false)
+        {
+            yield return null;
+        }
+        tutorial.SetActive(false);
     }
 }

@@ -6,7 +6,7 @@ namespace BT.DebugNodes
     {
         public DebugNode() : base()
         {
-            Debug.LogWarning("DEBUG LOG EXISTS");
+            MyDebug.Log("DEBUG LOG EXISTS");
         }
     }
 

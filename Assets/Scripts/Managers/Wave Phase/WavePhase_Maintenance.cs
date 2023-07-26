@@ -25,12 +25,12 @@ public class WavePhase_Maintenance : WavePhase
     {
         if (IsTimeOver())
         {
-            waveManager.StartBattlePhase();   //전투 웨이브 실행
+            WaveManager.Instance.StartBattlePhase();   //전투 웨이브 실행
         }
     }
 
     protected bool IsTimeOver()
     {
-        return ElapsedTime >= waveManager.MaintenanceTimeLimit;
+        return ElapsedTime >= WaveManager.Instance.MaintenanceTimeLimit;
     }
 }

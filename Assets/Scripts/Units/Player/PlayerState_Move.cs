@@ -30,8 +30,8 @@ public class PlayerState_Move : PlayerState
     protected void MoveUpdate()
     {
         // ###### Test: Input은 나중에 따로 분리하기
-        float mx = Input.GetAxisRaw("Mouse X") * StaticDataManager.Instance.MouseSensitive;
-        float my = Input.GetAxisRaw("Mouse Y") * StaticDataManager.Instance.MouseSensitive;
+        float mx = Input.GetAxisRaw("Mouse X") * StaticData.MouseSensitive * Time.timeScale;
+        float my = Input.GetAxisRaw("Mouse Y") * StaticData.MouseSensitive * Time.timeScale;
         look.Set(-my, mx, 0f);
         body.LookDirection += look;
 

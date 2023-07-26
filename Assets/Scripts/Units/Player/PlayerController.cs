@@ -55,7 +55,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        Body.OnDiedEvent += Spawn;
+        //Body.OnDiedEvent += Spawn;
         Spawn();
         Init();
 
@@ -76,13 +76,14 @@ public class PlayerController : MonoBehaviour
         MoveUpdate();
         JumpUpdate();
         ShootingUpdate();
+        CheckDieUpdate();
     }
 
     protected void MoveUpdate()
     {
         // ###### Test: Input은 나중에 따로 분리하기
-        float mx = Input.GetAxisRaw("Mouse X") * StaticDataManager.Instance.MouseSensitive;
-        float my = Input.GetAxisRaw("Mouse Y") * StaticDataManager.Instance.MouseSensitive;
+        float mx = Input.GetAxisRaw("Mouse X") * StaticData.MouseSensitive * Time.timeScale;
+        float my = Input.GetAxisRaw("Mouse Y") * StaticData.MouseSensitive * Time.timeScale;
         lookDir.Set(-my, mx, 0f);
         PlayerMovement.LookDirection += lookDir;
 
@@ -126,6 +127,14 @@ public class PlayerController : MonoBehaviour
             Reload();
     }
 
+    private void CheckDieUpdate()
+    {
+        if (Body.IsDied)
+        {
+            Die();
+        }
+    }
+
     public void Fire()
     {
         if (_weapon != null)
@@ -159,6 +168,12 @@ public class PlayerController : MonoBehaviour
         this.transform.position = StageManager.Instance.PlayerSpawnPoint.position;
         PlayerMovement.LookDirection = StageManager.Instance.PlayerSpawnPoint.eulerAngles;
         Body.SetHp(Body.MaxHp);
+    }
+
+    public void Die()
+    {
+        MyDebug.Log("Player is died");
+        Spawn();
     }
 
     public void SetWeapon(WeaponBase weapon, bool isEquipNow = true)

@@ -9,11 +9,10 @@ public abstract class WavePhase
     public float StartTime;                                     // 웨이브가 시작한 시간. 웨이브 시작시 초기화됨.
     public float ElapsedTime => Time.time - StartTime;
 
-    protected WaveManager waveManager;
+    //protected WaveManager waveManager;
 
     public WavePhase()
     {
-        waveManager = WaveManager.Instance;
     }
 
     public virtual void OnUpdate()

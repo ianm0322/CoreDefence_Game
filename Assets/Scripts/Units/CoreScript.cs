@@ -13,6 +13,23 @@ public class CoreScript : MonoBehaviour
         _body.OnDiedEvent += Die;
     }
 
+    private void Start()
+    {
+        StartCoroutine(CheckDieCoroutine());
+    }
+
+    private IEnumerator CheckDieCoroutine()
+    {
+        yield return null;
+        WaitForSeconds wait = new WaitForSeconds(0.1f);
+        while (!_body.IsDied)
+        {
+            yield return wait;
+        }
+        Die();
+        StopAllCoroutines();
+    }
+
     public void Die()
     {
         GameManager.Instance.GameOver();

@@ -503,7 +503,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Hp: 0
   MaxHp: 0
-  FocusCount: 0
   MaxFocusCount: 10
 --- !u!114 &6387644973184051962
 MonoBehaviour:
@@ -543,7 +542,7 @@ MonoBehaviour:
       type: 0
       tag: PlayerBullet
       speed: 50
-      damage: 1
+      damage: 5
       lifeTime: 10
       lifeDistance: 10
       penetraitCount: 1

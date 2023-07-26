@@ -53,7 +53,7 @@ public class AbstractStateMachine<TStateEnum, TController> : IStateMachine<TStat
     public void InitState(TStateEnum state)
     {
         if (!stateDict.ContainsKey(state))
-            Debug.Log("IDONTKNOW");
+            MyDebug.Log("IDONTKNOW");
         stateDict[state].OnStateEnter(null);
     }
 }

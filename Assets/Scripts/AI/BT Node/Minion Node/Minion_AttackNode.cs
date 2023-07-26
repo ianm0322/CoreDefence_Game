@@ -72,6 +72,14 @@ public class Minion_AttackNode : EnemyAINode
 
     private void Attack()
     {
-        _controller.Target.GetComponent<CD_GameObject>().GiveDamage(_controller.Data.AttackDamage);
+        CD_GameObject targetBody;
+        if (_controller.Target.TryGetComponent(out targetBody) == false)
+        {
+            if (_controller.Target.transform.parent.TryGetComponent(out targetBody) == false)
+            {
+                return;
+            }
+        }
+        targetBody.GiveDamage(_controller.Data.AttackDamage);
     }
 }

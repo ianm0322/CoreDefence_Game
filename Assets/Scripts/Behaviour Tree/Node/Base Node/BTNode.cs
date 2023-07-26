@@ -13,6 +13,7 @@ namespace BT
         public BTNode()
         {
             Parent = null;
+            //Debug.Log(this.GetType());
         }
 
         public BTState Evaluate()

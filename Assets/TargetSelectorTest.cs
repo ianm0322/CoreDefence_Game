@@ -18,11 +18,11 @@ public class TargetSelectorTest : MonoBehaviour
 
         if(target != null)
         {
-            Debug.Log("find target: " + target.name);
+            MyDebug.Log("find target: " + target.name);
         }
         else
         {
-            Debug.Log("target is null");
+            MyDebug.Log("target is null");
         }
     }
 }

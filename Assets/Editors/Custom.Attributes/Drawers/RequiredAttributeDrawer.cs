@@ -45,7 +45,7 @@ namespace Rito.CustomAttributes
                 if (FieldType.Ex_IsArrayOrListType())
                 {
                     fieldInfo.SetValue(property.serializedObject.targetObject, null);
-                    Debug.LogError("[Required] 배열 또는 리스트에는 사용할 수 없습니다.");
+                    MyDebug.Log("[Required] 배열 또는 리스트에는 사용할 수 없습니다.");
                 }
 
                 if (!Atr.ShowMessageBox)
@@ -77,7 +77,7 @@ namespace Rito.CustomAttributes
                     rect = midThird;
 
                     if (Atr.ShowLogError)
-                        Debug.LogError($"[Required Component] - GameObject : {property.serializedObject.targetObject.name}, " +
+                        MyDebug.Log($"[Required Component] - GameObject : {property.serializedObject.targetObject.name}, " +
                             $"Field : {fieldInfo.Name}");
                 }
                 contentColor = new Color(1f, 0.3f, 0.2f);

@@ -12,7 +12,13 @@ public class CD_GameObject : MonoBehaviour
 
     public bool CanFocus => FocusCount < MaxFocusCount; // 임시 지정
 
-    public bool IsDied { get; private set; } = false;
+    public bool IsDied
+    {
+        get
+        {
+            return Hp <= 0;
+        }
+    }
     public event Action OnDiedEvent;
 
 
@@ -40,18 +46,17 @@ public class CD_GameObject : MonoBehaviour
 
     public virtual void GiveDamage(int damage)
     {
-        //Debug.Log($"{name} take damage ({damage}) : {GetHp()} => {GetHp()-damage}");
+        //MyDebug.Log($"{name} take damage ({damage}) : {GetHp()} => {GetHp()-damage}");
         SetHp(GetHp() - damage);
     }
 
     public virtual void Die()
     {
-        IsDied = true;
+        //IsDied = true;
         //OnDiedEvent?.Invoke();
     }
     public virtual void Init(EntityData data)
     {
-        IsDied = false;
         MaxHp = data.MaxHp;
         Hp = data.Hp;
     }
@@ -78,7 +83,7 @@ public class CD_GameObject : MonoBehaviour
 #if UNITY_EDITOR
         else
         {
-            Debug.LogError("타겟팅하지 않은 객체가 타겟팅 해제를 시도함!", this);
+            MyDebug.Log("타겟팅하지 않은 객체가 타겟팅 해제를 시도함!");
         }
 #endif
     }

@@ -7,6 +7,9 @@ using System.Text;
 public class WaveStateUI : MonoBehaviour
 {
     public TMP_Text text;
+    [Multiline]
+    [Tooltip("[0] = current phase\n[1] = wave level\n[2] = time")]
+    public string format = "[{0} : Wave {1}]\nTIME: {2:0.00}";
 
     StringBuilder sb = new StringBuilder();
 
@@ -16,15 +19,27 @@ public class WaveStateUI : MonoBehaviour
 
     void Update()
     {
-        sb.Clear();
+        TextUpdate();
+    }
+
+    private void TextUpdate()
+    {
         if (WaveManager.Instance?.CurrentPhase != null)
         {
-            sb.Append("[").Append(WaveManager.Instance.CurrentPhase.Phase.ToString()).Append("]\nTime: ");
-            if (WaveManager.Instance.CurrentPhase.Phase == WavePhaseKind.BattlePhase)
-                sb.Append($"{WaveManager.Instance.CurrentPhase.ElapsedTime: 0.0}");
-            else
-                sb.Append($"{WaveManager.Instance.MaintenanceTimeLimit - WaveManager.Instance.CurrentPhase.ElapsedTime: 0.0}");
+            int level = WaveManager.Instance.WaveLevel;
+            WavePhaseKind phase = WaveManager.Instance.CurrentPhase.Phase;
+            float time = Mathf.Max(WaveManager.Instance.CurrentPhase.ElapsedTime, 0f);
+            if (phase == WavePhaseKind.MaintenancePhase)
+            {
+                time = WaveManager.Instance.MaintenanceTimeLimit - time;
+            }
+
+            // [CurrentPhase : 0 Wave]
+            // Time : 00.00
+            sb.AppendFormat(format, phase.ToString(), level, time);
+
             text.text = sb.ToString();
         }
+        sb.Clear();
     }
 }

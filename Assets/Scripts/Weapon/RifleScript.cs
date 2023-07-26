@@ -12,7 +12,7 @@ public class RifleScript : WeaponBase
 
     protected void Start()
     {
-        new WaitForSeconds(Data.ReloadCooltime);
+        _reloadTime = new WaitForSeconds(Data.ReloadCooltime);
     }
 
     protected override void OnGunTriggerDuring()
@@ -36,7 +36,7 @@ public class RifleScript : WeaponBase
 
     public override void Reload()
     {
-        Debug.Log("Reloading!");
+        MyDebug.Log("Reloading!");
         if (state != WeaponState.Firing)
         {
             ReloadCor = StartCoroutine(ReloadCoroutine());
@@ -45,9 +45,18 @@ public class RifleScript : WeaponBase
 
     private IEnumerator ReloadCoroutine()
     {
-        yield return null;
         state = WeaponState.Reloading;
-        yield return _reloadTime;
+        float t = Time.time;
+        yield return null;
+        while(Time.time - t < Data.ReloadCooltime)
+        {
+            float prograss = (Time.time - t) / Data.ReloadCooltime;
+            UIManager.Instance.SetReloadSliderPrograss(prograss);
+            yield return null;
+        }
+
+        UIManager.Instance.ResetReloadSliderPrograss();
+        //yield return _reloadTime;
         SetAmmoFull();
         state = WeaponState.Default;
         ReloadCor = null;

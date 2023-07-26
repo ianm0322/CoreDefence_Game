@@ -33,11 +33,12 @@ public class ShopButton : ButtonBox
     {
         if(BuyItem())
         {
-            Debug.Log("구매 성공");
+            MyDebug.Log("구매 성공");
+
         }
         else
         {
-            Debug.Log("구매 실패");
+            MyDebug.Log("구매 실패");
         }
         if (IsSoldOut)
         {

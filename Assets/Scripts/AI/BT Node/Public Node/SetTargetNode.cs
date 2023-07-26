@@ -28,12 +28,20 @@ public class SetTargetNode : ExecutionNode
 
     protected override BTState OnUpdate()
     {
-        if (_self.GetTargetSelector() == null) Debug.Log("Target Selector is null");
+        if (_self.GetTargetSelector() == null) MyDebug.Log("Target Selector is null");
         var target = _self.GetTargetSelector().Find();
         if (target != null)
         {
             // 대상이 감지되면 포커싱 시도. 포커싱 실패했다면 
-            if (target.GetComponent<CD_GameObject>().AddFocus() == true)
+            CD_GameObject targetBody;
+            if(target.TryGetComponent(out targetBody) == false)
+            {
+                if (target.transform.parent.TryGetComponent(out targetBody) == false)
+                {
+                    return BTState.Failure;
+                }
+            }
+            if (targetBody.AddFocus() == true)
             {
                 _self.SetTarget(target);
                 return BTState.Success;

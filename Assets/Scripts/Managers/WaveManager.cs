@@ -47,12 +47,14 @@ public sealed class WaveManager : MonoSingleton<WaveManager>
 
     [field: SerializeField]
     public int WaveLevel { get; set; } = 1;         // 웨이브 레벨
+    private float _enemyPowerRate = 1f;
 
     [SerializeField]
     private float _maintenanceTimeLimit = 180f;             // 정비 페이즈 제한시간
     public float MaintenanceTimeLimit => _maintenanceTimeLimit;
     private float _gameStartTime;
     public float GameStartTime => _gameStartTime;
+    private float _gameEndTime;
 
     private List<PhaseEvent> _eventQueueList = new List<PhaseEvent>();
     public bool EventQueueIsEmpty => _eventQueueList.Count == 0;
@@ -234,7 +236,7 @@ public sealed class WaveManager : MonoSingleton<WaveManager>
     public void SetPhase(WavePhaseKind phase)
     {
         // 이전 페이즈가 없으면(최초 실행시) 새 페이즈만 초기화하고 메서드 종료
-        Debug.Log("Set Phase " + phase.ToString());
+        MyDebug.Log("Set Phase " + phase.ToString());
         if (CurrentPhase == null)
         {
             CurrentPhase = _phaseDict[phase];
@@ -255,16 +257,14 @@ public sealed class WaveManager : MonoSingleton<WaveManager>
         EnemyData data;
         if (_enemyBaseDatasDict.TryGetValue(enemyKind, out data))
         {
-            data = GetUpgradeEnemySpec(data, GetUpdateRateByLevel());  // 레벨에 따른 스팩 상승(수정 필요)
+            data = GetUpgradeEnemySpec(data, _enemyPowerRate);
             return data;
         }
-#if UNITY_EDITOR
         else
         {
-            Debug.LogError("Dictionary haz no this element");
+            MyDebug.Log("Dictionary haz no this element");
             return null;
         }
-#endif
     }
 
     private void InitCollections()
@@ -312,24 +312,28 @@ public sealed class WaveManager : MonoSingleton<WaveManager>
     {
         WaveLevel = 0;
         _gameStartTime = Time.time;
+        _enemyPowerRate = 1f;
     }
 
     private EnemyData GetUpgradeEnemySpec(EnemyData data, float updateRate)
     {
-        data.AttackDamage = Mathf.FloorToInt(data.AttackDamage * updateRate);
-        data.Bullet.damage = data.AttackDamage;
-        data.MaxHp = Mathf.FloorToInt(data.MaxHp * updateRate);
-        data.Hp = Mathf.FloorToInt(data.Hp * updateRate);
-        data.MoveSpeed = Mathf.FloorToInt(data.MoveSpeed * updateRate);
+        EnemyData newData = new EnemyData(data);
+        newData.AttackDamage = Mathf.FloorToInt(data.AttackDamage * updateRate);
+        newData.Bullet.damage = data.AttackDamage;
+        newData.MaxHp = Mathf.FloorToInt(data.MaxHp * updateRate);
+        newData.Hp = Mathf.FloorToInt(data.Hp * updateRate);
+        newData.MoveSpeed = Mathf.FloorToInt(data.MoveSpeed * updateRate);
 
-        return data;
+        return newData;
     }
 
-    private float GetUpdateRateByLevel()
+    public void MultipleEnemyPowerRate(float addition)
     {
-        // 10레벨마다 10%씩 지수적 증가.
-        float level = 1f + Mathf.Floor(WaveLevel - 1 / 10f);    // 1..10 => 0, 11..11 => 1 ~>
-        float power = Mathf.Pow(StaticData.EnemyUpgradeRate, level);    // level:0 => power:1(1.1^0), level:1 => power:1.1(1.1^1), level:2 => power:1.21(1.1^2)
-        return power;
+        _enemyPowerRate *= addition;
+    }
+
+    public void KillAllEnemy()
+    {
+
     }
 }

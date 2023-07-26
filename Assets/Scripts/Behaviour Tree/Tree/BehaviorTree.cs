@@ -20,4 +20,9 @@ public abstract class BehaviorTree : MonoBehaviour, IBehaviorTree
             Root = MakeBT();
         Root.Evaluate();
     }
+
+    protected virtual void OnDestroy()
+    {
+        Root = null;
+    }
 }

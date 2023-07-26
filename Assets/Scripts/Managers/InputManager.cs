@@ -28,11 +28,23 @@ public class InputManager : MonoSingleton<InputManager>
             PlayerControlUpdate();
             InventoryControlUpdate();
         }
+        else if (GameManager.Instance.GetCurrentScene() == Data.SceneKind.GameOverScene)
+        {
+            if (Input.anyKeyDown)
+            {
+                Application.Quit();
+                //GameManager.Instance.LoadScene(Data.SceneKind.LobbyScene);
+            }
+        }
     }
 
     private void GameControlUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.F12))
+        {
+            Cursor.lockState = CursorLockMode.None;
+        }
+        if (Input.GetKeyDown(KeyCode.Backspace))
         {
             Application.Quit();
             //GameManager.Instance.PauseGame(true);

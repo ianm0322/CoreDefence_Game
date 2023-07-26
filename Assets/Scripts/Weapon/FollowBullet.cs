@@ -32,7 +32,7 @@ public class FollowBullet : DefaultBullet
             obj = hit[i];
             if (IsProperTarget(obj.collider))
             {
-                Debug.Log(obj.collider.name);
+                MyDebug.Log(obj.collider.name);
                 DamageTarget(obj.collider);
                 _rigid.position = obj.point + obj.normal * _radius;
                 DestroyBullet();

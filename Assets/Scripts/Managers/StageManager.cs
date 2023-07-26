@@ -45,31 +45,27 @@ public class StageManager : MonoSingleton<StageManager>
 
     private void InitObjects()
     {
-        if (Player == null)
+        Player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerController>();
+        // Core = GameObject.FindGameObjectWithTag("Core")?.GetComponent<CoreScript>();
+        //GameObject.FindGameObjectWithTag("Core")?.TryGetComponent(out Core);
+        Core = GameObject.FindObjectOfType<CoreScript>();
+        if(Core == null)
         {
-            Player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerController>();
+            Debug.Log("Why core is not found");
         }
-        if (Core == null)
-        {
-            Core = GameObject.FindGameObjectWithTag("Core")?.GetComponent<CoreScript>();
-        }
+
+        PlayerSpawnPoint = GameObject.Find(StaticData.PlayerSpawnPointName)?.transform;
         if (PlayerSpawnPoint == null)
-        {
-            PlayerSpawnPoint = GameObject.Find(StaticData.PlayerSpawnPointName)?.transform;
-            if (PlayerSpawnPoint == null)
-                Debug.LogError($"StageManager: \"{StaticData.PlayerSpawnPointName}\" found failure");
-        }
-        if (EnemySpawnPoint == null || EnemySpawnPoint.Length == 0)
-        {
-            EnemySpawnPoint = GameObject.FindObjectsOfType<EnemySpawner>();
-        }
+            MyDebug.Log($"StageManager: \"{StaticData.PlayerSpawnPointName}\" found failure");
+
+        EnemySpawnPoint = GameObject.FindObjectsOfType<EnemySpawner>();
     }
 
     public GameObject GetGazeObject(Camera cam, LayerMask layer)
     {
         Ray ray = new Ray(cam.transform.position, cam.transform.forward);
         RaycastHit hit;
-        if(Physics.Raycast(ray, out hit, float.PositiveInfinity, layer))
+        if (Physics.Raycast(ray, out hit, float.PositiveInfinity, layer))
         {
             return hit.collider.gameObject;
         }

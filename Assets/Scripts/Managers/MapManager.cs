@@ -70,7 +70,7 @@ public class MapManager : MonoSingleton<MapManager>
         GenerateWall();
 
         SetMapBounds();
-        Debug.Log($"Map Generation Successed! : {{{MapPlaneScale.x}, {MapPlaneScale.y}}}");
+        MyDebug.Log($"Map Generation Successed! : {{{MapPlaneScale.x}, {MapPlaneScale.y}}}");
     }
 
     public void ClearFloor()
@@ -78,7 +78,7 @@ public class MapManager : MonoSingleton<MapManager>
         var children = GetChildrenTransforms();
         if (children.Length > 0)
         {
-            Debug.Log($"{Parent}'s children is destroyed: {children.Length}");
+            MyDebug.Log($"{Parent}'s children is destroyed: {children.Length}");
             foreach (Transform item in children)
             {
                 if (item == Parent)
@@ -89,7 +89,7 @@ public class MapManager : MonoSingleton<MapManager>
         }
         else
         {
-            Debug.Log($"{Parent.name} has no children.");
+            MyDebug.Log($"{Parent.name} has no children.");
         }
     }
 
