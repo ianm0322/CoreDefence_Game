@@ -35,7 +35,7 @@ public class TagCompareClassifier : AbstractClassifier
             }
         }
 
-        // 목록중의 타겟이 없으면 
+        // 목록중의 타겟이 없으면 실패 반환
         return false;
     }
 }

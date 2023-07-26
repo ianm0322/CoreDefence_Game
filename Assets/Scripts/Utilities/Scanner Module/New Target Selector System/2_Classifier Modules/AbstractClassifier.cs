@@ -4,6 +4,7 @@ public abstract class AbstractClassifier : IClassifier
 {
     protected IClassifier _next;
 
+    // 연결된 다음 구별기 설정
     public IClassifier SetNext(IClassifier next)
     {
         this._next = next;
@@ -14,7 +15,7 @@ public abstract class AbstractClassifier : IClassifier
     {
         if(target == null)
         {
-
+            return false;
         }
 
         // 평가 결과 false면 결과 반환

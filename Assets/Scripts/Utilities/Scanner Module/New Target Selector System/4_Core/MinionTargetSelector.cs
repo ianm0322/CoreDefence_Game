@@ -5,7 +5,6 @@ using UnityEngine;
 public class MinionTargetSelector : AbstractTargetSelector
 {
     string[] _tags = new string[] { "Player", "Facility", "Core" };
-
     MinionAI _self;
 
     public MinionTargetSelector(MinionAI self)
@@ -19,12 +18,10 @@ public class MinionTargetSelector : AbstractTargetSelector
             .SetNext(new TargetableEntityClassifier())
             .SetNext(new AgentPossibleClassifier(_self.Agent));
     }
-
     protected override IPriorityCalculator MakePriorityCalculator()
     {
         return new NearestFirstPriorityCalc(_self.transform, _self.AIInfo.DetectRange);
     }
-
     protected override IScanner MakeScanner()
     {
         return new OverlabSphereScanner(

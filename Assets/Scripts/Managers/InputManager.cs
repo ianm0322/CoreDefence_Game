@@ -40,11 +40,7 @@ public class InputManager : MonoSingleton<InputManager>
 
     private void GameControlUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.F12))
-        {
-            Cursor.lockState = CursorLockMode.None;
-        }
-        if (Input.GetKeyDown(KeyCode.Backspace))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             Application.Quit();
             //GameManager.Instance.PauseGame(true);

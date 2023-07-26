@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class RobotTargetSelector : AbstractTargetSelector
 {
+    #region Variables
     string[] _tags = new string[] { "Player", "Facility", "Core" };
     LayerMask _obstacleLayer = LayerMask.GetMask("Wall");
 
     Transform _selfTr;
     AIData _data;
+    #endregion
 
     public RobotTargetSelector(Transform tr, AIData data)
     {

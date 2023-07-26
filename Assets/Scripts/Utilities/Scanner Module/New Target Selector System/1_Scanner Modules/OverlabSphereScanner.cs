@@ -8,8 +8,6 @@ public class OverlabSphereScanner : IScanner
     private float range;
     private LayerMask layer;
 
-    //private Collider[] _cols = new Collider[8];
-
     public OverlabSphereScanner(Transform origin, float range, LayerMask layer)
     {
         this.origin = origin;
@@ -27,6 +25,4 @@ public class OverlabSphereScanner : IScanner
         int count = Physics.OverlapSphereNonAlloc(origin.position, range, cols, layer);
         return count;
     }
-
-
 }
